@@ -31,6 +31,7 @@ export interface CustomerDetails {
 
 export interface Order {
   id: string;
+  userId?: string; // owning account's unique ID (when logged in)
   items: CartItem[];
   subtotal: number;
   customer: CustomerDetails;

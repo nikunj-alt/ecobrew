@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart/CartProvider";
 import { buildOrderFromCart, placeOrder } from "@/lib/services/checkout";
+import { getLoggedInUser, UserAccount } from "@/lib/services/auth";
 import type { CustomerDetails } from "@/lib/types";
 import Button from "@/components/ui/Button";
 import StepShipping from "./StepShipping";
 import StepPayment from "./StepPayment";
 import StepReview from "./StepReview";
+import AccountModal from "@/components/auth/AccountModal";
 
 const STEPS = ["Shipping", "Payment", "Review"];
 
@@ -26,6 +28,9 @@ export default function CheckoutSteps() {
   const router = useRouter();
   const { items, subtotal, clear } = useCart();
 
+  const [user, setUser] = useState<UserAccount | null>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
   const [step, setStep] = useState(0);
   const [placing, setPlacing] = useState(false);
   const [error, setError] = useState("");
@@ -35,6 +40,35 @@ export default function CheckoutSteps() {
 
   const [card, setCard] = useState({ cardName: "", cardNumber: "", expiry: "", cvv: "" });
   const [cardErrors, setCardErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const loggedUser = getLoggedInUser();
+    setUser(loggedUser);
+    if (loggedUser) {
+      setCustomer({
+        name: loggedUser.name || "",
+        email: loggedUser.email || "",
+        phone: loggedUser.phone || "",
+        address: loggedUser.address || "",
+        city: loggedUser.city || "",
+        state: loggedUser.state || "",
+        pincode: loggedUser.pincode || "",
+      });
+    }
+  }, []);
+
+  const handleAuthSuccess = (loggedUser: UserAccount) => {
+    setUser(loggedUser);
+    setCustomer({
+      name: loggedUser.name || "",
+      email: loggedUser.email || "",
+      phone: loggedUser.phone || "",
+      address: loggedUser.address || "",
+      city: loggedUser.city || "",
+      state: loggedUser.state || "",
+      pincode: loggedUser.pincode || "",
+    });
+  };
 
   const isPhone = (v: string) => /^[0-9+\s-]{10,15}$/.test(v.trim());
   const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
@@ -76,6 +110,10 @@ export default function CheckoutSteps() {
   };
 
   const next = () => {
+    if (!user) {
+      setIsAuthModalOpen(true);
+      return;
+    }
     if (step === 0 && !validateShipping()) return;
     if (step === 1 && !validatePayment()) return;
     setError("");
@@ -85,6 +123,10 @@ export default function CheckoutSteps() {
   const back = () => setStep((s) => Math.max(s - 1, 0));
 
   const handlePlaceOrder = async () => {
+    if (!user) {
+      setIsAuthModalOpen(true);
+      return;
+    }
     setPlacing(true);
     setError("");
     try {
@@ -102,6 +144,39 @@ export default function CheckoutSteps() {
 
   return (
     <div>
+      {/* Account requirement banner in checkout */}
+      {!user ? (
+        <div className="mb-8 rounded-2xl bg-leaf-deep/5 p-6 border border-leaf-deep/20 text-center">
+          <h3 className="font-display text-lg font-medium text-leaf-deep">
+            Account Required to Order
+          </h3>
+          <p className="mt-1 text-sm text-moss">
+            To place an order, you need a separate EcoBrew account with a unique User ID and password. Every user has a different ID.
+          </p>
+          <div className="mt-4">
+            <Button onClick={() => setIsAuthModalOpen(true)}>
+              Sign In or Register Unique ID
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-white/60 px-5 py-3 shadow-sm border border-moss/15 text-xs text-moss">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-sprout" />
+            <span>Ordering as <strong className="text-leaf-deep font-semibold">@{user.userId}</strong> ({user.name || user.email})</span>
+          </div>
+          <button
+            onClick={() => {
+              setUser(null);
+              setIsAuthModalOpen(true);
+            }}
+            className="text-leaf-deep underline hover:text-moss"
+          >
+            Switch Account
+          </button>
+        </div>
+      )}
+
       {/* Step indicator */}
       <ol className="mb-8 flex items-center">
         {STEPS.map((label, i) => (
@@ -156,14 +231,20 @@ export default function CheckoutSteps() {
             <span />
           )}
           {step < STEPS.length - 1 ? (
-            <Button onClick={next}>Continue</Button>
+            <Button onClick={next} disabled={!user}>Continue</Button>
           ) : (
-            <Button onClick={handlePlaceOrder} disabled={placing}>
+            <Button onClick={handlePlaceOrder} disabled={placing || !user}>
               {placing ? "Placing order…" : "Place order"}
             </Button>
           )}
         </div>
       </div>
+
+      <AccountModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={handleAuthSuccess}
+      />
     </div>
   );
 }

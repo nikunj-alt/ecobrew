@@ -54,6 +54,12 @@ export default function OrderConfirmationPage() {
                 <p className="text-oat/60">Order number</p>
                 <p className="font-medium">{order.id}</p>
               </div>
+              {order.userId && (
+                <div>
+                  <p className="text-oat/60">Account</p>
+                  <p className="font-medium">@{order.userId}</p>
+                </div>
+              )}
               <div>
                 <p className="text-oat/60">Placed on</p>
                 <p className="font-medium">

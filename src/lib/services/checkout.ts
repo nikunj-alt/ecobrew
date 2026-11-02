@@ -1,5 +1,6 @@
 import type { CartItem, CustomerDetails, Order } from "../types";
 import { cartSubtotal } from "../utils";
+import { getLoggedInUser, saveOrderToSupabase } from "./auth";
 
 /**
  * Order-building is isolated here so a real payment gateway / database can
@@ -34,9 +35,18 @@ export async function placeOrder(order: Omit<Order, "id" | "createdAt">): Promis
   // SIMULATED: a real implementation would call a payment gateway and persist
   // the order to a database here. No real charge is made.
   await new Promise((resolve) => setTimeout(resolve, 600));
-  return {
+
+  const user = getLoggedInUser();
+  const finalOrder: Order = {
     ...order,
+    userId: user?.userId,
     id: generateOrderId(),
     createdAt: new Date().toISOString(),
   };
+
+  if (user) {
+    await saveOrderToSupabase(finalOrder, user.userId);
+  }
+
+  return finalOrder;
 }
