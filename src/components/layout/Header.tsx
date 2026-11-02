@@ -18,11 +18,13 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-30 border-b border-moss/15 bg-oat/85 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-leaf-deep text-sprout">
-            <LeafIcon className="h-4.5 w-4.5" />
-          </span>
-          <span className="font-display text-xl font-medium text-leaf-deep">
+        <Link href="/" className="flex items-center gap-2.5 py-1">
+          <img
+            src="/logo.png"
+            alt="EcoBrew Logo"
+            className="h-10 w-10 rounded-full object-cover shadow-sm ring-1 ring-leaf-deep/15"
+          />
+          <span className="font-display text-xl font-medium tracking-tight text-leaf-deep">
             {SITE_NAME}
           </span>
         </Link>

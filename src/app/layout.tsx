@@ -23,6 +23,10 @@ export const metadata: Metadata = {
   title: "EcoBrew — Spent tea leaves make useful things",
   description:
     "EcoBrew is a student brand that upcycles waste tea leaves into pen stands, stationery, mini furniture, and decor. A social-science project for Bal Vigyan.",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

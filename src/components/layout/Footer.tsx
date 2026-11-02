@@ -8,10 +8,12 @@ export default function Footer() {
     <footer className="mt-auto bg-leaf-deep text-oat">
       <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-sprout/20 text-sprout">
-              <LeafIcon className="h-4 w-4" />
-            </span>
+          <div className="flex items-center gap-2.5">
+            <img
+              src="/logo.png"
+              alt="EcoBrew Logo"
+              className="h-8 w-8 rounded-full object-cover ring-1 ring-oat/20"
+            />
             <span className="font-display text-lg font-medium">{SITE_NAME}</span>
           </div>
           <p className="mt-3 text-sm leading-relaxed text-oat/70">
