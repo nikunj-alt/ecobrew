@@ -38,3 +38,53 @@ create policy "ecobrew_users_select" on ecobrew_users for select using (true);
 create policy "ecobrew_users_insert" on ecobrew_users for insert with check (true);
 create policy "ecobrew_orders_insert" on ecobrew_orders for insert with check (true);
 create policy "ecobrew_orders_select" on ecobrew_orders for select using (true);
+
+-- ---------------------------------------------------------------------------
+-- Admin panel migration: DB-backed products, order status/delivery, contacts.
+-- (Mirror of the migration applied to the live project via Supabase MCP.)
+-- ---------------------------------------------------------------------------
+
+create table if not exists ecobrew_products (
+  slug text primary key,
+  name text not null,
+  category text not null,
+  price numeric not null,
+  short_description text default '',
+  description text default '',
+  image text default '',
+  impact text default '',
+  in_stock boolean not null default true,
+  featured boolean not null default false,
+  related jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+alter table ecobrew_orders add column if not exists status text not null default 'pending';
+alter table ecobrew_orders add column if not exists delivery_date timestamptz;
+
+create table if not exists ecobrew_contacts (
+  id uuid primary key default gen_random_uuid(),
+  user_id text references ecobrew_users(user_id) on delete cascade,
+  name text default '',
+  email text default '',
+  message text default '',
+  reply text default '',
+  replied_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+alter table ecobrew_products enable row level security;
+alter table ecobrew_contacts enable row level security;
+alter table ecobrew_orders enable row level security;
+
+create policy "ecobrew_products_select" on ecobrew_products for select using (true);
+create policy "ecobrew_products_insert" on ecobrew_products for insert with check (true);
+create policy "ecobrew_products_update" on ecobrew_products for update using (true) with check (true);
+create policy "ecobrew_products_delete" on ecobrew_products for delete using (true);
+
+create policy "ecobrew_contacts_select" on ecobrew_contacts for select using (true);
+create policy "ecobrew_contacts_insert" on ecobrew_contacts for insert with check (true);
+create policy "ecobrew_contacts_update" on ecobrew_contacts for update using (true) with check (true);
+
+create policy "ecobrew_orders_update" on ecobrew_orders for update using (true) with check (true);
+create policy "ecobrew_orders_delete" on ecobrew_orders for delete using (true);

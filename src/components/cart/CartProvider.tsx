@@ -3,7 +3,8 @@
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { cartCount, cartSubtotal } from "@/lib/utils";
+import { cartCount } from "@/lib/utils";
+import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
 import type { CartItem } from "@/lib/types";
 
 interface CartContextValue {
@@ -24,6 +25,16 @@ const CartContext = createContext<CartContextValue | null>(null);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useLocalStorage<CartItem[]>("ecobrew-cart", []);
   const [isOpen, setIsOpen] = useState(false);
+  const { getProduct } = useProductCatalog();
+
+  const subtotal = useMemo(
+    () =>
+      items.reduce((sum, item) => {
+        const product = getProduct(item.slug);
+        return product ? sum + product.price * item.qty : sum;
+      }, 0),
+    [items, getProduct],
+  );
 
   const addItem = useCallback(
     (slug: string, qty = 1) => {
@@ -65,7 +76,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     () => ({
       items,
       count: cartCount(items),
-      subtotal: cartSubtotal(items),
+      subtotal,
       isOpen,
       addItem,
       removeItem,
@@ -74,7 +85,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       openCart,
       closeCart,
     }),
-    [items, isOpen, addItem, removeItem, setQty, clear, openCart, closeCart],
+    [items, subtotal, isOpen, addItem, removeItem, setQty, clear, openCart, closeCart],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

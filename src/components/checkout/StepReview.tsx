@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { getProduct, formatINR } from "@/lib/utils";
+import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
+import { formatINR } from "@/lib/utils";
 import type { CartItem, CustomerDetails } from "@/lib/types";
 
 export default function StepReview({
@@ -13,6 +14,7 @@ export default function StepReview({
   subtotal: number;
   customer: CustomerDetails;
 }) {
+  const { getProduct } = useProductCatalog();
   return (
     <div className="space-y-6">
       <div>

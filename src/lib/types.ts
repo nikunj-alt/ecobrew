@@ -29,12 +29,27 @@ export interface CustomerDetails {
   pincode: string;
 }
 
+export type OrderStatus = "pending" | "approved" | "in_transit" | "delivered" | "cancelled";
+
 export interface Order {
   id: string;
   userId?: string; // owning account's unique ID (when logged in)
   items: CartItem[];
   subtotal: number;
   customer: CustomerDetails;
+  createdAt: string;
+  status: OrderStatus; // lifecycle, managed from the admin panel
+  deliveryDate?: string | null; // ISO date set by admin when approved/shipped
+}
+
+export interface ContactMessage {
+  id: string;
+  userId?: string | null;
+  name: string;
+  email: string;
+  message: string;
+  reply?: string;
+  repliedAt?: string | null;
   createdAt: string;
 }
 

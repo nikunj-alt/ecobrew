@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getProduct, formatINR } from "@/lib/utils";
+import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
+import { formatINR } from "@/lib/utils";
 import type { Order } from "@/lib/types";
 import Container from "@/components/layout/Container";
 import Button from "@/components/ui/Button";
@@ -11,6 +12,7 @@ import { CheckIcon, LeafIcon } from "@/components/icons";
 
 export default function OrderConfirmationPage() {
   const [order, setOrder] = useState<Order | null>(null);
+  const { getProduct } = useProductCatalog();
 
   useEffect(() => {
     try {

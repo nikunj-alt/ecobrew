@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import { useCart } from "./CartProvider";
-import { getProduct, formatINR } from "@/lib/utils";
+import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
+import { formatINR } from "@/lib/utils";
 import { MinusIcon, PlusIcon, CloseIcon } from "@/components/icons";
 
 export default function CartItem({ slug, qty }: { slug: string; qty: number }) {
   const { setQty, removeItem } = useCart();
+  const { getProduct } = useProductCatalog();
   const product = getProduct(slug);
   if (!product) return null;
 

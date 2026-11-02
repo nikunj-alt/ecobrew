@@ -1,5 +1,4 @@
 import type { CartItem, CustomerDetails, Order } from "../types";
-import { cartSubtotal } from "../utils";
 import { getLoggedInUser, saveOrderToSupabase } from "./auth";
 
 /**
@@ -17,11 +16,14 @@ let orderCounter = 0;
 export function buildOrderFromCart(
   items: CartItem[],
   customer: CustomerDetails,
+  subtotal: number,
 ): Omit<Order, "id" | "createdAt"> {
   return {
     items,
-    subtotal: cartSubtotal(items),
+    subtotal,
     customer,
+    status: "pending",
+    deliveryDate: null,
   };
 }
 
@@ -42,6 +44,8 @@ export async function placeOrder(order: Omit<Order, "id" | "createdAt">): Promis
     userId: user?.userId,
     id: generateOrderId(),
     createdAt: new Date().toISOString(),
+    status: "pending",
+    deliveryDate: null,
   };
 
   if (user) {

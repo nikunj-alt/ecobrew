@@ -131,7 +131,7 @@ export default function CheckoutSteps() {
     setError("");
     try {
       if (!items.length) throw new Error("Your cart is empty.");
-      const orderDraft = buildOrderFromCart(items, customer);
+      const orderDraft = buildOrderFromCart(items, customer, subtotal);
       const order = await placeOrder(orderDraft);
       window.sessionStorage.setItem("ecobrew-last-order", JSON.stringify(order));
       clear();

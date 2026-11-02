@@ -215,6 +215,8 @@ export async function saveOrderToSupabase(order: any, userId: string) {
         subtotal: order.subtotal,
         customer: order.customer,
         created_at: order.createdAt,
+        status: order.status ?? "pending",
+        delivery_date: order.deliveryDate ?? null,
       },
     ]);
   } catch (e) {

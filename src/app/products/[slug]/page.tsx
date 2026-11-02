@@ -1,36 +1,23 @@
-import type { Metadata } from "next";
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import Container from "@/components/layout/Container";
 import Badge from "@/components/ui/Badge";
 import AddToCartButton from "@/components/product/AddToCartButton";
 import ProductCard from "@/components/product/ProductCard";
-import { products, categoryLabels } from "@/lib/data/products";
-import { formatINR, getRelatedProducts } from "@/lib/utils";
+import { categoryLabels } from "@/lib/data/products";
+import { formatINR } from "@/lib/utils";
+import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
 import { LeafIcon } from "@/components/icons";
 
-interface Props {
-  params: Promise<{ slug: string }>;
-}
+export default function ProductDetailPage() {
+  const params = useParams<{ slug: string }>();
+  const slug = params?.slug ?? "";
+  const { getProduct, getRelatedProducts } = useProductCatalog();
+  const product = getProduct(slug);
 
-export async function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
-  if (!product) return { title: "Not Found — EcoBrew" };
-  return {
-    title: `${product.name} — EcoBrew`,
-    description: product.shortDescription,
-  };
-}
-
-export default async function ProductDetailPage({ params }: Props) {
-  const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
   if (!product) notFound();
 
   const related = getRelatedProducts(product.slug, product.category);

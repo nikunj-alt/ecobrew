@@ -1,34 +1,68 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import AccountModal from "@/components/auth/AccountModal";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/constants";
+import { getLoggedInUser, UserAccount } from "@/lib/services/auth";
+import { submitContact } from "@/lib/services/admin";
 import { LeafIcon } from "@/components/icons";
 
 export default function ContactPage() {
+  const [user, setUser] = useState<UserAccount | null>(null);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  useEffect(() => {
+    setUser(getLoggedInUser());
+  }, []);
+
+  // Prefill from the logged-in account.
+  useEffect(() => {
+    if (user) {
+      setForm((prev) => ({
+        ...prev,
+        name: prev.name || user.name || "",
+        email: prev.email || user.email || "",
+      }));
+    }
+  }, [user]);
 
   const setField = (field: string, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs: Record<string, string> = {};
     if (!form.name.trim()) errs.name = "Please enter your name.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errs.email = "Enter a valid email.";
     if (!form.message.trim()) errs.message = "Write a short message.";
     setErrors(errs);
-    if (Object.keys(errs).length === 0) {
-      // No backend: open the visitor's mail client with the message pre-filled.
-      const subject = encodeURIComponent(`EcoBrew enquiry from ${form.name}`);
-      const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
-      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-      setSent(true);
+    if (Object.keys(errs).length > 0) return;
+
+    // Reply surface is attached to an account; ask to log in first.
+    if (!user) {
+      setIsAuthOpen(true);
+      return;
+    }
+
+    setStatus("sending");
+    const res = await submitContact({
+      userId: user.userId,
+      name: form.name.trim(),
+      email: form.email.trim(),
+      message: form.message.trim(),
+    });
+    if (res.success) {
+      setStatus("sent");
+      setForm((prev) => ({ ...prev, message: "" }));
+    } else {
+      setStatus("error");
     }
   };
 
@@ -42,13 +76,16 @@ export default function ContactPage() {
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_280px]">
         <form onSubmit={handleSubmit} className="space-y-5">
-          {sent && (
+          {status === "sent" && (
             <div className="rounded-xl border border-sprout/30 bg-sprout/10 p-4 text-sm text-leaf-deep">
-              Thanks! Your email app should be opening with your message. If not,
-              write to us directly at{" "}
-              <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-sprout-dark underline">
-                {CONTACT_EMAIL}
-              </a>.
+              Thanks {user?.name || form.name}! Your message has been sent to the team.
+              You'll see our reply in{" "}
+              <a href="/my-orders" className="font-medium text-sprout-dark underline">My Orders → Inquiries</a>.
+            </div>
+          )}
+          {status === "error" && (
+            <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+              Something went wrong sending your message. Please try again.
             </div>
           )}
           <Input label="Your name" value={form.name} error={errors.name} onChange={(e) => setField("name", e.target.value)} />
@@ -67,7 +104,16 @@ export default function ContactPage() {
             />
             {errors.message && <span className="text-xs text-red-500">{errors.message}</span>}
           </div>
-          <Button type="submit">Send message</Button>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button type="submit" disabled={status === "sending"}>
+              {status === "sending" ? "Sending…" : "Send message"}
+            </Button>
+            {!user && (
+              <span className="text-xs text-moss">
+                You'll be asked to log in so you can see our reply.
+              </span>
+            )}
+          </div>
         </form>
 
         <aside className="space-y-5">
@@ -90,6 +136,20 @@ export default function ContactPage() {
           </div>
         </aside>
       </div>
+
+      <AccountModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onSuccess={(u) => {
+          setUser(u);
+          setIsAuthOpen(false);
+          setForm((prev) => ({
+            ...prev,
+            name: prev.name || u.name || "",
+            email: prev.email || u.email || "",
+          }));
+        }}
+      />
     </Container>
   );
 }

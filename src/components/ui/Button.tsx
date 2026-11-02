@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type Variant = "primary" | "outline" | "ghost";
-type Size = "md" | "lg";
+type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -12,6 +12,7 @@ const variants: Record<Variant, string> = {
 };
 
 const sizes: Record<Size, string> = {
+  sm: "h-9 px-4 text-sm",
   md: "h-10 px-5 text-sm",
   lg: "h-12 px-7 text-base",
 };
