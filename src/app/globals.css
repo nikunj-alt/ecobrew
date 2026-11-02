@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  /* EcoBrew earthy-green palette */
+  --color-leaf-deep: #1f2d1e; /* primary ink / dark sections */
+  --color-moss: #4a6150; /* secondary green (text on light) */
+  --color-sprout: #7fa169; /* accent green (CTA/links) */
+  --color-sprout-dark: #6a8c56; /* accent hover */
+  --color-tea: #7c5233; /* steeped-tea brown accent */
+  --color-tea-light: #a57a52;
+  --color-kraft: #e6dcc3; /* card / textured surfaces */
+  --color-kraft-dark: #d8cbaa;
+  --color-oat: #f3eee0; /* page background (green-tinted) */
+  --color-soil: #2e2419; /* near-black brown footer/contrast */
+
+  --font-display: var(--font-fraunces), serif;
+  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-oat);
+  color: var(--color-leaf-deep);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Soft green-tinted shadow used on cards/product imagery */
+@utility shadow-natural {
+  box-shadow: 0 12px 32px -12px rgb(31 45 30 / 0.22);
+}
+
+@layer base {
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
