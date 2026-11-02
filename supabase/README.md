@@ -31,3 +31,6 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_…
   and shown in the header as `@yourid`.
 - **Checkout** requires a logged-in account; the shipping form is pre-filled from it
   and every order is saved to `ecobrew_orders` with the owning `user_id`.
+
+> Live on Vercel. The `NEXT_PUBLIC_*` env vars are baked in at build time, so after
+> adding/changing them on Vercel you must **Redeploy** (or push any commit) to rebuild.
