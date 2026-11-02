@@ -1,12 +1,15 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Accept both the classic anon key and the newer publishable key format.
+const supabaseKey =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
 // Environment check for Supabase
-if (!supabaseUrl || !supabaseAnonKey) {
+if (!supabaseUrl || !supabaseKey) {
   console.warn(
-    "[EcoBrew Supabase Warning]: NEXT_PUBLIC_SUPABASE_URL and/or NEXT_PUBLIC_SUPABASE_ANON_KEY are missing. Database persistence and authentication will operate in fallback mode unless environment variables are provided."
+    "[EcoBrew Supabase Warning]: NEXT_PUBLIC_SUPABASE_URL and/or NEXT_PUBLIC_SUPABASE_ANON_KEY / NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY are missing. Database persistence and authentication will operate in fallback mode unless environment variables are provided."
   );
 }
 
@@ -29,8 +32,8 @@ class MockSupabaseClient {
 }
 
 export const supabase: SupabaseClient | MockSupabaseClient =
-  supabaseUrl && supabaseAnonKey
-    ? createClient(supabaseUrl, supabaseAnonKey, {
+  supabaseUrl && supabaseKey
+    ? createClient(supabaseUrl, supabaseKey, {
         auth: {
           persistSession: true,
           autoRefreshToken: true,
@@ -39,5 +42,5 @@ export const supabase: SupabaseClient | MockSupabaseClient =
     : new MockSupabaseClient();
 
 export function isSupabaseConfigured(): boolean {
-  return Boolean(supabaseUrl && supabaseAnonKey);
+  return Boolean(supabaseUrl && supabaseKey);
 }

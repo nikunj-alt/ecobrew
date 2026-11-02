@@ -7,15 +7,18 @@ Supabase as the real database:
 2. Run `supabase/schema.sql` in the SQL Editor (creates `ecobrew_users` with a
    **PRIMARY KEY on `user_id`** — so no two users can ever have the same ID —
    plus `ecobrew_orders` linked to the user)
-3. Copy the project **URL** and **anon public key** from Project Settings → API
+3. Copy the project **URL** and an **API key** from Project Settings → API
+   (use the classic anon key, or the newer `sb_publishable_…` key — either works)
 4. Add them to a local `.env.local` (never committed — `.gitignore` already blocks `.env*`):
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://YOUR-PROJECT.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_ANON_KEY
+# or
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_…
 ```
 
-5. On Vercel: Project → Settings → Environment Variables → add the same two
+5. On Vercel: Project → Settings → Environment Variables → add the same
    variables, then redeploy.
 
 ## How accounts work
