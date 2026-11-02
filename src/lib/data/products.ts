@@ -23,7 +23,7 @@ export const products: Product[] = [
     shortDescription: "A desk pen stand turned from pressed tea-leaf composite.",
     description:
       "Every pen stand starts its life in a chai glass. The spent leaves are cleaned, dried, and pressed with a compostable binder into a sturdy stand that holds pens, pencils, and brushes. Each one is hand-shaped, so no two are quite alike.",
-    image: "/products/leaf-pen-stand.svg",
+    image: "/logo.png",
     impact: "≈ 40 cups of chaipatti per stand",
     inStock: true,
     featured: true,
@@ -37,7 +37,7 @@ export const products: Product[] = [
     shortDescription: "A two-tier organiser for a tidy, leaf-made desk.",
     description:
       "A compact two-tier organiser for stationery, phone, and small odds and ends. The rich tea-brown finish comes from the leaf fibre itself — no dyes added.",
-    image: "/products/tea-cup-organiser.svg",
+    image: "/logo.png",
     impact: "≈ 55 cups of chaipatti per organiser",
     inStock: true,
     related: ["leaf-pen-stand", "spoon-bookmark"],
@@ -50,7 +50,7 @@ export const products: Product[] = [
     shortDescription: "A set of four coasters, each one a single pressed leaf.",
     description:
       "Four coasters pressed from a single batch of dried tea leaves. They are light, heat-tolerant, and naturally matte — a quiet reminder of what the cup once held.",
-    image: "/products/leaf-coaster-set.svg",
+    image: "/logo.png",
     impact: "≈ 20 cups of chaipatti per set",
     inStock: true,
     featured: true,
@@ -64,7 +64,7 @@ export const products: Product[] = [
     shortDescription: "A slim bookmark with a tea-leaf edge.",
     description:
       "A thin, flexible bookmark made from the same hardened leaf composite as our furniture. The edge is shaped like a spoon — a nod to the chai spoon it once stirred with.",
-    image: "/products/spoon-bookmark.svg",
+    image: "/logo.png",
     impact: "≈ 12 cups of chaipatti per bookmark",
     inStock: true,
     related: ["leaf-coaster-set", "leaf-notebook"],
@@ -77,7 +77,7 @@ export const products: Product[] = [
     shortDescription: "A notebook bound in tea-leaf composite covers.",
     description:
       "A lined notebook with hard covers made from the pressed-leaf material. The paper inside is recycled; the cover is pure chaipatti. It ages gracefully and gets smoother as you use it.",
-    image: "/products/leaf-notebook.svg",
+    image: "/logo.png",
     impact: "≈ 30 cups of chaipatti per cover",
     inStock: true,
     related: ["spoon-bookmark", "leaf-coaster-set"],
@@ -90,7 +90,7 @@ export const products: Product[] = [
     shortDescription: "A child-sized chair, sculpted from tea-leaf board.",
     description:
       "Our signature piece. A small, sturdy chair for a child's room, shaped from thick board of compressed tea leaves and a food-safe binder. It is proof that household waste can become real furniture.",
-    image: "/products/mini-chair.svg",
+    image: "/logo.png",
     impact: "≈ 200 cups of chaipatti per chair",
     inStock: false,
     featured: true,
@@ -104,7 +104,7 @@ export const products: Product[] = [
     shortDescription: "A low side table, leaf-made.",
     description:
       "A low side table that pairs with the Mini Chair. The hardened leaf composite is sanded smooth and finished with a natural wax, giving it a warm, woody feel.",
-    image: "/products/mini-table.svg",
+    image: "/logo.png",
     impact: "≈ 240 cups of chaipatti per table",
     inStock: true,
     related: ["mini-chair", "leaf-pen-stand"],
@@ -117,7 +117,7 @@ export const products: Product[] = [
     shortDescription: "A decorative tile pressed with a real leaf imprint.",
     description:
       "A wall tile with the imprint of a single tea leaf pressed into its face. Each tile is cast from a different leaf, making every one unique. Comes with a simple hanging loop.",
-    image: "/products/wall-leaf-tile.svg",
+    image: "/logo.png",
     impact: "≈ 15 cups of chaipatti per tile",
     inStock: true,
     related: ["leaf-coaster-set", "leaf-pen-stand"],
@@ -130,7 +130,7 @@ export const products: Product[] = [
     shortDescription: "Tiny planters that return to the soil.",
     description:
       "Small planters made from the leaf composite, mixed with a little extra fibre so they break down over a season. Plant a seed straight into one — the pot itself composts.",
-    image: "/products/tea-soil-pots.svg",
+    image: "/logo.png",
     impact: "≈ 25 cups of chaipatti per pot",
     inStock: true,
     related: ["wall-leaf-tile", "leaf-coaster-set"],
