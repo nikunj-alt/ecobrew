@@ -9,27 +9,16 @@ import CartCount from "@/components/cart/CartCount";
 import { CartIcon } from "@/components/icons";
 import Container from "./Container";
 import AccountModal from "@/components/auth/AccountModal";
-import { getLoggedInUser, setLoggedInUser, syncSupabaseAuthUser, UserAccount } from "@/lib/services/auth";
+import { useSession } from "@/hooks/useSession";
 
 export default function Header() {
   const { openCart } = useCart();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const [user, setUser] = useState<UserAccount | null>(null);
+  const { user, signOut, refresh } = useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const synced = await syncSupabaseAuthUser();
-      setUser(synced || getLoggedInUser());
-    })();
-  }, []);
-
-  const handleLogout = () => {
-    setLoggedInUser(null);
-    if ((window as any).supabaseAuthClient) {
-      // Supabase session may still be present; we clear local + rely on next mount
-    }
-    setUser(null);
+  const handleLogout = async () => {
+    await signOut();
     setDropdownOpen(false);
   };
 
@@ -111,7 +100,7 @@ export default function Header() {
       <AccountModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
-        onSuccess={(u) => setUser(u)}
+        onSuccess={() => refresh()}
       />
     </>
   );
