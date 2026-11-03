@@ -223,3 +223,82 @@ export async function saveOrderToSupabase(order: any, userId: string) {
     console.warn("Failed to persist order to Supabase:", e);
   }
 }
+
+/** Initiate Google Sign-In via Supabase Auth */
+export async function signInWithGoogle(): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured()) {
+    return { success: false, error: "Supabase is not configured. Google Sign-In requires Supabase connection." };
+  }
+  try {
+    const { error } = await (supabase as any).auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: typeof window !== "undefined" ? window.location.origin : undefined,
+      },
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (e: any) {
+    return { success: false, error: e?.message || "Google Sign-In failed." };
+  }
+}
+
+/** Check Supabase Auth session and sync user account */
+export async function syncSupabaseAuthUser(): Promise<UserAccount | null> {
+  if (!isSupabaseConfigured()) return getLoggedInUser();
+  try {
+    const { data: { session }, error } = await (supabase as any).auth.getSession();
+    if (error || !session?.user) return getLoggedInUser();
+
+    const authUser = session.user;
+    const email = authUser.email || "";
+    const name = authUser.user_metadata?.full_name || authUser.user_metadata?.name || email.split("@")[0] || "google_user";
+    const cleanId = normalizeUserId(name.replace(/[^a-zA-Z0-9_]/g, "_").toLowerCase());
+
+    const { data: existing } = await (supabase as any)
+      .from("ecobrew_users")
+      .select("*")
+      .eq("email", email)
+      .maybeSingle();
+
+    if (existing) {
+      const userAccount: UserAccount = {
+        userId: existing.user_id,
+        name: existing.name || name,
+        email: existing.email || email,
+        phone: existing.phone || "",
+        address: existing.address || "",
+        city: existing.city || "",
+        state: existing.state || "",
+        pincode: existing.pincode || "",
+      };
+      setLoggedInUser(userAccount);
+      return userAccount;
+    } else {
+      const newAccount: UserAccount = {
+        userId: cleanId.length >= 3 ? cleanId : `user_${Math.random().toString(36).substring(2, 8)}`,
+        name,
+        email,
+        phone: "",
+        address: "",
+        city: "",
+        state: "",
+        pincode: "",
+      };
+      await (supabase as any).from("ecobrew_users").upsert([
+        {
+          user_id: newAccount.userId,
+          password: "oauth_google_secure",
+          name: newAccount.name,
+          email: newAccount.email,
+          created_at: new Date().toISOString(),
+        },
+      ]);
+      setLoggedInUser(newAccount);
+      return newAccount;
+    }
+  } catch (e) {
+    console.warn("Error syncing Supabase Auth user:", e);
+    return getLoggedInUser();
+  }
+}

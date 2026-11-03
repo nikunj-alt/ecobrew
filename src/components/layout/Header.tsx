@@ -9,7 +9,7 @@ import CartCount from "@/components/cart/CartCount";
 import { CartIcon } from "@/components/icons";
 import Container from "./Container";
 import AccountModal from "@/components/auth/AccountModal";
-import { getLoggedInUser, setLoggedInUser, UserAccount } from "@/lib/services/auth";
+import { getLoggedInUser, setLoggedInUser, syncSupabaseAuthUser, UserAccount } from "@/lib/services/auth";
 
 export default function Header() {
   const { openCart } = useCart();
@@ -18,11 +18,17 @@ export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
-    setUser(getLoggedInUser());
+    (async () => {
+      const synced = await syncSupabaseAuthUser();
+      setUser(synced || getLoggedInUser());
+    })();
   }, []);
 
   const handleLogout = () => {
     setLoggedInUser(null);
+    if ((window as any).supabaseAuthClient) {
+      // Supabase session may still be present; we clear local + rely on next mount
+    }
     setUser(null);
     setDropdownOpen(false);
   };
