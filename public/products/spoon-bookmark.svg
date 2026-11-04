@@ -1,19 +1,68 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#E6DCC3"/>
-      <stop offset="1" stop-color="#D8CBA8"/>
+    <radialGradient id="bg" cx="44%" cy="34%" r="85%">
+      <stop offset="0%" stop-color="#F4ECD9"/>
+      <stop offset="55%" stop-color="#E6D8BB"/>
+      <stop offset="100%" stop-color="#C9B792"/>
+    </radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D5C5A4"/>
+      <stop offset="100%" stop-color="#B2A07C"/>
     </linearGradient>
-    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#7FA169"/>
-      <stop offset="1" stop-color="#4A6150"/>
+    <linearGradient id="blade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7A5F45"/>
+      <stop offset="38%" stop-color="#5C4430"/>
+      <stop offset="100%" stop-color="#332216"/>
     </linearGradient>
+    <linearGradient id="bowlG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6E543C"/>
+      <stop offset="100%" stop-color="#2C1D12"/>
+    </linearGradient>
+    <radialGradient id="bowlIn" cx="46%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#3B2A1B"/>
+      <stop offset="100%" stop-color="#241509"/>
+    </radialGradient>
+    <filter id="b60" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="60"/></filter>
+    <filter id="b40" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="40"/></filter>
+    <filter id="b16" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="16"/></filter>
+    <filter id="b6" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="b3" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="grainF">
+      <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="5"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.2  0 0 0 0 0.13  0 0 0 0 0.07  0 0 0 0.55 0"/>
+    </filter>
+    <clipPath id="pcs">
+      <path d="M128 298 C190 282 266 284 336 294 C376 300 410 304 436 308 C462 312 472 324 468 340 C464 356 448 366 422 368 C390 370 364 362 346 350 C278 342 210 338 150 328 C126 324 118 312 128 298 Z"/>
+    </clipPath>
   </defs>
-  <rect width="400" height="400" fill="url(#bg)"/>
-  <ellipse cx="200" cy="250" rx="120" ry="30" fill="#2E2419" opacity="0.15"/>
-  <path d="M200 80 C 260 80, 300 130, 300 200 C 300 270, 260 320, 200 320 C 140 320, 100 270, 100 200 C 100 130, 140 80, 200 80 Z" fill="url(#leaf)"/>
-  <path d="M200 90 L200 310" stroke="#E6DCC3" stroke-width="4" opacity="0.6"/>
-  <path d="M200 150 C 180 180, 160 200, 150 230" stroke="#E6DCC3" stroke-width="3" fill="none" opacity="0.5"/>
-  <path d="M200 170 C 225 195, 245 215, 255 245" stroke="#E6DCC3" stroke-width="3" fill="none" opacity="0.5"/>
-  <text x="200" y="372" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#4A6150" letter-spacing="1">EcoBrew</text>
+
+  <rect width="640" height="640" fill="url(#bg)"/>
+  <rect y="440" width="640" height="200" fill="url(#floor)"/>
+  <rect y="440" width="640" height="2" fill="#867452" opacity="0.4"/>
+  <ellipse cx="244" cy="120" rx="200" ry="124" fill="#FFFFFF" opacity="0.45" filter="url(#b60)"/>
+  <rect width="640" height="640" fill="#5C4A2E" opacity="0.12" style="mix-blend-mode:multiply" transform="translate(640,0) scale(-1,1)"/>
+
+  <g transform="translate(-12 52) rotate(23 320 340)">
+    <path d="M160 324 C224 312 300 314 366 324 C400 330 428 334 448 338 C470 342 480 352 476 366 C472 382 456 392 432 394 C404 396 382 388 366 378 C300 372 232 368 174 358 C152 354 146 336 160 324 Z" fill="#2A1C10" opacity="0.28" filter="url(#b16)"/>
+    <path d="M128 298 C190 282 266 284 336 294 C376 300 410 304 436 308 C462 312 472 324 468 340 C464 356 448 366 422 368 C390 370 364 362 346 350 C278 342 210 338 150 328 C126 324 118 312 128 298 Z" fill="url(#blade)"/>
+
+    <path d="M150 336 C214 346 284 348 348 354 C368 362 392 366 420 365 C444 364 462 355 466 340 C468 352 460 362 438 365 C410 369 384 362 366 354 C298 348 228 344 168 336 Z" fill="#241609" opacity="0.5"/>
+    <path d="M128 298 C190 282 266 284 336 294 C376 300 410 304 436 308" stroke="#C2A176" stroke-width="3" fill="none" opacity="0.6"/>
+
+    <ellipse cx="396" cy="336" rx="57" ry="25" fill="url(#bowlG)" transform="rotate(-4 396 336)"/>
+    <ellipse cx="396" cy="331" rx="50" ry="20" fill="url(#bowlIn)" transform="rotate(-4 396 331)"/>
+    <path d="M352 322 C368 317 398 314 434 319" stroke="#C2A176" stroke-width="2.5" fill="none" opacity="0.5" transform="rotate(-4 396 336)"/>
+
+    <g stroke="#4A3626" stroke-width="1.6" fill="none" opacity="0.35">
+      <path d="M168 300 C200 294 240 292 280 294"/>
+      <path d="M164 314 C200 308 244 306 288 308"/>
+      <path d="M172 326 C204 320 246 318 286 320"/>
+    </g>
+    <ellipse cx="226" cy="314" rx="46" ry="12" fill="#FFFFFF" opacity="0.10" filter="url(#b6)"/>
+  </g>
+
+  <ellipse cx="290" cy="478" rx="150" ry="20" fill="#2A1C10" opacity="0.30" filter="url(#b16)"/>
+  <ellipse cx="330" cy="500" rx="210" ry="30" fill="#2A1C10" opacity="0.15" filter="url(#b40)"/>
+
+  <rect width="640" height="640" fill="url(#grainF)" opacity="0.10" clip-path="url(#pcs)"/>
 </svg>

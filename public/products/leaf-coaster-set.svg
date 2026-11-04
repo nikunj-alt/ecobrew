@@ -1,19 +1,83 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#E6DCC3"/>
-      <stop offset="1" stop-color="#D8CBA8"/>
+    <radialGradient id="bg" cx="44%" cy="34%" r="85%">
+      <stop offset="0%" stop-color="#F4ECD9"/>
+      <stop offset="55%" stop-color="#E6D8BB"/>
+      <stop offset="100%" stop-color="#C9B792"/>
+    </radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D5C5A4"/>
+      <stop offset="100%" stop-color="#B2A07C"/>
     </linearGradient>
-    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#7FA169"/>
-      <stop offset="1" stop-color="#4A6150"/>
+    <radialGradient id="topface" cx="40%" cy="30%" r="78%">
+      <stop offset="0%" stop-color="#6F563D"/>
+      <stop offset="55%" stop-color="#57402A"/>
+      <stop offset="100%" stop-color="#3E2C1B"/>
+    </radialGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A3422"/>
+      <stop offset="100%" stop-color="#221507"/>
     </linearGradient>
+    <filter id="b60" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="60"/></filter>
+    <filter id="b40" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="40"/></filter>
+    <filter id="b16" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="16"/></filter>
+    <filter id="b6" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="b2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="grainF">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="23"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.2  0 0 0 0 0.13  0 0 0 0 0.07  0 0 0 0.55 0"/>
+    </filter>
+    <clipPath id="pcs">
+      <ellipse cx="330" cy="340" rx="150" ry="44"/>
+      <ellipse cx="330" cy="374" rx="150" ry="44"/>
+      <ellipse cx="330" cy="408" rx="150" ry="44"/>
+      <ellipse cx="330" cy="442" rx="150" ry="44"/>
+      <ellipse cx="212" cy="524" rx="118" ry="34"/>
+    </clipPath>
   </defs>
-  <rect width="400" height="400" fill="url(#bg)"/>
-  <ellipse cx="200" cy="250" rx="120" ry="30" fill="#2E2419" opacity="0.15"/>
-  <path d="M200 80 C 260 80, 300 130, 300 200 C 300 270, 260 320, 200 320 C 140 320, 100 270, 100 200 C 100 130, 140 80, 200 80 Z" fill="url(#leaf)"/>
-  <path d="M200 90 L200 310" stroke="#E6DCC3" stroke-width="4" opacity="0.6"/>
-  <path d="M200 150 C 180 180, 160 200, 150 230" stroke="#E6DCC3" stroke-width="3" fill="none" opacity="0.5"/>
-  <path d="M200 170 C 225 195, 245 215, 255 245" stroke="#E6DCC3" stroke-width="3" fill="none" opacity="0.5"/>
-  <text x="200" y="372" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#4A6150" letter-spacing="1">EcoBrew</text>
+
+  <rect width="640" height="640" fill="url(#bg)"/>
+  <rect y="455" width="640" height="185" fill="url(#floor)"/>
+  <rect y="455" width="640" height="2" fill="#867452" opacity="0.4"/>
+  <ellipse cx="250" cy="130" rx="200" ry="130" fill="#FFFFFF" opacity="0.45" filter="url(#b60)"/>
+  <rect width="640" height="640" fill="#5C4A2E" opacity="0.10" style="mix-blend-mode:multiply" transform="translate(640,0) scale(-1,1)"/>
+
+  <ellipse cx="330" cy="470" rx="230" ry="42" fill="#2A1C10" opacity="0.16" filter="url(#b40)"/>
+  <ellipse cx="326" cy="462" rx="168" ry="28" fill="#2A1C10" opacity="0.30" filter="url(#b16)"/>
+  <ellipse cx="214" cy="548" rx="120" ry="22" fill="#2A1C10" opacity="0.16" filter="url(#b40)"/>
+  <ellipse cx="212" cy="542" rx="94" ry="16" fill="#2A1C10" opacity="0.26" filter="url(#b16)"/>
+
+  <g transform="rotate(-7 212 524)">
+    <ellipse cx="212" cy="536" rx="118" ry="33" fill="#33241B"/>
+    <ellipse cx="212" cy="524" rx="118" ry="34" fill="url(#topface)"/>
+    <ellipse cx="182" cy="494" rx="52" ry="30" fill="#FFFFFF" opacity="0.09" filter="url(#b16)"/>
+    <ellipse cx="212" cy="524" rx="88" ry="24" fill="none" stroke="#2A1B10" stroke-width="2" opacity="0.4"/>
+    <g>
+      <path d="M206 502 C190 508 184 520 192 532 C200 544 220 546 230 536 C240 526 236 510 224 504 C218 500 210 500 206 502 Z" fill="#7A5F45" opacity="0.4" transform="translate(2.5,2.5)"/>
+      <path d="M206 502 C190 508 184 520 192 532 C200 544 220 546 230 536 C240 526 236 510 224 504 C218 500 210 500 206 502 Z" fill="#33241B" opacity="0.6"/>
+      <path d="M200 536 C203 524 205 514 210 506 M216 542 C218 530 220 520 224 510" stroke="#7A5F45" stroke-width="1.5" fill="none" opacity="0.5"/>
+    </g>
+  </g>
+
+  <g>
+    <ellipse cx="330" cy="452" rx="150" ry="42" fill="#33241B"/>
+    <ellipse cx="330" cy="442" rx="150" ry="44" fill="url(#edge)"/>
+    <ellipse cx="330" cy="418" rx="150" ry="44" fill="#38281C"/>
+    <ellipse cx="330" cy="408" rx="150" ry="44" fill="url(#edge)"/>
+    <ellipse cx="330" cy="384" rx="150" ry="44" fill="#3D2C1F"/>
+    <ellipse cx="330" cy="374" rx="150" ry="44" fill="url(#edge)"/>
+    <ellipse cx="330" cy="350" rx="150" ry="44" fill="#4A3626"/>
+    <ellipse cx="330" cy="340" rx="150" ry="44" fill="url(#topface)"/>
+
+    <g>
+      <path d="M348 300 C328 312 318 330 322 348 C312 346 314 358 328 370 C342 382 362 380 370 366 C378 352 374 330 362 314 C356 306 352 302 348 300 Z" fill="#7A5F45" opacity="0.45" transform="translate(3,3)"/>
+      <path d="M348 300 C328 312 318 330 322 348 C312 346 314 358 328 370 C342 382 362 380 370 366 C378 352 374 330 362 314 C356 306 352 302 348 300 Z" fill="#2A1B10" opacity="0.55"/>
+      <path d="M360 372 C352 352 348 330 350 306 M336 376 C336 360 338 344 344 330" stroke="#33241B" stroke-width="2" fill="none" opacity="0.7"/>
+      <path d="M328 370 C340 374 352 372 362 364" stroke="#886A4D" stroke-width="1.4" fill="none" opacity="0.5"/>
+    </g>
+    <ellipse cx="272" cy="308" rx="56" ry="30" fill="#FFFFFF" opacity="0.10" filter="url(#b16)"/>
+    <ellipse cx="330" cy="340" rx="118" ry="32" fill="none" stroke="#8A6B4E" stroke-width="2" opacity="0.35"/>
+  </g>
+
+  <rect width="640" height="640" fill="url(#grainF)" opacity="0.10" clip-path="url(#pcs)"/>
 </svg>

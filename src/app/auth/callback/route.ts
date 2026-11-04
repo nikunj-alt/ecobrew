@@ -1,66 +1,74 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { exchangeCodeForUser } from "@/lib/auth/google";
+import { exchangeSupabaseCode } from "@/lib/auth/supabase";
 import { setSessionCookie, clearSessionCookie, SessionUser } from "@/lib/auth/session";
 
-/** Derive the stable EcoBrew account id from the verified Google email. */
+/** Derive the stable EcoBrew account id from the verified Supabase email. */
 function userIdFromEmail(email: string): string {
   const local = email.split("@")[0].toLowerCase().replace(/[^a-z0-9_.-]/g, "_");
   return local.length >= 3 ? local.slice(0, 24) : `g_${email.slice(0, 20).replace(/[^a-z0-9_-]/g, "")}`;
 }
 
+function fail(req: NextRequest, reason: string) {
+  const url = new URL(req.nextUrl.origin);
+  url.pathname = "/";
+  url.search = new URLSearchParams({ auth: "error", detail: reason }).toString();
+  return NextResponse.redirect(url);
+}
+
 export async function GET(req: NextRequest) {
   try {
-    const params = new URL(req.url).searchParams;
+    const params = req.nextUrl.searchParams;
     const code = params.get("code");
-    const returnedState = params.get("state");
-    const error = params.get("error");
-
-    if (error) {
-      console.warn("Google OAuth error:", error);
-      return NextResponse.redirect(new URL("/?auth=error=declined", req.url));
+    const oauthError = params.get("error_description") || params.get("error");
+    if (oauthError) {
+      console.warn("Supabase Google OAuth error:", oauthError);
+      return fail(req, "declined");
     }
-    if (!code || !returnedState) {
-      return NextResponse.redirect(new URL("/?auth=error=missing", req.url));
-    }
+    if (!code) return fail(req, "missing");
 
     const jar = await cookies();
     const storedState = jar.get("ecobrew_oauth")?.value;
-    if (!storedState) {
-      return NextResponse.redirect(new URL("/?auth=error=invalid", req.url));
-    }
+    if (!storedState) return fail(req, "state");
 
-    // state carries a bundled PKCE verifier (and optional `from` target).
-    const parts = storedState.split(".");
-    let verifier = storedState;
+    // The cookie carries the PKCE verifier (and optional `from` target) that
+    // never left the server; without it the code can never be exchanged.
+    let verifier = "";
     let fromTarget: string | null = null;
-    if (parts.length === 2) {
-      try {
-        const decoded = JSON.parse(Buffer.from(parts[0], "base64url").toString("utf8"));
-        if (decoded && typeof decoded.v === "string") verifier = decoded.v;
-        if (decoded && typeof decoded.from === "string") fromTarget = decoded.from;
-      } catch {
-        /* malformed — fall through with plain state verification below */
-      }
+    try {
+      const decoded = JSON.parse(
+        Buffer.from(storedState, "base64url").toString("utf8"),
+      );
+      if (decoded && typeof decoded.v === "string") verifier = decoded.v;
+      if (decoded && typeof decoded.from === "string" && decoded.from)
+        fromTarget = decoded.from;
+    } catch {
+      /* fall through — verifier stays empty and the exchange fails safely */
     }
-    if (verifier !== returnedState) {
-      return NextResponse.redirect(new URL("/?auth=error=state", req.url));
-    }
+    if (!verifier) return fail(req, "state");
 
     jar.delete("ecobrew_oauth");
 
-    // Server-side exchange; never trust anything from the client beyond `code`.
-    const userInfo = await exchangeCodeForUser(code, verifier);
-    if (!userInfo.email_verified) {
-      return NextResponse.redirect(new URL("/?auth=error=email", req.url));
-    }
+    // Server-side exchange; the browser only ever contributed `code`.
+    const tokens = await exchangeSupabaseCode(code, verifier);
+    const supabaseUser = tokens.user!;
+    const email = supabaseUser.email;
+    const confirmed =
+      Boolean(supabaseUser.email_confirmed_at) ||
+      supabaseUser.user_metadata?.email_verified === true;
+    if (!email || !confirmed) return fail(req, "email");
 
+    const meta = supabaseUser.user_metadata ?? {};
     const sessionUser: SessionUser = {
-      sub: userInfo.sub,
-      email: userInfo.email,
-      name: userInfo.name || userInfo.email.split("@")[0],
-      picture: userInfo.picture,
-      userId: userIdFromEmail(userInfo.email),
+      sub: supabaseUser.id,
+      email,
+      name:
+        meta.full_name ||
+        meta.name ||
+        meta.user_name ||
+        email.split("@")[0],
+      picture: meta.avatar_url || meta.picture,
+      userId: userIdFromEmail(email),
     };
     await setSessionCookie(sessionUser);
 
@@ -69,10 +77,10 @@ export async function GET(req: NextRequest) {
     if (fromTarget && fromTarget.startsWith("/") && !fromTarget.startsWith("//")) {
       target = fromTarget.slice(0, 512);
     }
-    return NextResponse.redirect(new URL(target, req.url));
+    return NextResponse.redirect(new URL(target, req.nextUrl.origin));
   } catch (e) {
     console.error("OAuth callback failed:", e);
     await clearSessionCookie().catch(() => {});
-    return NextResponse.redirect(new URL("/?auth=error=server", req.url));
+    return fail(req, "server");
   }
 }

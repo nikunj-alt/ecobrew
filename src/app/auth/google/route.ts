@@ -1,33 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createPkcePair, buildAuthUrl } from "@/lib/auth/google";
+import { createPkcePair, buildSupabaseAuthorizeUrl } from "@/lib/auth/supabase";
 
 export async function GET(req: NextRequest) {
   try {
     const { verifier, challenge } = createPkcePair();
-    // Bind this flow to a fresh random state; verified on return to block CSRF.
-    const state = verifier;
 
+    // Remember where to send the user after login (e.g. /checkout).
     const from = new URL(req.url).searchParams.get("from");
-    if (from) {
-      // Remember where to send the user after login (e.g. /checkout).
-      const stateExtra = Buffer.from(JSON.stringify({ v: verifier, from })).toString(
-        "base64url",
-      );
-      const url = buildAuthUrl(stateExtra, challenge);
-      const res = NextResponse.redirect(url);
-      res.cookies.set("ecobrew_oauth", stateExtra, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-        maxAge: 600,
-      });
-      return res;
-    }
+    const stateExtra = Buffer.from(
+      JSON.stringify({ v: verifier, from: from ?? "" }),
+    ).toString("base64url");
 
-    const url = buildAuthUrl(state, challenge);
-    const res = NextResponse.redirect(url);
-    res.cookies.set("ecobrew_oauth", state, {
+    // redirect_to must be one of the URLs allowed in the Supabase auth config.
+    const origin = process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin;
+    const redirectTo = `${origin.replace(/\/+$/, "")}/auth/callback`;
+
+    const res = NextResponse.redirect(
+      buildSupabaseAuthorizeUrl(redirectTo, challenge),
+    );
+    res.cookies.set("ecobrew_oauth", stateExtra, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

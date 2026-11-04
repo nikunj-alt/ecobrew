@@ -88,3 +88,49 @@ create policy "ecobrew_contacts_update" on ecobrew_contacts for update using (tr
 
 create policy "ecobrew_orders_update" on ecobrew_orders for update using (true) with check (true);
 create policy "ecobrew_orders_delete" on ecobrew_orders for delete using (true);
+
+-- ---------------------------------------------------------------------------
+-- Live admin storage & realtime (applied to the live project as migration
+-- "admin_product_images_and_realtime"; mirrored here for fresh projects).
+-- ---------------------------------------------------------------------------
+
+-- Public bucket for admin-uploaded product images (5 MB, image types only).
+insert into storage.buckets (id, name, file_size_limit, allowed_mime_types, public)
+values ('product-images', 'product-images', 5242880,
+        array['image/png','image/jpeg','image/webp','image/gif','image/svg+xml'], true)
+on conflict (id) do update
+  set public = excluded.public,
+      file_size_limit = excluded.file_size_limit,
+      allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "ecobrew_product_images_read" on storage.objects;
+create policy "ecobrew_product_images_read" on storage.objects
+  for select using (bucket_id = 'product-images');
+
+drop policy if exists "ecobrew_product_images_write" on storage.objects;
+create policy "ecobrew_product_images_write" on storage.objects
+  for insert to anon, authenticated
+  with check (bucket_id = 'product-images');
+
+drop policy if exists "ecobrew_product_images_update" on storage.objects;
+create policy "ecobrew_product_images_update" on storage.objects
+  for update to anon, authenticated
+  using (bucket_id = 'product-images')
+  with check (bucket_id = 'product-images');
+
+-- Realtime: push product/order changes to connected clients.
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'ecobrew_products'
+  ) then
+    alter publication supabase_realtime add table public.ecobrew_products;
+  end if;
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'ecobrew_orders'
+  ) then
+    alter publication supabase_realtime add table public.ecobrew_orders;
+  end if;
+end $$;

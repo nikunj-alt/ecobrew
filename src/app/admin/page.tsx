@@ -6,11 +6,11 @@ import Container from "@/components/layout/Container";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import OrderStatusBadge from "@/components/ui/OrderStatusBadge";
-import { isSupabaseConfigured } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { ADMIN_PASSWORD, ADMIN_SESSION_KEY } from "@/lib/constants";
 import { categories, categoryLabels } from "@/lib/data/products";
 import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
-import { upsertProduct, deleteProduct } from "@/lib/services/products";
+import { upsertProduct, deleteProduct, setProductStock, uploadProductImage } from "@/lib/services/products";
 import { fetchOrders, updateOrderStatus, setOrderDeliveryDate, fetchContacts, replyToContact } from "@/lib/services/admin";
 import { formatINR, formatShortDate } from "@/lib/utils";
 import type { Category, ContactMessage, Order, OrderStatus, Product } from "@/lib/types";
@@ -201,6 +201,16 @@ function ProductsTab() {
               <ProductRow
                 product={p}
                 onEdit={() => setEditing(p.slug)}
+                onToggleStock={async () => {
+                  setBusy(true);
+                  const res = await setProductStock(p.slug, !p.inStock);
+                  setBusy(false);
+                  if (res.success) {
+                    await refresh(p.inStock ? `Marked "${p.name}" out of stock.` : `Marked "${p.name}" in stock.`);
+                  } else {
+                    setNotice({ kind: "err", text: `Stock update failed: ${res.error}` });
+                  }
+                }}
                 onDelete={async () => {
                   setBusy(true);
                   const res = await deleteProduct(p.slug);
@@ -224,11 +234,13 @@ function ProductsTab() {
 function ProductRow({
   product,
   onEdit,
+  onToggleStock,
   onDelete,
   busy,
 }: {
   product: Product;
   onEdit: () => void;
+  onToggleStock: () => void;
   onDelete: () => void;
   busy: boolean;
 }) {
@@ -260,6 +272,9 @@ function ProductRow({
         <p className="text-xs text-moss">{product.impact || "—"}</p>
       </div>
       <div className="flex gap-2">
+        <Button size="sm" variant="outline" onClick={onToggleStock} disabled={busy}>
+          {product.inStock ? "Mark out of stock" : "Mark in stock"}
+        </Button>
         <Button size="sm" variant="outline" onClick={onEdit}>Edit</Button>
         <Button size="sm" variant="ghost" onClick={onDelete} disabled={busy} className="text-red-600">
           Delete
@@ -310,10 +325,29 @@ function ProductEditor({
       : { ...emptyForm },
   );
   const [busy, setBusy] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
   const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
     setForm((prev) => ({ ...prev, [k]: v }));
+
+  const upload = async (file: File | undefined) => {
+    if (!file) return;
+    const slug = (product ? product.slug : form.slug).trim().toLowerCase().replace(/\s+/g, "-");
+    if (!slug) {
+      setError("Slug is required before uploading an image.");
+      return;
+    }
+    setError("");
+    setUploading(true);
+    const res = await uploadProductImage(slug, file);
+    setUploading(false);
+    if (res.url) {
+      set("image", res.url);
+    } else {
+      setError(res.error || "Upload failed.");
+    }
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -376,7 +410,35 @@ function ProductEditor({
           </select>
         </div>
         <Input label="Price (₹)" type="number" min={0} value={form.price} onChange={(e) => set("price", e.target.value)} />
-        <Input label="Image URL" value={form.image} onChange={(e) => set("image", e.target.value)} placeholder="/products/leaf-pen-stand.svg" />
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-moss">Product image</label>
+          <div className="flex items-center gap-2">
+            {form.image && (
+              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-kraft ring-1 ring-moss/20">
+                <Image src={form.image} alt="Current image" fill sizes="40px" className="object-cover" />
+              </div>
+            )}
+            <label className="cursor-pointer rounded-lg border border-moss/25 bg-white/60 px-3 py-2 text-sm text-leaf-deep hover:bg-white/80">
+              {uploading ? "Uploading…" : "Upload image"}
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
+                className="hidden"
+                disabled={uploading}
+                onChange={(e) => {
+                  upload(e.target.files?.[0]);
+                  e.currentTarget.value = "";
+                }}
+              />
+            </label>
+          </div>
+          <input
+            value={form.image}
+            onChange={(e) => set("image", e.target.value)}
+            placeholder="/products/leaf-pen-stand.svg or an uploaded image URL"
+            className={inputCls}
+          />
+        </div>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
@@ -430,6 +492,29 @@ function OrdersTab() {
 
   useEffect(() => {
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Live: orders created by customers and status changes appear instantly.
+  useEffect(() => {
+    if (!isSupabaseConfigured()) return;
+    const s = supabase as any;
+    if (typeof s.channel !== "function" || typeof s.removeChannel !== "function") return;
+    const channel = s
+      .channel("ecobrew-orders-live")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "ecobrew_orders" },
+        () => {
+          load();
+        },
+      )
+      .subscribe();
+    return () => {
+      try {
+        s.removeChannel(channel);
+      } catch {}
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
