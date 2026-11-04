@@ -1,10 +1,6 @@
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 
-// Product detail is DB-driven (slugs unknown at build time) and is a fully
-// client page: it resolves its slug via useParams() and reads the catalog from
-// context. Wrap children in a Suspense boundary so the route gets a fallback
-// shell during prerendering and the params resolve on demand.
 function DetailFallback() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-12 sm:py-20">

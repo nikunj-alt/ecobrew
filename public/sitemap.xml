@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://ecobrew-live.vercel.app/</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/products</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/about</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/process</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/contact</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/products/leaf-pen-stand</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/products/tea-cup-organiser</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/products/leaf-coaster-set</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/products/spoon-bookmark</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/products/leaf-notebook</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/products/mini-chair</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/products/mini-table</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/products/wall-leaf-tile</loc></url>
+  <url><loc>https://ecobrew-live.vercel.app/products/tea-soil-pots</loc></url>
+</urlset>
+XMLEOF && ls -l public/robots.txt public/sitemap.xml
