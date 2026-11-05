@@ -7,15 +7,14 @@ import Container from "@/components/layout/Container";
 import Button from "@/components/ui/Button";
 import OrderStatusBadge from "@/components/ui/OrderStatusBadge";
 import AccountModal from "@/components/auth/AccountModal";
-import { getLoggedInUser } from "@/lib/services/auth";
-import type { UserAccount } from "@/lib/services/auth";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
 import { formatINR, formatShortDate, orderEta } from "@/lib/utils";
 import type { ContactMessage, Order } from "@/lib/types";
 import { LeafIcon } from "@/components/icons";
 
 export default function MyOrdersPage() {
-  const [user, setUser] = useState<UserAccount | null>(null);
+  const { user, refresh } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [contacts, setContacts] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,15 +31,13 @@ export default function MyOrdersPage() {
   };
 
   useEffect(() => {
-    const u = getLoggedInUser();
-    setUser(u);
-    if (u) {
+    if (user) {
       load();
     } else {
       setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user?.userId]);
 
   if (loading) {
     return (
@@ -61,7 +58,7 @@ export default function MyOrdersPage() {
         <div className="mt-6">
           <Button onClick={() => setIsAuthOpen(true)}>Account / Login</Button>
         </div>
-        <AccountModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} onSuccess={(u) => { setUser(u); setLoading(true); load(); }} />
+        <AccountModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} onSuccess={() => { setLoading(true); refresh(); }} />
       </Container>
     );
   }

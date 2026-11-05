@@ -4,6 +4,7 @@ import { Fraunces, Public_Sans } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { ProductCatalogProvider } from "@/components/product/ProductCatalogProvider";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
@@ -34,14 +35,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${publicSans.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
-        <ProductCatalogProvider>
-          <CartProvider>
+        <AuthProvider>
+          <ProductCatalogProvider>
+            <CartProvider>
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
             <CartDrawer />
-          </CartProvider>
-        </ProductCatalogProvider>
+            </CartProvider>
+          </ProductCatalogProvider>
+        </AuthProvider>
       </body>
     </html>
   );

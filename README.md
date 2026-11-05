@@ -32,6 +32,22 @@ Before first use:
    `node -e "const{scryptSync,randomBytes}=require('crypto');const s=randomBytes(16).toString('base64');const h=scryptSync(process.argv[1],s,64).toString('base64');console.log('scrypt:'+s+':'+h)" 'your-password'`
    and set `ADMIN_PASSWORD_HASH` to it.
 
+## Google Sign-In setup
+
+"Continue with Google" uses Supabase Auth with PKCE (redirect to a Google login
+page, then back to `/auth/callback`). To make it work:
+
+1. Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (or
+   `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`) in the deployed environment.
+2. Set `NEXT_PUBLIC_SITE_URL` to your deployed origin (e.g. `https://ecobrew.vercel.app`).
+3. In **Supabase → Auth → URL Configuration → Redirect URLs**, add
+   `${NEXT_PUBLIC_SITE_URL}/auth/callback`.
+4. In **Supabase → Auth → Providers**, enable **Google**; in Google Cloud,
+   add `https://<project-ref>.supabase.co/auth/v1/callback` as an authorized
+   redirect URI.
+5. Set `ECOBREW_SESSION_SECRET` (>= 16 chars) — it signs the httpOnly session
+   cookie; without it the callback fails and Google login won't complete.
+
 ## Getting Started
 
 First, run the development server:

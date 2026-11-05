@@ -11,6 +11,8 @@ export interface UserAccount {
   city: string;
   state: string;
   pincode: string;
+  /** Which identity the server verified: "account" (local) or "google". */
+  provider?: string;
 }
 
 /** Normalize a user-chosen ID: lowercase, trimmed, restricted charset. */

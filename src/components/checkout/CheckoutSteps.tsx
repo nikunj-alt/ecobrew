@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart/CartProvider";
 import { buildOrderFromCart, placeOrder } from "@/lib/services/checkout";
-import { getLoggedInUser, UserAccount } from "@/lib/services/auth";
+import { useAuth } from "@/components/auth/AuthProvider";
 import type { CustomerDetails } from "@/lib/types";
 import Button from "@/components/ui/Button";
 import StepShipping from "./StepShipping";
@@ -28,7 +28,7 @@ export default function CheckoutSteps() {
   const router = useRouter();
   const { items, subtotal, clear } = useCart();
 
-  const [user, setUser] = useState<UserAccount | null>(null);
+  const { user, refresh, signOut } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const [step, setStep] = useState(0);
@@ -42,32 +42,22 @@ export default function CheckoutSteps() {
   const [cardErrors, setCardErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    const loggedUser = getLoggedInUser();
-    setUser(loggedUser);
-    if (loggedUser) {
-      setCustomer({
-        name: loggedUser.name || "",
-        email: loggedUser.email || "",
-        phone: loggedUser.phone || "",
-        address: loggedUser.address || "",
-        city: loggedUser.city || "",
-        state: loggedUser.state || "",
-        pincode: loggedUser.pincode || "",
-      });
+    if (user) {
+      setCustomer((prev) => ({
+        name: prev.name || user.name || "",
+        email: prev.email || user.email || "",
+        phone: prev.phone || user.phone || "",
+        address: prev.address || user.address || "",
+        city: prev.city || user.city || "",
+        state: prev.state || user.state || "",
+        pincode: prev.pincode || user.pincode || "",
+      }));
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.userId]);
 
-  const handleAuthSuccess = (loggedUser: UserAccount) => {
-    setUser(loggedUser);
-    setCustomer({
-      name: loggedUser.name || "",
-      email: loggedUser.email || "",
-      phone: loggedUser.phone || "",
-      address: loggedUser.address || "",
-      city: loggedUser.city || "",
-      state: loggedUser.state || "",
-      pincode: loggedUser.pincode || "",
-    });
+  const handleAuthSuccess = async () => {
+    await refresh();
   };
 
   const isPhone = (v: string) => /^[0-9+\s-]{10,15}$/.test(v.trim());
@@ -167,7 +157,7 @@ export default function CheckoutSteps() {
           </div>
           <button
             onClick={() => {
-              setUser(null);
+              signOut();
               setIsAuthModalOpen(true);
             }}
             className="text-leaf-deep underline hover:text-moss"

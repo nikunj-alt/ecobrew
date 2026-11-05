@@ -9,12 +9,12 @@ import CartCount from "@/components/cart/CartCount";
 import { CartIcon } from "@/components/icons";
 import Container from "./Container";
 import AccountModal from "@/components/auth/AccountModal";
-import { useSession } from "@/hooks/useSession";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 export default function Header() {
   const { openCart } = useCart();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const { user, signOut, refresh } = useSession();
+  const { user, signOut, refresh } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogout = async () => {

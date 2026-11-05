@@ -7,19 +7,15 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AccountModal from "@/components/auth/AccountModal";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/constants";
-import { getLoggedInUser, UserAccount } from "@/lib/services/auth";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { LeafIcon } from "@/components/icons";
 
 export default function ContactPage() {
-  const [user, setUser] = useState<UserAccount | null>(null);
+  const { user, refresh } = useAuth();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-
-  useEffect(() => {
-    setUser(getLoggedInUser());
-  }, []);
 
   // Prefill from the logged-in account.
   useEffect(() => {
@@ -30,7 +26,8 @@ export default function ContactPage() {
         email: prev.email || user.email || "",
       }));
     }
-  }, [user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.userId]);
 
   const setField = (field: string, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -143,14 +140,9 @@ export default function ContactPage() {
       <AccountModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
-        onSuccess={(u) => {
-          setUser(u);
+        onSuccess={() => {
           setIsAuthOpen(false);
-          setForm((prev) => ({
-            ...prev,
-            name: prev.name || u.name || "",
-            email: prev.email || u.email || "",
-          }));
+          refresh();
         }}
       />
     </Container>

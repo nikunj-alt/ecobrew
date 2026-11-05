@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Container from "@/components/layout/Container";
-import { getLoggedInUser } from "@/lib/services/auth";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { orderEta } from "@/lib/utils";
 import type { Order } from "@/lib/types";
 import { LeafIcon } from "@/components/icons";
@@ -11,11 +11,11 @@ import { LeafIcon } from "@/components/icons";
 const ACTIVE = new Set(["pending", "approved", "in_transit"]);
 
 export default function InTransitBand() {
+  const { user } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const user = getLoggedInUser();
     if (!user) {
       setLoaded(true);
       return;
@@ -31,7 +31,8 @@ export default function InTransitBand() {
     return () => {
       alive = false;
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.userId]);
 
   if (!loaded || orders.length === 0) return null;
 
