@@ -59,7 +59,13 @@ export default function Footer() {
       <div className="border-t border-oat/15 py-5">
         <Container className="flex flex-col items-center justify-between gap-2 text-xs text-oat/60 sm:flex-row">
           <span>© 2026 {SITE_NAME}. A student project.</span>
-          <span>Made from spent tea leaves, with care.</span>
+          <span className="flex items-center gap-4">
+            <Link href="/cookie-policy" className="transition-colors hover:text-oat">
+              Cookie policy
+            </Link>
+            <span aria-hidden="true">·</span>
+            <span>Made from spent tea leaves, with care.</span>
+          </span>
         </Container>
       </div>
     </footer>

@@ -8,6 +8,7 @@ import { AuthProvider } from "@/components/auth/AuthProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
+import CookieConsent from "@/components/cookie/CookieConsent";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <main className="flex-1">{children}</main>
             <Footer />
             <CartDrawer />
+            <CookieConsent />
             </CartProvider>
           </ProductCatalogProvider>
         </AuthProvider>
