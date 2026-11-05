@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Container from "@/components/layout/Container";
 import { getLoggedInUser } from "@/lib/services/auth";
-import { fetchOrdersForUser } from "@/lib/services/admin";
 import { orderEta } from "@/lib/utils";
 import type { Order } from "@/lib/types";
 import { LeafIcon } from "@/components/icons";
@@ -23,9 +22,10 @@ export default function InTransitBand() {
     }
     let alive = true;
     (async () => {
-      const fetched = await fetchOrdersForUser(user.userId);
+      const res = await fetch("/api/orders", { cache: "no-store" });
+      const data = (await res.json().catch(() => ({}))) as { orders?: Order[] };
       if (!alive) return;
-      setOrders(fetched.filter((o) => ACTIVE.has(o.status)));
+      setOrders((data.orders ?? []).filter((o) => ACTIVE.has(o.status)));
       setLoaded(true);
     })();
     return () => {

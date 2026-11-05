@@ -1,6 +1,5 @@
 "use client";
 
-// import type { Metadata } from "next"; // only needed by metadata.ts; imported there to keep this client component clean
 import { useState, useEffect } from "react";
 import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -9,12 +8,7 @@ import Button from "@/components/ui/Button";
 import AccountModal from "@/components/auth/AccountModal";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/constants";
 import { getLoggedInUser, UserAccount } from "@/lib/services/auth";
-import { submitContact } from "@/lib/services/admin";
 import { LeafIcon } from "@/components/icons";
-
-// Contact meta is generated server-side via generateMetadata in
-// src/app/contact/metadata.ts so crawlers see the right heading before
-// hydration (this page is a client component).
 
 export default function ContactPage() {
   const [user, setUser] = useState<UserAccount | null>(null);
@@ -57,13 +51,17 @@ export default function ContactPage() {
     }
 
     setStatus("sending");
-    const res = await submitContact({
-      userId: user.userId,
-      name: form.name.trim(),
-      email: form.email.trim(),
-      message: form.message.trim(),
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        message: form.message.trim(),
+      }),
     });
-    if (res.success) {
+    const data = (await res.json().catch(() => ({}))) as { ok?: boolean };
+    if (res.ok && data.ok) {
       setStatus("sent");
       setForm((prev) => ({ ...prev, message: "" }));
     } else {

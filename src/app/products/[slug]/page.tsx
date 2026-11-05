@@ -12,29 +12,19 @@ import { formatINR } from "@/lib/utils";
 import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
 import { LeafIcon } from "@/components/icons";
 
-const slugLabels: Record<string, string> = {
-  "leaf-pen-stand": "Leaf Pen Stand",
-  "tea-cup-organiser": "Tea Cup Organiser",
-  "leaf-coaster-set": "Leaf Coaster Set",
-  "spoon-bookmark": "Spoon Bookmark",
-  "leaf-notebook": "Leaf Notebook",
-  "mini-chair": "Mini Chair",
-  "mini-table": "Mini Table",
-  "wall-leaf-tile": "Wall Leaf Tile",
-  "tea-soil-pots": "Tea-Soil Pots",
-};
-
 export default function ProductDetailPage() {
   const params = useParams<{ slug: string }>();
   const slug = params?.slug ?? "";
   const { getProduct, getRelatedProducts } = useProductCatalog();
   const product = getProduct(slug);
+
   if (!product) notFound();
 
   const related = getRelatedProducts(product.slug, product.category);
 
   return (
     <Container className="py-12 sm:py-20">
+      {/* Breadcrumb */}
       <nav className="mb-8 flex items-center gap-2 text-sm text-moss" aria-label="Breadcrumb">
         <Link href="/products" className="hover:text-leaf-deep">Products</Link>
         <span aria-hidden="true">/</span>

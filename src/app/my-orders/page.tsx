@@ -7,8 +7,8 @@ import Container from "@/components/layout/Container";
 import Button from "@/components/ui/Button";
 import OrderStatusBadge from "@/components/ui/OrderStatusBadge";
 import AccountModal from "@/components/auth/AccountModal";
-import { getLoggedInUser, UserAccount } from "@/lib/services/auth";
-import { fetchOrdersForUser, fetchContactsForUser } from "@/lib/services/admin";
+import { getLoggedInUser } from "@/lib/services/auth";
+import type { UserAccount } from "@/lib/services/auth";
 import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
 import { formatINR, formatShortDate, orderEta } from "@/lib/utils";
 import type { ContactMessage, Order } from "@/lib/types";
@@ -22,13 +22,12 @@ export default function MyOrdersPage() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const { getProduct } = useProductCatalog();
 
-  const load = async (u: UserAccount) => {
-    const [fetchedOrders, fetchedContacts] = await Promise.all([
-      fetchOrdersForUser(u.userId),
-      fetchContactsForUser(u.userId),
-    ]);
-    setOrders(fetchedOrders);
-    setContacts(fetchedContacts);
+  const load = async () => {
+    const [oRes, cRes] = await Promise.all([fetch("/api/orders"), fetch("/api/contacts")]);
+    const oData = (await oRes.json().catch(() => ({}))) as { orders?: Order[] };
+    const cData = (await cRes.json().catch(() => ({}))) as { contacts?: ContactMessage[] };
+    setOrders(oData.orders ?? []);
+    setContacts(cData.contacts ?? []);
     setLoading(false);
   };
 
@@ -36,7 +35,7 @@ export default function MyOrdersPage() {
     const u = getLoggedInUser();
     setUser(u);
     if (u) {
-      load(u);
+      load();
     } else {
       setLoading(false);
     }
@@ -62,7 +61,7 @@ export default function MyOrdersPage() {
         <div className="mt-6">
           <Button onClick={() => setIsAuthOpen(true)}>Account / Login</Button>
         </div>
-        <AccountModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} onSuccess={(u) => { setUser(u); setLoading(true); load(u); }} />
+        <AccountModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} onSuccess={(u) => { setUser(u); setLoading(true); load(); }} />
       </Container>
     );
   }

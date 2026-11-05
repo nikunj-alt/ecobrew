@@ -1,4 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EcoBrew
+
+A Next.js e-commerce storefront (App Router, TypeScript, Tailwind) for a
+Bal Vigyan fair project. Uses Supabase (Postgres + Storage) for persistence.
+
+## Security model
+
+All database **writes** (order placement, admin product/order/contact actions,
+image uploads, account signup/login) go through server-side API routes under
+`src/app/api/` that authenticate the caller (HMAC-signed httpOnly account /
+admin / Google cookies). Row Level Security is locked down so the **anon**
+key can only read products and submit contact messages — it cannot read or
+write users, orders, or the contact inbox.
+
+**Required environment variables** (see `.env.example`):
+
+| Variable | Public? | Purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | yes | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | yes | Public anon/publishable key |
+| `NEXT_PUBLIC_SITE_URL` | yes | Deployed origin (OAuth redirect) |
+| `ECOBREW_SESSION_SECRET` | no | Signs all httpOnly session cookies |
+| `SUPABASE_SERVICE_ROLE_KEY` | no | Server-only writes (bypasses RLS) |
+| `ADMIN_PASSWORD_HASH` | no | Admin password as an scrypt hash (no default) |
+
+Before first use:
+
+1. Put real values in `.env.local` (copy `.env.example`).
+2. Run `supabase/migrations/20261105000000_security_hardening.sql` in the
+   Supabase SQL editor to apply the RLS lockdown.
+3. Generate an admin hash with
+   `node -e "const{scryptSync,randomBytes}=require('crypto');const s=randomBytes(16).toString('base64');const h=scryptSync(process.argv[1],s,64).toString('base64');console.log('scrypt:'+s+':'+h)" 'your-password'`
+   and set `ADMIN_PASSWORD_HASH` to it.
 
 ## Getting Started
 

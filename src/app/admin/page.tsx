@@ -1,32 +1,36 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Container from "@/components/layout/Container";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import OrderStatusBadge from "@/components/ui/OrderStatusBadge";
-import { supabase, isSupabaseConfigured } from "@/lib/supabase";
-import { ADMIN_PASSWORD, ADMIN_SESSION_KEY } from "@/lib/constants";
 import { categories, categoryLabels } from "@/lib/data/products";
 import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
-import { upsertProduct, deleteProduct, setProductStock, uploadProductImage } from "@/lib/services/products";
-import { fetchOrders, updateOrderStatus, setOrderDeliveryDate, fetchContacts, replyToContact } from "@/lib/services/admin";
 import { formatINR, formatShortDate } from "@/lib/utils";
 import type { Category, ContactMessage, Order, OrderStatus, Product } from "@/lib/types";
 import { LeafIcon, CheckIcon } from "@/components/icons";
 
 type Tab = "products" | "orders" | "contacts";
 
+async function apiFetch(path: string, init?: RequestInit) {
+  const res = await fetch(path, {
+    ...init,
+    headers: init?.body instanceof FormData ? undefined : { "Content-Type": "application/json" },
+  });
+  return { res, data: (await res.json().catch(() => ({}))) as any };
+}
+
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    try {
-      if (window.sessionStorage.getItem(ADMIN_SESSION_KEY) === "1") setAuthed(true);
-    } catch {}
-    setChecked(true);
+    apiFetch("/api/admin/auth").then(({ data }) => {
+      setAuthed(Boolean(data.authed));
+      setChecked(true);
+    });
   }, []);
 
   if (!checked) {
@@ -37,22 +41,28 @@ export default function AdminPage() {
     return <AdminGate onSuccess={() => setAuthed(true)} />;
   }
 
-  return <Dashboard />;
+  return <Dashboard onLogout={() => setAuthed(false)} />;
 }
 
 function AdminGate({ onSuccess }: { onSuccess: () => void }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
-      try {
-        window.sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
-      } catch {}
+    if (!password) return;
+    setBusy(true);
+    setError("");
+    const { res, data } = await apiFetch("/api/admin/auth", {
+      method: "POST",
+      body: JSON.stringify({ password }),
+    });
+    setBusy(false);
+    if (res.ok && data.ok) {
       onSuccess();
     } else {
-      setError("Incorrect password.");
+      setError(data.error || "Incorrect password.");
     }
   };
 
@@ -76,15 +86,20 @@ function AdminGate({ onSuccess }: { onSuccess: () => void }) {
             }}
           />
           {error && <p className="text-sm text-red-600">{error}</p>}
-          <Button type="submit" fullWidth>Unlock</Button>
+          <Button type="submit" fullWidth disabled={busy}>{busy ? "Checking…" : "Unlock"}</Button>
         </form>
       </div>
     </Container>
   );
 }
 
-function Dashboard() {
+function Dashboard({ onLogout }: { onLogout: () => void }) {
   const [tab, setTab] = useState<Tab>("products");
+
+  const logout = async () => {
+    await apiFetch("/api/admin/auth", { method: "DELETE" });
+    onLogout();
+  };
 
   return (
     <Container className="py-10 sm:py-14">
@@ -93,11 +108,7 @@ function Dashboard() {
           <p className="text-sm text-moss">EcoBrew</p>
           <h1 className="text-2xl font-medium text-leaf-deep">Admin panel</h1>
         </div>
-        {!isSupabaseConfigured() && (
-          <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
-            ⚠ Supabase not configured — changes won't persist
-          </span>
-        )}
+        <Button size="sm" variant="ghost" onClick={logout}>Log out</Button>
       </div>
 
       <div className="mt-6 flex gap-1 rounded-xl bg-white/50 p-1">
@@ -127,8 +138,8 @@ function OrdersCount() {
   const [count, setCount] = useState<number | null>(null);
   useEffect(() => {
     let alive = true;
-    fetchOrders().then((orders) => {
-      if (alive) setCount(orders.length);
+    apiFetch("/api/admin/orders").then(({ data }) => {
+      if (alive) setCount(data.orders?.length ?? null);
     });
     return () => {
       alive = false;
@@ -152,6 +163,8 @@ function ProductsTab() {
     setNotice({ kind: "ok", text: msg });
     setTimeout(() => setNotice(null), 3000);
   };
+
+  const showError = (msg: string) => setNotice({ kind: "err", text: msg });
 
   if (loading) {
     return <p className="text-sm text-moss">Loading products…</p>;
@@ -203,22 +216,28 @@ function ProductsTab() {
                 onEdit={() => setEditing(p.slug)}
                 onToggleStock={async () => {
                   setBusy(true);
-                  const res = await setProductStock(p.slug, !p.inStock);
+                  const { res, data } = await apiFetch(`/api/admin/products/${p.slug}`, {
+                    method: "PATCH",
+                    body: JSON.stringify({ inStock: !p.inStock }),
+                  });
                   setBusy(false);
-                  if (res.success) {
+                  if (res.ok && data.ok) {
                     await refresh(p.inStock ? `Marked "${p.name}" out of stock.` : `Marked "${p.name}" in stock.`);
                   } else {
-                    setNotice({ kind: "err", text: `Stock update failed: ${res.error}` });
+                    showError(`Stock update failed: ${data.error}`);
                   }
                 }}
                 onDelete={async () => {
+                  if (!window.confirm(`Delete "${p.name}" permanently? This cannot be undone.`)) return;
                   setBusy(true);
-                  const res = await deleteProduct(p.slug);
+                  const { res, data } = await apiFetch(`/api/admin/products/${p.slug}`, {
+                    method: "DELETE",
+                  });
                   setBusy(false);
-                  if (res.success) {
+                  if (res.ok && data.ok) {
                     await refresh(`Deleted "${p.name}".`);
                   } else {
-                    setNotice({ kind: "err", text: `Delete failed: ${res.error}` });
+                    showError(`Delete failed: ${data.error}`);
                   }
                 }}
                 busy={busy}
@@ -340,12 +359,15 @@ function ProductEditor({
     }
     setError("");
     setUploading(true);
-    const res = await uploadProductImage(slug, file);
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("slug", slug);
+    const { res, data } = await apiFetch("/api/admin/upload-image", { method: "POST", body: fd });
     setUploading(false);
-    if (res.url) {
-      set("image", res.url);
+    if (res.ok && data.url) {
+      set("image", data.url);
     } else {
-      setError(res.error || "Upload failed.");
+      setError(data.error || "Upload failed.");
     }
   };
 
@@ -358,23 +380,26 @@ function ProductEditor({
     }
     setBusy(true);
     setError("");
-    const res = await upsertProduct({
-      slug,
-      name: form.name.trim(),
-      category: form.category,
-      price: Number(form.price || 0),
-      shortDescription: form.shortDescription.trim(),
-      description: form.description.trim(),
-      image: form.image.trim() || "/logo.png",
-      impact: form.impact.trim(),
-      inStock: form.inStock,
-      featured: form.featured,
+    const { res, data } = await apiFetch("/api/admin/products", {
+      method: "POST",
+      body: JSON.stringify({
+        slug,
+        name: form.name.trim(),
+        category: form.category,
+        price: Number(form.price || 0),
+        shortDescription: form.shortDescription.trim(),
+        description: form.description.trim(),
+        image: form.image.trim() || "/logo.png",
+        impact: form.impact.trim(),
+        inStock: form.inStock,
+        featured: form.featured,
+      }),
     });
     setBusy(false);
-    if (res.success) {
+    if (res.ok && data.ok) {
       await onSaved();
     } else {
-      setError(res.error || "Could not save product.");
+      setError(data.error || "Could not save product.");
     }
   };
 
@@ -486,7 +511,8 @@ function OrdersTab() {
   const { getProduct } = useProductCatalog();
 
   const load = async () => {
-    setOrders(await fetchOrders());
+    const { data } = await apiFetch("/api/admin/orders");
+    setOrders(data.orders ?? []);
     setLoading(false);
   };
 
@@ -495,35 +521,24 @@ function OrdersTab() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Live: orders created by customers and status changes appear instantly.
+  // Light polling keeps the board live (new customer orders + status changes)
+  // without exposing the orders table to the anon role via realtime.
   useEffect(() => {
-    if (!isSupabaseConfigured()) return;
-    const s = supabase as any;
-    if (typeof s.channel !== "function" || typeof s.removeChannel !== "function") return;
-    const channel = s
-      .channel("ecobrew-orders-live")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "ecobrew_orders" },
-        () => {
-          load();
-        },
-      )
-      .subscribe();
-    return () => {
-      try {
-        s.removeChannel(channel);
-      } catch {}
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const t = setInterval(() => {
+      apiFetch("/api/admin/orders").then(({ data }) => {
+        setOrders(data.orders ?? []);
+        setLoading(false);
+      });
+    }, 15000);
+    return () => clearInterval(t);
   }, []);
 
-  const act = async (id: string, fn: () => Promise<{ success: boolean; error?: string }>) => {
+  const act = async (id: string, fn: () => Promise<{ ok: boolean; error?: string }>) => {
     setBusyId(id);
-    const res = await fn();
+    const { ok, error } = await fn();
     setBusyId(null);
-    if (res.success) await load();
-    else alert(`Action failed: ${res.error}`);
+    if (ok) await load();
+    else alert(`Action failed: ${error}`);
   };
 
   if (loading) return <p className="text-sm text-moss">Loading orders…</p>;
@@ -540,14 +555,27 @@ function OrdersTab() {
           order={o}
           busy={busyId === o.id}
           getProduct={getProduct}
-          onApprove={() => act(o.id, () => updateOrderStatus(o.id, "approved"))}
-          onSetDate={(date) => act(o.id, () => setOrderDeliveryDate(o.id, date))}
-          onDeliver={() => act(o.id, () => updateOrderStatus(o.id, "delivered"))}
-          onCancel={() => act(o.id, () => updateOrderStatus(o.id, "cancelled"))}
+          onApprove={() => act(o.id, () => setStatus(o.id, "approved"))}
+          onSetDate={(date) =>
+            act(o.id, () => apiFetch(`/api/admin/orders/${o.id}/delivery-date`, {
+              method: "PATCH",
+              body: JSON.stringify({ date }),
+            }).then(({ res, data }) => ({ ok: res.ok && data.ok, error: data.error })))
+          }
+          onDeliver={() => act(o.id, () => setStatus(o.id, "delivered"))}
+          onCancel={() => act(o.id, () => setStatus(o.id, "cancelled"))}
         />
       ))}
     </div>
   );
+}
+
+async function setStatus(id: string, status: OrderStatus) {
+  const { res, data } = await apiFetch(`/api/admin/orders/${id}/status`, {
+    method: "PATCH",
+    body: JSON.stringify({ status }),
+  });
+  return { ok: res.ok && data.ok, error: data.error };
 }
 
 function OrderCard({
@@ -638,7 +666,8 @@ function ContactsTab() {
   const [busy, setBusy] = useState(false);
 
   const load = async () => {
-    setContacts(await fetchContacts());
+    const { data } = await apiFetch("/api/admin/contacts");
+    setContacts(data.contacts ?? []);
     setLoading(false);
   };
 
@@ -656,14 +685,17 @@ function ContactsTab() {
   const sendReply = async (id: string) => {
     if (!replyText.trim()) return;
     setBusy(true);
-    const res = await replyToContact(id, replyText.trim());
+    const { res, data } = await apiFetch(`/api/admin/contacts/${id}/reply`, {
+      method: "POST",
+      body: JSON.stringify({ reply: replyText.trim() }),
+    });
     setBusy(false);
-    if (res.success) {
+    if (res.ok && data.ok) {
       setReplyFor(null);
       setReplyText("");
       await load();
     } else {
-      alert(`Reply failed: ${res.error}`);
+      alert(`Reply failed: ${data.error}`);
     }
   };
 

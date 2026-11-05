@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import type { FormEvent } from "react";
-import { loginUser, registerUser, checkUserIdExists, UserAccount } from "@/lib/services/auth";
+import { setLoggedInUser } from "@/lib/services/auth";
+import type { UserAccount } from "@/lib/services/auth";
 import { useSession } from "@/hooks/useSession";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
@@ -40,7 +41,10 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
       return;
     }
     setIdStatus("checking");
-    const taken = await checkUserIdExists(clean);
+    const taken = await fetch(`/api/auth/check-userid?userId=${encodeURIComponent(clean)}`)
+      .then((r) => r.json())
+      .then((d) => Boolean(d.taken))
+      .catch(() => false);
     setIdStatus(taken ? "taken" : "ok");
   }, []);
 
@@ -67,13 +71,19 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
     e.preventDefault();
     setLoading(true);
     setError("");
-    const res = await loginUser(userId, password);
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, password }),
+    });
+    const data = (await res.json().catch(() => ({}))) as { ok?: boolean; user?: UserAccount; error?: string };
     setLoading(false);
-    if (res.success && res.user) {
-      if (onSuccess) onSuccess(res.user);
+    if (res.ok && data.ok && data.user) {
+      setLoggedInUser(data.user);
+      if (onSuccess) onSuccess(data.user);
       onClose();
     } else {
-      setError(res.error || "Login failed.");
+      setError(data.error || "Login failed.");
     }
   };
 
@@ -93,8 +103,12 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
       setLoading(false);
       return;
     }
-    // Final uniqueness guarantee right before insert
-    if (await checkUserIdExists(cleanId)) {
+    // Final uniqueness guarantee right before insert (server-checked).
+    const preTaken = await fetch(`/api/auth/check-userid?userId=${encodeURIComponent(cleanId)}`)
+      .then((r) => r.json())
+      .then((d) => Boolean(d.taken))
+      .catch(() => false);
+    if (preTaken) {
       setError(`User ID "${cleanId}" is already taken. Every user must have a unique ID — try another.`);
       setIdStatus("taken");
       setLoading(false);
@@ -113,13 +127,19 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
       pincode,
     };
 
-    const res = await registerUser(newAccount);
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newAccount),
+    });
+    const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
     setLoading(false);
-    if (res.success) {
+    if (res.ok && data.ok) {
+      setLoggedInUser(newAccount);
       if (onSuccess) onSuccess(newAccount);
       onClose();
     } else {
-      setError(res.error || "Registration failed. User ID might already exist.");
+      setError(data.error || "Registration failed. User ID might already exist.");
     }
   };
 

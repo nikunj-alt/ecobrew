@@ -1,17 +1,11 @@
 import type { CartItem, CustomerDetails, Order } from "../types";
-import { getLoggedInUser, saveOrderToSupabase } from "./auth";
 
 /**
  * Order-building is isolated here so a real payment gateway / database can
- * slot in later without touching the UI. `placeOrder` currently simulates
- * a successful order and returns a generated order reference.
- *
- * Clear seam for future integration:
- *   - Swap `buildOrderFromCart` internals to read from a real cart/DB.
- *   - Replace `placeOrder` with a call to a payment gateway or API route.
+ * slot in later without touching the UI. `placeOrder` persists through the
+ * server-side /api/checkout route (which authenticates the caller via the
+ * httpOnly session cookie), so no client-side code talks to the orders table.
  */
-
-let orderCounter = 0;
 
 export function buildOrderFromCart(
   items: CartItem[],
@@ -27,30 +21,22 @@ export function buildOrderFromCart(
   };
 }
 
-export function generateOrderId(): string {
-  orderCounter += 1;
-  const ts = Date.now().toString(36).toUpperCase();
-  return `ECB-${ts}-${orderCounter}`;
-}
-
 export async function placeOrder(order: Omit<Order, "id" | "createdAt">): Promise<Order> {
-  // SIMULATED: a real implementation would call a payment gateway and persist
-  // the order to a database here. No real charge is made.
+  // SIMULATED payment — no real charge. The order is recorded by the server.
   await new Promise((resolve) => setTimeout(resolve, 600));
 
-  const user = getLoggedInUser();
-  const finalOrder: Order = {
-    ...order,
-    userId: user?.userId,
-    id: generateOrderId(),
-    createdAt: new Date().toISOString(),
-    status: "pending",
-    deliveryDate: null,
-  };
-
-  if (user) {
-    await saveOrderToSupabase(finalOrder, user.userId);
+  const res = await fetch("/api/checkout", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      items: order.items,
+      subtotal: order.subtotal,
+      customer: order.customer,
+    }),
+  });
+  const data = (await res.json().catch(() => ({}))) as { order?: Order; error?: string };
+  if (!res.ok || !data.order) {
+    throw new Error(data.error || "Could not place your order.");
   }
-
-  return finalOrder;
+  return data.order;
 }

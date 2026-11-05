@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://ecobrew-live.vercel.app/sitemap.xml
