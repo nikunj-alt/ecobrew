@@ -23,7 +23,7 @@ function requestGeolocation(): Promise<{ lat: number; lon: number } | null> {
       () => resolve(null),
       {
         enableHighAccuracy: false,
-        timeout: 10000,
+        timeout: 6000,
         maximumAge: 5 * 60 * 1000,
       },
     );
@@ -75,7 +75,22 @@ export function useWeather() {
   );
 
   useEffect(() => {
-    load(true);
+    // Defer the first weather fetch until the browser is idle so the rest of
+    // the page paints immediately — the weather card shows a skeleton meanwhile.
+    const defer = (fn: () => void): number => {
+      const w = window as unknown as {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      };
+      if (typeof w.requestIdleCallback === "function") {
+        return w.requestIdleCallback(fn, { timeout: 1200 });
+      }
+      return window.setTimeout(fn, 300);
+    };
+
+    const idle = defer(() => {
+      load(true);
+    });
+
     const interval = setInterval(() => load(), REFRESH_MS);
     const onFocus = () => {
       if (Date.now() - lastFetch.current > STALE_MS) load();
@@ -84,6 +99,12 @@ export function useWeather() {
     return () => {
       clearInterval(interval);
       window.removeEventListener("focus", onFocus);
+      const w = window as unknown as { cancelIdleCallback?: (id: number) => void };
+      if (typeof w.cancelIdleCallback === "function") {
+        w.cancelIdleCallback(idle);
+      } else {
+        window.clearTimeout(idle);
+      }
     };
   }, [load]);
 

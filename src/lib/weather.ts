@@ -35,6 +35,15 @@ export interface WeatherData {
 const DEFAULT_LAT = 22.7196;
 const DEFAULT_LON = 75.8577; // Indore, Madhya Pradesh
 
+// Short-lived in-memory cache so repeat visits don't re-hit the external
+// weather + reverse-geocoding APIs (the main source of home-page latency).
+const WEATHER_CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+const weatherCache = new Map<string, { at: number; data: WeatherData }>();
+
+function weatherCacheKey(lat: number, lon: number): string {
+  return `${lat.toFixed(2)},${lon.toFixed(2)}`;
+}
+
 interface WmoInfo {
   label: string;
   icon: string;
@@ -138,6 +147,12 @@ export async function fetchWeather(lat?: number, lon?: number): Promise<WeatherD
   const useLat = typeof lat === "number" && Number.isFinite(lat) ? lat : DEFAULT_LAT;
   const useLon = typeof lon === "number" && Number.isFinite(lon) ? lon : DEFAULT_LON;
 
+  const key = weatherCacheKey(useLat, useLon);
+  const cached = weatherCache.get(key);
+  if (cached && Date.now() - cached.at < WEATHER_CACHE_TTL_MS) {
+    return cached.data;
+  }
+
   const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${useLat}&longitude=${useLon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,cloud_cover,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&forecast_days=7&timezone=Asia%2FKolkata`;
 
   const [fc, aq] = await Promise.all([
@@ -190,10 +205,18 @@ export async function fetchWeather(lat?: number, lon?: number): Promise<WeatherD
     ? Number((aq.current as Record<string, unknown>).us_aqi ?? null)
     : null;
 
+  // Fast path: skip reverse-geocoding for the default Indore location (the
+  // common case) — that external call was a big chunk of the latency.
+  const coordsProvided = typeof lat === "number" && typeof lon === "number";
   let cityName = "Indore, India";
-  if (typeof lat === "number" && typeof lon === "number") {
+  if (
+    coordsProvided &&
+    (Math.abs(useLat - DEFAULT_LAT) > 0.01 || Math.abs(useLon - DEFAULT_LON) > 0.01)
+  ) {
     cityName = (await reverseGeocode(useLat, useLon)) ?? "Your location";
   }
 
-  return { city: cityName, updatedAt: new Date(), current, daily, aqi };
+  const data: WeatherData = { city: cityName, updatedAt: new Date(), current, daily, aqi };
+  weatherCache.set(key, { at: Date.now(), data });
+  return data;
 }
