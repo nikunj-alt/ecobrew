@@ -18,10 +18,12 @@ export default function StepShipping({
   values,
   errors,
   onChange,
+  showInlineLocation = true,
 }: {
   values: CustomerDetails;
   errors: Partial<Record<keyof CustomerDetails, string>>;
   onChange: (field: keyof CustomerDetails, value: string) => void;
+  showInlineLocation?: boolean;
 }) {
   return (
     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -86,22 +88,24 @@ export default function StepShipping({
         onChange={(e) => onChange("state", e.target.value)}
       />
 
-      <div className="sm:col-span-2">
-        <LiveLocationButton
-          align="left"
-          compact
-          className="rounded-xl border border-dashed border-leaf-deep/25 bg-white/50 p-3"
-          applyTo={(loc) => {
-            if (loc.address) onChange("address", loc.address);
-            if (loc.city) onChange("city", loc.city);
-            if (loc.state) onChange("state", loc.state);
-            if (loc.pincode) onChange("pincode", loc.pincode);
-          }}
-        />
-        <p className="mt-1.5 text-xs text-stone">
-          Auto-fills your address fields from your current location.
-        </p>
-      </div>
+      {showInlineLocation && (
+        <div className="sm:col-span-2">
+          <LiveLocationButton
+            align="left"
+            compact
+            className="rounded-xl border border-dashed border-leaf-deep/25 bg-white/50 p-3"
+            applyTo={(loc) => {
+              if (loc.address) onChange("address", loc.address);
+              if (loc.city) onChange("city", loc.city);
+              if (loc.state) onChange("state", loc.state);
+              if (loc.pincode) onChange("pincode", loc.pincode);
+            }}
+          />
+          <p className="mt-1.5 text-xs text-stone">
+            Auto-fills your address fields from your current location.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

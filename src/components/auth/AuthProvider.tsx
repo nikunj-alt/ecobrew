@@ -67,11 +67,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         userId: me.userId || "",
         name: me.name || "",
         email: me.email || "",
-        phone: "",
-        address: "",
-        city: "",
-        state: "",
-        pincode: "",
+        phone: me.phone || "",
+        address: me.address || "",
+        city: me.city || "",
+        state: me.state || "",
+        pincode: me.pincode || "",
       };
 
       // For local accounts, enrich with the full profile kept client-side

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart/CartProvider";
 import { buildOrderFromCart, placeOrder } from "@/lib/services/checkout";
@@ -9,6 +9,7 @@ import type { CustomerDetails } from "@/lib/types";
 import Button from "@/components/ui/Button";
 import { getSavedLiveLocation } from "@/hooks/useLiveLocation";
 import { reverseGeocode } from "@/lib/location";
+import LiveLocationButton from "@/components/location/LiveLocationButton";
 import StepShipping from "./StepShipping";
 import StepPayment from "./StepPayment";
 import StepReview from "./StepReview";
@@ -42,6 +43,8 @@ export default function CheckoutSteps() {
 
   const [card, setCard] = useState({ cardName: "", cardNumber: "", expiry: "", cvv: "" });
   const [cardErrors, setCardErrors] = useState<Record<string, string>>({});
+
+  const [hasSavedLocation, setHasSavedLocation] = useState(() => Boolean(getSavedLiveLocation()));
 
   useEffect(() => {
     if (!user) return;
@@ -82,6 +85,41 @@ export default function CheckoutSteps() {
 
   const handleAuthSuccess = async () => {
     await refresh();
+  };
+
+  // Persist a captured live location to the signed-in user's server profile so
+  // it's remembered across devices/sessions (especially Google OAuth users).
+  const saveProfileLocation = useCallback(
+    (loc: { address?: string; city?: string; state?: string; pincode?: string }) => {
+      if (!user) return;
+      fetch("/api/auth/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          address: loc.address || "",
+          city: loc.city || "",
+          state: loc.state || "",
+          pincode: loc.pincode || "",
+        }),
+      }).catch(() => {
+        /* best-effort persistence */
+      });
+    },
+    [user],
+  );
+
+  const applyLiveLocation = (loc: {
+    address?: string;
+    city?: string;
+    state?: string;
+    pincode?: string;
+  }) => {
+    if (loc.address) setCustomerField("address", loc.address);
+    if (loc.city) setCustomerField("city", loc.city);
+    if (loc.state) setCustomerField("state", loc.state);
+    if (loc.pincode) setCustomerField("pincode", loc.pincode);
+    setHasSavedLocation(true);
+    saveProfileLocation(loc);
   };
 
   const isPhone = (v: string) => /^[0-9+\s-]{10,15}$/.test(v.trim());
@@ -220,7 +258,25 @@ export default function CheckoutSteps() {
 
       <div className="rounded-biophilic shadow-soft ring-1 ring-leaf-deep/8 bg-white/60 p-6 sm:p-8">
         {step === 0 && (
-          <StepShipping values={customer} errors={customerErrors} onChange={setCustomerField} />
+          <>
+            {user && !hasSavedLocation && (
+              <div className="mb-6 rounded-xl border border-leaf-deep/15 bg-leaf-deep/5 p-5">
+                <p className="text-sm font-semibold text-leaf-deep">Set your delivery location</p>
+                <p className="mt-1 text-xs text-moss">
+                  One tap fills your pincode, address, city and state — no typing required.
+                </p>
+                <div className="mt-3">
+                  <LiveLocationButton align="left" compact applyTo={applyLiveLocation} />
+                </div>
+              </div>
+            )}
+            <StepShipping
+              values={customer}
+              errors={customerErrors}
+              onChange={setCustomerField}
+              showInlineLocation={hasSavedLocation}
+            />
+          </>
         )}
         {step === 1 && (
           <StepPayment
