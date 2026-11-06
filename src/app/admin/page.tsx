@@ -14,12 +14,24 @@ import { LeafIcon, CheckIcon } from "@/components/icons";
 
 type Tab = "products" | "orders" | "contacts";
 
-async function apiFetch(path: string, init?: RequestInit) {
+interface AdminApiData {
+  authed?: boolean;
+  ok?: boolean;
+  error?: string;
+  url?: string;
+  orders?: Order[];
+  contacts?: ContactMessage[];
+}
+
+async function apiFetch(
+  path: string,
+  init?: RequestInit,
+): Promise<{ res: Response; data: AdminApiData }> {
   const res = await fetch(path, {
     ...init,
     headers: init?.body instanceof FormData ? undefined : { "Content-Type": "application/json" },
   });
-  return { res, data: (await res.json().catch(() => ({}))) as any };
+  return { res, data: (await res.json().catch(() => ({}))) as AdminApiData };
 }
 
 export default function AdminPage() {
@@ -517,8 +529,16 @@ function OrdersTab() {
   };
 
   useEffect(() => {
-    load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    let alive = true;
+    (async () => {
+      const { data } = await apiFetch("/api/admin/orders");
+      if (!alive) return;
+      setOrders(data.orders ?? []);
+      setLoading(false);
+    })();
+    return () => {
+      alive = false;
+    };
   }, []);
 
   // Light polling keeps the board live (new customer orders + status changes)
@@ -560,7 +580,7 @@ function OrdersTab() {
             act(o.id, () => apiFetch(`/api/admin/orders/${o.id}/delivery-date`, {
               method: "PATCH",
               body: JSON.stringify({ date }),
-            }).then(({ res, data }) => ({ ok: res.ok && data.ok, error: data.error })))
+            }).then(({ res, data }) => ({ ok: !!(res.ok && data.ok), error: data.error })))
           }
           onDeliver={() => act(o.id, () => setStatus(o.id, "delivered"))}
           onCancel={() => act(o.id, () => setStatus(o.id, "cancelled"))}
@@ -575,7 +595,7 @@ async function setStatus(id: string, status: OrderStatus) {
     method: "PATCH",
     body: JSON.stringify({ status }),
   });
-  return { ok: res.ok && data.ok, error: data.error };
+  return { ok: !!(res.ok && data.ok), error: data.error };
 }
 
 function OrderCard({
@@ -672,8 +692,16 @@ function ContactsTab() {
   };
 
   useEffect(() => {
-    load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    let alive = true;
+    (async () => {
+      const { data } = await apiFetch("/api/admin/contacts");
+      if (!alive) return;
+      setContacts(data.contacts ?? []);
+      setLoading(false);
+    })();
+    return () => {
+      alive = false;
+    };
   }, []);
 
   if (loading) return <p className="text-sm text-moss">Loading messages…</p>;

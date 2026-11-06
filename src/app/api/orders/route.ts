@@ -3,8 +3,9 @@ import { getSupabaseServer } from "@/lib/services/supabase-server";
 import { getAccountSession } from "@/lib/auth/account";
 import { getSessionUser } from "@/lib/auth/session";
 import type { Order, OrderStatus } from "@/lib/types";
+import type { OrderRow } from "@/lib/supabase-types";
 
-function mapOrder(row: any): Order {
+function mapOrder(row: OrderRow): Order {
   return {
     id: row.id,
     userId: row.user_id ?? undefined,

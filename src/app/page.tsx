@@ -69,7 +69,7 @@ export default function Home() {
                   variant="outline"
                   className="border-oat/40 text-oat hover:border-tea-light hover:text-tea-light hover:bg-white/10"
                 >
-                  See how it's made
+                  See how it&apos;s made
                 </Button>
               </Link>
             </div>
@@ -227,7 +227,7 @@ export default function Home() {
             </h2>
             <p className="mt-5 max-w-lg text-base leading-relaxed text-oat/75">
               We asked a simple question: what happens to the tea leaves after the
-              cup is emptied? Mostly they're thrown away. So we decided to make
+              cup is emptied? Mostly they&apos;re thrown away. So we decided to make
               something from them.
             </p>
             <Link href="/about" className="mt-9 inline-block">

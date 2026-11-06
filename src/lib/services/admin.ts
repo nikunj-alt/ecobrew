@@ -1,20 +1,24 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabase, isSupabaseConfigured } from "../supabase";
 import type { ContactMessage, Order, OrderStatus } from "../types";
+import type { ContactRow, OrderRow } from "../supabase-types";
 
-function mapOrder(row: any): Order {
+const db = supabase as SupabaseClient;
+
+function mapOrder(row: OrderRow): Order {
   return {
     id: row.id,
     userId: row.user_id ?? undefined,
     items: Array.isArray(row.items) ? row.items : [],
     subtotal: Number(row.subtotal ?? 0),
-    customer: row.customer ?? {},
+    customer: row.customer ?? ({} as Order["customer"]),
     createdAt: row.created_at,
     status: (row.status as OrderStatus) || "pending",
     deliveryDate: row.delivery_date ?? null,
   };
 }
 
-function mapContact(row: any): ContactMessage {
+function mapContact(row: ContactRow): ContactMessage {
   return {
     id: row.id,
     userId: row.user_id,
@@ -30,7 +34,7 @@ function mapContact(row: any): ContactMessage {
 export async function fetchOrders(): Promise<Order[]> {
   if (!isSupabaseConfigured()) return [];
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await db
       .from("ecobrew_orders")
       .select("*")
       .order("created_at", { ascending: false });
@@ -48,7 +52,7 @@ export async function fetchOrders(): Promise<Order[]> {
 export async function fetchOrdersForUser(userId: string): Promise<Order[]> {
   if (!isSupabaseConfigured()) return [];
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await db
       .from("ecobrew_orders")
       .select("*")
       .eq("user_id", userId)
@@ -66,7 +70,7 @@ export async function updateOrderStatus(
 ): Promise<{ success: boolean; error?: string }> {
   if (!isSupabaseConfigured()) return { success: false, error: "Supabase not configured." };
   try {
-    const { error } = await (supabase as any).from("ecobrew_orders").update({ status }).eq("id", id);
+    const { error } = await db.from("ecobrew_orders").update({ status }).eq("id", id);
     if (error) return { success: false, error: error.message };
     return { success: true };
   } catch (e) {
@@ -80,7 +84,7 @@ export async function setOrderDeliveryDate(
 ): Promise<{ success: boolean; error?: string }> {
   if (!isSupabaseConfigured()) return { success: false, error: "Supabase not configured." };
   try {
-    const { error } = await (supabase as any)
+    const { error } = await db
       .from("ecobrew_orders")
       .update({ delivery_date: date, status: date ? "in_transit" : "approved" })
       .eq("id", id);
@@ -94,7 +98,7 @@ export async function setOrderDeliveryDate(
 export async function fetchContactsForUser(userId: string): Promise<ContactMessage[]> {
   if (!isSupabaseConfigured()) return [];
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await db
       .from("ecobrew_contacts")
       .select("*")
       .eq("user_id", userId)
@@ -109,7 +113,7 @@ export async function fetchContactsForUser(userId: string): Promise<ContactMessa
 export async function fetchContacts(): Promise<ContactMessage[]> {
   if (!isSupabaseConfigured()) return [];
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await db
       .from("ecobrew_contacts")
       .select("*")
       .order("created_at", { ascending: false });
@@ -128,7 +132,7 @@ export async function submitContact(input: {
 }): Promise<{ success: boolean; error?: string }> {
   if (!isSupabaseConfigured()) return { success: false, error: "Supabase is not configured." };
   try {
-    const { error } = await (supabase as any).from("ecobrew_contacts").insert([
+    const { error } = await db.from("ecobrew_contacts").insert([
       {
         user_id: input.userId ?? null,
         name: input.name,
@@ -149,7 +153,7 @@ export async function replyToContact(
 ): Promise<{ success: boolean; error?: string }> {
   if (!isSupabaseConfigured()) return { success: false, error: "Supabase not configured." };
   try {
-    const { error } = await (supabase as any)
+    const { error } = await db
       .from("ecobrew_contacts")
       .update({ reply, replied_at: new Date().toISOString() })
       .eq("id", id);

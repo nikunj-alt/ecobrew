@@ -127,7 +127,8 @@ export function CardStack<T extends CardStackItem>({
 
   // keep active in bounds if items change
   React.useEffect(() => {
-    setActive((a) => wrapIndex(a, len));
+    if (!len) return;
+    Promise.resolve().then(() => setActive((a) => wrapIndex(a, len)));
   }, [len]);
 
   React.useEffect(() => {
@@ -253,7 +254,7 @@ export function CardStack<T extends CardStackItem>({
                     dragConstraints: { left: 0, right: 0 },
                     dragElastic: 0.18,
                     onDragEnd: (
-                      _e: any,
+                      _e: MouseEvent | TouchEvent | PointerEvent,
                       info: { offset: { x: number }; velocity: { x: number } },
                     ) => {
                       if (reduceMotion) return;

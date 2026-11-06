@@ -92,8 +92,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    let alive = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/auth/me", { cache: "no-store" });
+        const data = (await res.json().catch(() => ({}))) as {
+          user?: (Partial<UserAccount> & { provider?: string }) | null;
+        };
+        const me = data.user ?? null;
+        if (!alive) return;
+
+        if (!me) {
+          // No server identity — clear any stale client-side account.
+          setLoggedInUser(null);
+          setUser(null);
+          return;
+        }
+
+        const base: UserAccount = {
+          userId: me.userId || "",
+          name: me.name || "",
+          email: me.email || "",
+          phone: "",
+          address: "",
+          city: "",
+          state: "",
+          pincode: "",
+        };
+
+        // For local accounts, enrich with the full profile kept client-side
+        // (phone/address/city/state/pincode) when it matches the same userId.
+        const local = getLoggedInUser();
+        const enriched =
+          me.provider === "account" && local && local.userId === base.userId
+            ? { ...base, ...local }
+            : base;
+
+        setLoggedInUser(enriched);
+        setUser(enriched);
+      } catch {
+        if (alive) setUser(null);
+      } finally {
+        if (alive) setLoading(false);
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const signIn = useCallback((from?: string) => {
     const q = from ? `?from=${encodeURIComponent(from)}` : "";

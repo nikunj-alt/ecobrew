@@ -3,12 +3,13 @@ import { adminGuard } from "@/lib/server/guards";
 import { getSupabaseServer } from "@/lib/services/supabase-server";
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+// SVG is deliberately excluded: it can embed scripts, and we serve uploaded
+// images from a public bucket, making it a stored-XSS vector.
 const ALLOWED_IMAGE_TYPES = new Set([
   "image/png",
   "image/jpeg",
   "image/webp",
   "image/gif",
-  "image/svg+xml",
 ]);
 
 export async function POST(req: NextRequest) {
@@ -27,7 +28,7 @@ export async function POST(req: NextRequest) {
     }
     if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
       return NextResponse.json(
-        { ok: false, error: "Only PNG, JPEG, WebP, GIF or SVG images are allowed." },
+        { ok: false, error: "Only PNG, JPEG, WebP or GIF images are allowed." },
         { status: 400 },
       );
     }

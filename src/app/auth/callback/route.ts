@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { exchangeSupabaseCode } from "@/lib/auth/supabase";
 import { setSessionCookie, clearSessionCookie, SessionUser } from "@/lib/auth/session";
+import { ensureUserRow } from "@/lib/server/users";
 
 /** Derive the stable EcoBrew account id from the verified Supabase email. */
 function userIdFromEmail(email: string): string {
@@ -71,6 +72,14 @@ export async function GET(req: NextRequest) {
       userId: userIdFromEmail(email),
     };
     await setSessionCookie(sessionUser);
+
+    // Ensure the FK target exists so this user can place orders (Fix: Google
+    // users previously had no ecobrew_users row and checkout hit a FK error).
+    await ensureUserRow({
+      userId: sessionUser.userId,
+      name: sessionUser.name,
+      email: sessionUser.email,
+    });
 
     // Route the user back where they started.
     let target = "/";

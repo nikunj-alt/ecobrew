@@ -16,12 +16,12 @@ export default function InTransitBand() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!user) {
-      setLoaded(true);
-      return;
-    }
     let alive = true;
     (async () => {
+      if (!user) {
+        setLoaded(true);
+        return;
+      }
       const res = await fetch("/api/orders", { cache: "no-store" });
       const data = (await res.json().catch(() => ({}))) as { orders?: Order[] };
       if (!alive) return;

@@ -42,7 +42,7 @@ export default function AboutPage() {
             <p>
               Every day, millions of cups of chai are drunk in India. After the
               last sip, the spent tea leaves — <em>chaipatti</em> — are almost
-              always thrown away. That's a lot of organic waste going nowhere.
+              always thrown away. That&apos;s a lot of organic waste going nowhere.
             </p>
             <p>
               In our project, we collect that chaipatti and give it a second

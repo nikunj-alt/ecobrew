@@ -25,8 +25,8 @@ class MockSupabaseClient {
         }),
         order: () => ({ data: [], error: null }),
       }),
-      insert: async (data: any) => ({ data, error: null }),
-      upsert: async (data: any) => ({ data, error: null }),
+      insert: async (data: Record<string, unknown>[]) => ({ data, error: null }),
+      upsert: async (data: Record<string, unknown>[]) => ({ data, error: null }),
     };
   }
 }

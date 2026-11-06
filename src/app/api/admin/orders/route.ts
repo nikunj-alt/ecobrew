@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { adminGuard } from "@/lib/server/guards";
 import { getSupabaseServer } from "@/lib/services/supabase-server";
 import type { Order, OrderStatus } from "@/lib/types";
+import type { OrderRow } from "@/lib/supabase-types";
 
-function mapOrder(row: any): Order {
+function mapOrder(row: OrderRow): Order {
   return {
     id: row.id,
     userId: row.user_id ?? undefined,

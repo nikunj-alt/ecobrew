@@ -49,18 +49,21 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
   }, []);
 
   // Reset form state only when the modal opens (not on every keystroke).
+  // Scheduled on a microtask so no state is set synchronously inside the effect.
   useEffect(() => {
     if (!isOpen) return;
-    setError("");
-    setUserId("");
-    setPassword("");
-    setIdStatus("idle");
+    Promise.resolve().then(() => {
+      setError("");
+      setUserId("");
+      setPassword("");
+      setIdStatus("idle");
+    });
   }, [isOpen]);
 
   // Debounced live uniqueness check on the typed User ID.
   useEffect(() => {
     if (!isOpen || !userId) return;
-    setIdStatus("checking");
+    Promise.resolve().then(() => setIdStatus("checking"));
     const t = setTimeout(() => checkId(userId), 400);
     return () => clearTimeout(t);
   }, [isOpen, userId, checkId]);

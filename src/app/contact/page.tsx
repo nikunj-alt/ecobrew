@@ -19,13 +19,14 @@ export default function ContactPage() {
 
   // Prefill from the logged-in account.
   useEffect(() => {
-    if (user) {
+    if (!user) return;
+    Promise.resolve().then(() => {
       setForm((prev) => ({
         ...prev,
         name: prev.name || user.name || "",
         email: prev.email || user.email || "",
       }));
-    }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.userId]);
 
@@ -79,7 +80,7 @@ export default function ContactPage() {
           {status === "sent" && (
             <div className="rounded-xl border border-sprout/30 bg-sprout/10 p-4 text-sm text-leaf-deep">
               Thanks {user?.name || form.name}! Your message has been sent to the team.
-              You'll see our reply in{" "}
+              You&apos;ll see our reply in{" "}
               <a href="/my-orders" className="font-medium text-sprout-dark underline">My Orders → Inquiries</a>.
             </div>
           )}
@@ -110,7 +111,7 @@ export default function ContactPage() {
             </Button>
             {!user && (
               <span className="text-xs text-moss">
-                You'll be asked to log in so you can see our reply.
+                You&apos;ll be asked to log in so you can see our reply.
               </span>
             )}
           </div>
@@ -120,7 +121,7 @@ export default function ContactPage() {
           <div className="rounded-biophilic shadow-soft ring-1 ring-leaf-deep/8 bg-white/70 p-6">
             <h3 className="font-display text-lg font-medium text-leaf-deep">The team</h3>
             <p className="mt-2 text-sm leading-relaxed text-moss">
-              Students showcasing EcoBrew at Bal Vigyan. We're happy to talk about
+              Students showcasing EcoBrew at Bal Vigyan. We&apos;re happy to talk about
               the science, the brand, and the next steps.
             </p>
           </div>

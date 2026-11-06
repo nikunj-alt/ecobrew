@@ -2,6 +2,12 @@
 -- Run this in the Supabase SQL editor (https://supabase.com/dashboard -> SQL Editor -> New query)
 -- It creates the users table with a UNIQUE user_id (no two users can share an ID)
 -- and the orders table linked to that user.
+--
+-- RLS note: this file reflects the HARDENED policy state (see the
+-- 20261105000000_security_hardening.sql migration). Only the operations the
+-- public site legitimately needs are open: product reads, contact inserts, and
+-- product-image reads. All writes flow through server-side API routes that use
+-- the service_role key, which bypasses RLS.
 
 -- Drop existing tables if re-running (dev only)
 -- drop table if exists ecobrew_orders;
@@ -9,7 +15,7 @@
 
 create table if not exists ecobrew_users (
   user_id text primary key,                 -- the unique login ID; PK guarantees no duplicates
-  password text not null,                   -- demo only; use Supabase Auth or a hashed column in production
+  password text not null,                   -- scrypt-hashed; server-only writes
   name text default '',
   email text default '',
   phone text default '',
@@ -29,15 +35,10 @@ create table if not exists ecobrew_orders (
   created_at timestamptz not null default now()
 );
 
--- Row Level Security: open for the anon key used by this demo site.
--- (A production app would use Supabase Auth + policies keyed to auth.uid().)
+-- Row Level Security: hardened. Users/orders are never publicly readable or
+-- writable; only the server (service_role) touches them.
 alter table ecobrew_users enable row level security;
 alter table ecobrew_orders enable row level security;
-
-create policy "ecobrew_users_select" on ecobrew_users for select using (true);
-create policy "ecobrew_users_insert" on ecobrew_users for insert with check (true);
-create policy "ecobrew_orders_insert" on ecobrew_orders for insert with check (true);
-create policy "ecobrew_orders_select" on ecobrew_orders for select using (true);
 
 -- ---------------------------------------------------------------------------
 -- Admin panel migration: DB-backed products, order status/delivery, contacts.
@@ -77,17 +78,16 @@ alter table ecobrew_products enable row level security;
 alter table ecobrew_contacts enable row level security;
 alter table ecobrew_orders enable row level security;
 
-create policy "ecobrew_products_select" on ecobrew_products for select using (true);
-create policy "ecobrew_products_insert" on ecobrew_products for insert with check (true);
-create policy "ecobrew_products_update" on ecobrew_products for update using (true) with check (true);
-create policy "ecobrew_products_delete" on ecobrew_products for delete using (true);
+-- Public reads/inserts the site still needs (hardened set):
+-- - products: public SELECT (catalog pages + realtime)
+-- - contacts: public INSERT (contact form), no public read
+-- - orders/users: no public access at all (server/service_role only)
 
-create policy "ecobrew_contacts_select" on ecobrew_contacts for select using (true);
-create policy "ecobrew_contacts_insert" on ecobrew_contacts for insert with check (true);
-create policy "ecobrew_contacts_update" on ecobrew_contacts for update using (true) with check (true);
+create policy "ecobrew_products_public_read" on ecobrew_products
+  for select using (true);
 
-create policy "ecobrew_orders_update" on ecobrew_orders for update using (true) with check (true);
-create policy "ecobrew_orders_delete" on ecobrew_orders for delete using (true);
+create policy "ecobrew_contacts_public_insert" on ecobrew_contacts
+  for insert with check (true);
 
 -- ---------------------------------------------------------------------------
 -- Live admin storage & realtime (applied to the live project as migration
@@ -95,28 +95,20 @@ create policy "ecobrew_orders_delete" on ecobrew_orders for delete using (true);
 -- ---------------------------------------------------------------------------
 
 -- Public bucket for admin-uploaded product images (5 MB, image types only).
+-- SVG is deliberately NOT allowed (stored-XSS vector).
 insert into storage.buckets (id, name, file_size_limit, allowed_mime_types, public)
 values ('product-images', 'product-images', 5242880,
-        array['image/png','image/jpeg','image/webp','image/gif','image/svg+xml'], true)
+        array['image/png','image/jpeg','image/webp','image/gif'], true)
 on conflict (id) do update
   set public = excluded.public,
       file_size_limit = excluded.file_size_limit,
       allowed_mime_types = excluded.allowed_mime_types;
 
-drop policy if exists "ecobrew_product_images_read" on storage.objects;
-create policy "ecobrew_product_images_read" on storage.objects
+-- Product images: public read limited to the product-images bucket; writes are
+-- server-only (service_role bypasses RLS).
+drop policy if exists "ecobrew_product_images_public_read" on storage.objects;
+create policy "ecobrew_product_images_public_read" on storage.objects
   for select using (bucket_id = 'product-images');
-
-drop policy if exists "ecobrew_product_images_write" on storage.objects;
-create policy "ecobrew_product_images_write" on storage.objects
-  for insert to anon, authenticated
-  with check (bucket_id = 'product-images');
-
-drop policy if exists "ecobrew_product_images_update" on storage.objects;
-create policy "ecobrew_product_images_update" on storage.objects
-  for update to anon, authenticated
-  using (bucket_id = 'product-images')
-  with check (bucket_id = 'product-images');
 
 -- Realtime: push product/order changes to connected clients.
 do $$

@@ -31,8 +31,23 @@ export function useSession() {
   }, []);
 
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    let alive = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/session", { cache: "no-store" });
+        const data = await res.json();
+        if (!alive) return;
+        setUser(data.user ?? null);
+      } catch {
+        if (alive) setUser(null);
+      } finally {
+        if (alive) setLoading(false);
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const signIn = useCallback(
     (from?: string) => {

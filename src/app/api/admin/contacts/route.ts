@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { adminGuard } from "@/lib/server/guards";
 import { getSupabaseServer } from "@/lib/services/supabase-server";
 import type { ContactMessage } from "@/lib/types";
+import type { ContactRow } from "@/lib/supabase-types";
 
-function mapContact(row: any): ContactMessage {
+function mapContact(row: ContactRow): ContactMessage {
   return {
     id: row.id,
     userId: row.user_id,

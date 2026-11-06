@@ -3,8 +3,9 @@ import { getSupabaseServer } from "@/lib/services/supabase-server";
 import { getAccountSession } from "@/lib/auth/account";
 import { getSessionUser } from "@/lib/auth/session";
 import type { ContactMessage } from "@/lib/types";
+import type { ContactRow } from "@/lib/supabase-types";
 
-function mapContact(row: any): ContactMessage {
+function mapContact(row: ContactRow): ContactMessage {
   return {
     id: row.id,
     userId: row.user_id,

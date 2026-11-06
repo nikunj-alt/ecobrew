@@ -21,21 +21,24 @@ export default function MyOrdersPage() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const { getProduct } = useProductCatalog();
 
-  const load = async () => {
-    const [oRes, cRes] = await Promise.all([fetch("/api/orders"), fetch("/api/contacts")]);
-    const oData = (await oRes.json().catch(() => ({}))) as { orders?: Order[] };
-    const cData = (await cRes.json().catch(() => ({}))) as { contacts?: ContactMessage[] };
-    setOrders(oData.orders ?? []);
-    setContacts(cData.contacts ?? []);
-    setLoading(false);
-  };
-
   useEffect(() => {
-    if (user) {
-      load();
-    } else {
+    let alive = true;
+    (async () => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+      const [oRes, cRes] = await Promise.all([fetch("/api/orders"), fetch("/api/contacts")]);
+      const oData = (await oRes.json().catch(() => ({}))) as { orders?: Order[] };
+      const cData = (await cRes.json().catch(() => ({}))) as { contacts?: ContactMessage[] };
+      if (!alive) return;
+      setOrders(oData.orders ?? []);
+      setContacts(cData.contacts ?? []);
       setLoading(false);
-    }
+    })();
+    return () => {
+      alive = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.userId]);
 
@@ -92,7 +95,7 @@ export default function MyOrdersPage() {
             ))}
           </div>
           <p className="mt-3 text-xs text-moss">
-            These orders leave this banner once they're marked delivered or cancelled.
+            These orders leave this banner once they&apos;re marked delivered or cancelled.
           </p>
         </div>
       )}
@@ -102,7 +105,7 @@ export default function MyOrdersPage() {
         <h2 className="text-lg font-medium text-leaf-deep">Your orders</h2>
         {orders.length === 0 ? (
           <div className="mt-4 rounded-biophilic shadow-soft ring-1 ring-leaf-deep/8 bg-white/70 p-8 text-center text-sm text-moss">
-            <p>You haven't placed any orders yet.</p>
+            <p>You haven&apos;t placed any orders yet.</p>
             <Link href="/products" className="mt-4 inline-block">
               <Button size="sm">Browse products</Button>
             </Link>

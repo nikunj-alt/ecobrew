@@ -17,7 +17,9 @@ export default function OrderConfirmationPage() {
   useEffect(() => {
     try {
       const raw = window.sessionStorage.getItem("ecobrew-last-order");
-      if (raw) setOrder(JSON.parse(raw) as Order);
+      if (raw) {
+        Promise.resolve().then(() => setOrder(JSON.parse(raw) as Order));
+      }
     } catch {
       /* ignore */
     }
@@ -32,7 +34,7 @@ export default function OrderConfirmationPage() {
           </div>
           <h1 className="text-2xl text-leaf-deep">No recent order found</h1>
           <p className="mt-2 text-moss">
-            You haven't placed a (simulated) order yet on this device.
+            You haven&apos;t placed a (simulated) order yet on this device.
           </p>
           <Link href="/products" className="mt-6 inline-block">
             <Button>Browse products</Button>
@@ -47,7 +49,7 @@ export default function OrderConfirmationPage() {
             <div>
               <h1 className="text-3xl font-medium">Thank you! Order placed</h1>
               <p className="mt-2 text-oat/70">
-                This is a simulated order for the Bal Vigyan fair — you won't be
+                This is a simulated order for the Bal Vigyan fair — you won&apos;t be
                 charged and nothing is really shipped.
               </p>
             </div>

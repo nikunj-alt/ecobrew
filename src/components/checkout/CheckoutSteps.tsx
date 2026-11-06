@@ -42,7 +42,8 @@ export default function CheckoutSteps() {
   const [cardErrors, setCardErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    if (user) {
+    if (!user) return;
+    Promise.resolve().then(() => {
       setCustomer((prev) => ({
         name: prev.name || user.name || "",
         email: prev.email || user.email || "",
@@ -52,7 +53,7 @@ export default function CheckoutSteps() {
         state: prev.state || user.state || "",
         pincode: prev.pincode || user.pincode || "",
       }));
-    }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.userId]);
 

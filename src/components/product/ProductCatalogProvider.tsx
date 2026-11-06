@@ -2,7 +2,9 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
+import type { SupabaseClient, RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 import type { Category, Product } from "@/lib/types";
+import type { ProductRow } from "@/lib/supabase-types";
 import { fetchProducts, mapProductRow } from "@/lib/services/products";
 import { products as staticProducts } from "@/lib/data/products";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
@@ -24,7 +26,6 @@ export function ProductCatalogProvider({ children }: { children: ReactNode }) {
 
   const reload = useCallback(async () => {
     try {
-      setLoading(true);
       const fetched = await fetchProducts();
       loadedFromDb.current = fetched.length > 0;
       setProducts(fetched.length ? fetched : staticProducts);
@@ -36,14 +37,29 @@ export function ProductCatalogProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    reload();
-  }, [reload]);
+    let alive = true;
+    (async () => {
+      try {
+        const fetched = await fetchProducts();
+        loadedFromDb.current = fetched.length > 0;
+        if (!alive) return;
+        setProducts(fetched.length ? fetched : staticProducts);
+      } catch {
+        // keep whatever we have
+      } finally {
+        if (alive) setLoading(false);
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   // Live updates: Supabase Realtime pushes product inserts/updates/deletes to
   // every open catalogue (customer pages and the admin panel) instantly.
   useEffect(() => {
     if (!isSupabaseConfigured()) return;
-    const s = supabase as any;
+    const s = supabase as SupabaseClient;
     if (typeof s.channel !== "function" || typeof s.removeAllChannels !== "function") return;
 
     let cancelled = false;
@@ -52,7 +68,7 @@ export function ProductCatalogProvider({ children }: { children: ReactNode }) {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "ecobrew_products" },
-        (payload: any) => {
+        (payload: RealtimePostgresChangesPayload<Record<string, unknown>>) => {
           if (cancelled || !loadedFromDb.current) {
             if (cancelled) return;
             reload();
@@ -60,11 +76,11 @@ export function ProductCatalogProvider({ children }: { children: ReactNode }) {
           }
           setProducts((prev) => {
             if (payload.eventType === "DELETE") {
-              const slug = payload.old?.slug;
+              const slug = payload.old?.slug as string | undefined;
               const next = prev.filter((p) => p.slug !== slug);
               return next.length ? next : staticProducts;
             }
-            const row = payload.new;
+            const row = payload.new as unknown as ProductRow | undefined;
             if (!row?.slug) return prev;
             const mapped = mapProductRow(row);
             const exists = prev.some((p) => p.slug === mapped.slug);

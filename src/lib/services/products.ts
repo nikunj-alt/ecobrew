@@ -1,8 +1,12 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabase, isSupabaseConfigured } from "../supabase";
 import type { Category, Product } from "../types";
+import type { ProductRow } from "../supabase-types";
 import { products as staticProducts } from "../data/products";
 
-export function mapProductRow(row: any): Product {
+const db = supabase as SupabaseClient;
+
+export function mapProductRow(row: ProductRow): Product {
   return {
     slug: row.slug,
     name: row.name,
@@ -14,7 +18,9 @@ export function mapProductRow(row: any): Product {
     impact: row.impact || undefined,
     inStock: row.in_stock !== false,
     featured: row.featured === true,
-    related: Array.isArray(row.related) ? row.related : [],
+    related: (Array.isArray(row.related) ? row.related : []).filter(
+      (x): x is string => typeof x === "string",
+    ),
   };
 }
 
@@ -22,7 +28,7 @@ export function mapProductRow(row: any): Product {
 export async function fetchProducts(): Promise<Product[]> {
   if (!isSupabaseConfigured()) return staticProducts;
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await db
       .from("ecobrew_products")
       .select("*")
       .order("created_at", { ascending: true });
@@ -46,7 +52,7 @@ export async function upsertProduct(
     return { success: false, error: "Supabase is not configured." };
   }
   try {
-    const { error } = await (supabase as any).from("ecobrew_products").upsert([
+    const { error } = await db.from("ecobrew_products").upsert([
       {
         slug: product.slug,
         name: product.name ?? "",
@@ -76,7 +82,7 @@ export async function deleteProduct(
     return { success: false, error: "Supabase is not configured." };
   }
   try {
-    const { error } = await (supabase as any).from("ecobrew_products").delete().eq("slug", slug);
+    const { error } = await db.from("ecobrew_products").delete().eq("slug", slug);
     if (error) return { success: false, error: error.message };
     return { success: true };
   } catch (e) {
@@ -93,7 +99,7 @@ export async function setProductStock(
     return { success: false, error: "Supabase is not configured." };
   }
   try {
-    const { error } = await (supabase as any)
+    const { error } = await db
       .from("ecobrew_products")
       .update({ in_stock: inStock })
       .eq("slug", slug);
@@ -105,12 +111,12 @@ export async function setProductStock(
 }
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // matches the storage bucket limit
+// SVG excluded: it can embed scripts and uploaded images render site-side.
 const ALLOWED_IMAGE_TYPES = new Set([
   "image/png",
   "image/jpeg",
   "image/webp",
   "image/gif",
-  "image/svg+xml",
 ]);
 
 /** Upload an image to the public product-images bucket (admin). */
@@ -122,20 +128,19 @@ export async function uploadProductImage(
     return { error: "Supabase is not configured." };
   }
   if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    return { error: "Only PNG, JPEG, WebP, GIF or SVG images are allowed." };
+    return { error: "Only PNG, JPEG, WebP or GIF images are allowed." };
   }
   if (file.size > MAX_IMAGE_BYTES) {
     return { error: "Image must be 5 MB or smaller." };
   }
   try {
-    const s = supabase as any;
     const ext = (file.name.split(".").pop() || "png").toLowerCase();
     const path = `${slug.replace(/[^a-z0-9-]/gi, "_")}/${Date.now()}.${ext}`;
-    const { error } = await s.storage
+    const { error } = await db.storage
       .from("product-images")
       .upload(path, file, { upsert: true, contentType: file.type });
     if (error) return { error: error.message };
-    const { data } = s.storage.from("product-images").getPublicUrl(path);
+    const { data } = db.storage.from("product-images").getPublicUrl(path);
     return { url: data?.publicUrl };
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Upload failed." };
