@@ -212,10 +212,10 @@ export default function Header() {
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 rounded-full bg-white/80 px-3.5 py-1.5 text-xs font-semibold text-leaf-deep shadow-sm ring-1 ring-leaf-deep/20 hover:bg-white transition-all"
+                  className="flex min-w-0 max-w-[12rem] items-center gap-2 rounded-full bg-white/80 px-3.5 py-1.5 text-xs font-semibold text-leaf-deep shadow-sm ring-1 ring-leaf-deep/20 hover:bg-white transition-all"
                 >
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>@{user.userId}</span>
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="truncate">@{user.userId}</span>
                 </button>
 
                 {userMenuOpen && (
