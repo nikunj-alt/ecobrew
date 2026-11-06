@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { fetchWeather } from "@/lib/weather";
 
-// Always run at request time; never statically optimized.
-export const dynamic = "force-dynamic";
+// NOTE: reading `request.url` (searchParams) keeps this handler dynamic at
+// request time. We deliberately do NOT export `dynamic = "force-dynamic"` —
+// Next 16 disallows that segment config when `nextConfig.cacheComponents` is
+// enabled, and it's unnecessary here.
 
 export async function GET(request: Request) {
   try {
