@@ -2,6 +2,7 @@
 
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
+import LiveLocationButton from "@/components/location/LiveLocationButton";
 import type { CustomerDetails } from "@/lib/types";
 
 const STATE_OPTIONS = [
@@ -84,6 +85,23 @@ export default function StepShipping({
         error={errors.state}
         onChange={(e) => onChange("state", e.target.value)}
       />
+
+      <div className="sm:col-span-2">
+        <LiveLocationButton
+          align="left"
+          compact
+          className="rounded-xl border border-dashed border-leaf-deep/25 bg-white/50 p-3"
+          applyTo={(loc) => {
+            if (loc.address) onChange("address", loc.address);
+            if (loc.city) onChange("city", loc.city);
+            if (loc.state) onChange("state", loc.state);
+            if (loc.pincode) onChange("pincode", loc.pincode);
+          }}
+        />
+        <p className="mt-1.5 text-xs text-stone">
+          Auto-fills your address fields from your current location.
+        </p>
+      </div>
     </div>
   );
 }

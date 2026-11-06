@@ -4,6 +4,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
 import { CONTACT_EMAIL } from "@/lib/constants";
 import { LeafIcon, ArrowRightIcon } from "@/components/icons";
+import LiveLocationButton from "@/components/location/LiveLocationButton";
 
 interface Place {
   kind: string;
@@ -73,6 +74,19 @@ export default function FindUsPage() {
             )}
           </div>
         ))}
+      </div>
+
+      <div className="mt-14">
+        <div className="glass mx-auto max-w-lg rounded-biophilic p-7 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-tea">Getting here</p>
+          <h2 className="mt-2 font-display text-2xl font-medium text-leaf-deep">Use your live location</h2>
+          <p className="mt-3 text-sm leading-relaxed text-moss">
+            Capture where you are — it&apos;s saved on this device and ready to reuse at checkout or sign-up.
+          </p>
+          <div className="mt-6 flex justify-center">
+            <LiveLocationButton />
+          </div>
+        </div>
       </div>
 
       <div className="mt-14 text-center">

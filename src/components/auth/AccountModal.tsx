@@ -6,6 +6,7 @@ import { setLoggedInUser, type UserAccount } from "@/lib/services/auth";
 import { useSession } from "@/hooks/useSession";
 import { LiquidMetalShader } from "@/components/ui/liquid-metal-shader";
 import { useAppSettings } from "@/context/AppSettingsContext";
+import LiveLocationButton from "@/components/location/LiveLocationButton";
 
 interface AccountModalProps {
   isOpen: boolean;
@@ -23,10 +24,10 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const address = "EcoBrew Studio & Warehouse";
-  const city = "Indore";
-  const state = "Madhya Pradesh";
-  const pincode = "452001";
+  const [address, setAddress] = useState("EcoBrew Studio & Warehouse");
+  const [city, setCity] = useState("Indore");
+  const [state, setState] = useState("Madhya Pradesh");
+  const [pincode, setPincode] = useState("452001");
 
   const [toastMessage, setToastMessage] = useState<{ text: string; type: "error" | "success" } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -550,6 +551,25 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full rounded-xl border border-leaf-deep/20 bg-white/90 px-3.5 py-2 text-sm text-soil shadow-sm focus:border-leaf-deep focus:outline-none focus:ring-1 focus:ring-leaf-deep"
                   />
+                </div>
+
+                <div className="rounded-xl border border-dashed border-leaf-deep/25 bg-white/50 p-3">
+                  <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-stone">
+                    Delivery location
+                  </p>
+                  <LiveLocationButton
+                    align="left"
+                    compact
+                    applyTo={(loc) => {
+                      if (loc.address) setAddress(loc.address);
+                      if (loc.city) setCity(loc.city);
+                      if (loc.state) setState(loc.state);
+                      if (loc.pincode) setPincode(loc.pincode);
+                    }}
+                  />
+                  <p className="mt-2 text-[10px] text-stone">
+                    {address} · {city} · {pincode}
+                  </p>
                 </div>
 
                 <button
