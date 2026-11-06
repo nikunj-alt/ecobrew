@@ -32,6 +32,11 @@ function readStored(): LiveCoords | null {
   return null;
 }
 
+/** Reads the last saved live location (or null if none is stored yet). */
+export function getSavedLiveLocation(): LiveCoords | null {
+  return readStored();
+}
+
 /**
  * Fetches the device's live location via the browser Geolocation API and
  * persists it to localStorage so it can be reused across the app (checkout,

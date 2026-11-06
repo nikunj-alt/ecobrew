@@ -7,6 +7,8 @@ import { buildOrderFromCart, placeOrder } from "@/lib/services/checkout";
 import { useAuth } from "@/components/auth/AuthProvider";
 import type { CustomerDetails } from "@/lib/types";
 import Button from "@/components/ui/Button";
+import { getSavedLiveLocation } from "@/hooks/useLiveLocation";
+import { reverseGeocode } from "@/lib/location";
 import StepShipping from "./StepShipping";
 import StepPayment from "./StepPayment";
 import StepReview from "./StepReview";
@@ -56,6 +58,27 @@ export default function CheckoutSteps() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.userId]);
+
+  // Auto-fill empty shipping fields from the saved live location (if any).
+  useEffect(() => {
+    const saved = getSavedLiveLocation();
+    if (!saved) return;
+    let cancelled = false;
+    (async () => {
+      const geo = await reverseGeocode(saved.latitude, saved.longitude);
+      if (cancelled) return;
+      setCustomer((prev) => ({
+        ...prev,
+        pincode: prev.pincode || geo.pincode || "",
+        address: prev.address || geo.address || "",
+        city: prev.city || geo.city || "",
+        state: prev.state || geo.state || "",
+      }));
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleAuthSuccess = async () => {
     await refresh();

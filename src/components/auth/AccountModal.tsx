@@ -7,6 +7,8 @@ import { useSession } from "@/hooks/useSession";
 import { LiquidMetalShader } from "@/components/ui/liquid-metal-shader";
 import { useAppSettings } from "@/context/AppSettingsContext";
 import LiveLocationButton from "@/components/location/LiveLocationButton";
+import { getSavedLiveLocation } from "@/hooks/useLiveLocation";
+import { reverseGeocode } from "@/lib/location";
 
 interface AccountModalProps {
   isOpen: boolean;
@@ -84,6 +86,25 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
     const t = setTimeout(() => checkId(userId), 350);
     return () => clearTimeout(t);
   }, [isOpen, userId, view, checkId]);
+
+  // Auto-fill the delivery location from the saved live location when registering.
+  useEffect(() => {
+    if (!isOpen || view !== "register") return;
+    const saved = getSavedLiveLocation();
+    if (!saved) return;
+    let cancelled = false;
+    (async () => {
+      const geo = await reverseGeocode(saved.latitude, saved.longitude);
+      if (cancelled) return;
+      if (geo.address) setAddress(geo.address);
+      if (geo.city) setCity(geo.city);
+      if (geo.state) setState(geo.state);
+      if (geo.pincode) setPincode(geo.pincode);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, view]);
 
   if (!isOpen) return null;
 
