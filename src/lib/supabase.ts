@@ -6,17 +6,38 @@ const supabaseKey =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
+function isRealKey(val: string | undefined): boolean {
+  if (!val) return false;
+  const s = val.trim().toLowerCase();
+  return (
+    s.length > 5 &&
+    !s.includes("your-") &&
+    !s.includes("your_") &&
+    !s.includes("placeholder")
+  );
+}
+
+const isConfigured = isRealKey(supabaseUrl) && isRealKey(supabaseKey);
+
 // Environment check for Supabase
-if (!supabaseUrl || !supabaseKey) {
+if (!isConfigured) {
   console.warn(
-    "[EcoBrew Supabase Warning]: NEXT_PUBLIC_SUPABASE_URL and/or NEXT_PUBLIC_SUPABASE_ANON_KEY / NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY are missing. Database persistence and authentication will operate in fallback mode unless environment variables are provided."
+    "[EcoBrew Supabase Warning]: Valid NEXT_PUBLIC_SUPABASE_URL and anon key not provided. Operating in mock fallback mode."
   );
 }
 
 // Fallback mock client if env vars are not set (for build & local preview without keys)
 class MockSupabaseClient {
   auth = {};
+  channel() {
+    return {
+      on: () => ({ subscribe: () => ({}) }),
+      subscribe: () => ({}),
+    };
+  }
+  removeAllChannels() {}
   from(table: string) {
+    void table;
     return {
       select: () => ({
         eq: () => ({
@@ -32,7 +53,7 @@ class MockSupabaseClient {
 }
 
 export const supabase: SupabaseClient | MockSupabaseClient =
-  supabaseUrl && supabaseKey
+  isConfigured && supabaseUrl && supabaseKey
     ? createClient(supabaseUrl, supabaseKey, {
         auth: {
           persistSession: true,
@@ -42,5 +63,5 @@ export const supabase: SupabaseClient | MockSupabaseClient =
     : new MockSupabaseClient();
 
 export function isSupabaseConfigured(): boolean {
-  return Boolean(supabaseUrl && supabaseKey);
+  return isConfigured;
 }

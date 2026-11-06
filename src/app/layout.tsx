@@ -29,6 +29,8 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
+import { AppSettingsProvider } from "@/context/AppSettingsContext";
+
 export const metadata: Metadata = {
   title: "EcoBrew — Spent tea leaves make useful things",
   description:
@@ -43,17 +45,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${bricolage.variable} ${inter.variable} ${cormorant.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
-        <AuthProvider>
-          <ProductCatalogProvider>
-            <CartProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <CartDrawer />
-            <CookieConsent />
-            </CartProvider>
-          </ProductCatalogProvider>
-        </AuthProvider>
+        <AppSettingsProvider>
+          <AuthProvider>
+            <ProductCatalogProvider>
+              <CartProvider>
+                <Header />
+                <main className="flex-1">{children}</main>
+                <Footer />
+                <CartDrawer />
+                <CookieConsent />
+              </CartProvider>
+            </ProductCatalogProvider>
+          </AuthProvider>
+        </AppSettingsProvider>
       </body>
     </html>
   );

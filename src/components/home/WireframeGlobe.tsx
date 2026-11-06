@@ -28,7 +28,6 @@ export default function WireframeGlobe({ className = "" }: { className?: string 
 
     const SPR = "#8fc77f"; // sprout
     const MOSS = "#5d745f"; // moss
-    const DEEP = "#24422f"; // leaf-deep
 
     // Build the dotted wireframe once.
     const points: { p: Point; ring: "lat" | "lon" }[] = [];

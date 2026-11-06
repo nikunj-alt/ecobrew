@@ -70,6 +70,43 @@ body {
   }
 }
 
+html.dark {
+  --color-oat: #0d1712;
+  --color-soil: #edf4ee;
+  --color-kraft: #13221b;
+  --color-kraft-dark: #1b2f26;
+  --color-moss: #9ab4a7;
+  --color-stone: #8fa096;
+  color-scheme: dark;
+}
+
+html.dark body {
+  background: #0d1712;
+  color: #edf4ee;
+}
+
+html.dark .glass {
+  background: hsl(160 30% 10% / 0.75);
+  border-color: hsl(160 20% 30% / 0.4);
+  box-shadow: inset 0 1px 0 hsl(160 20% 90% / 0.08), 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+html.dark .glass-strong {
+  background: hsl(160 30% 9% / 0.9);
+  border-color: hsl(160 20% 35% / 0.5);
+  box-shadow: inset 0 1px 0 hsl(160 20% 90% / 0.12), 0 12px 36px rgba(0, 0, 0, 0.6);
+}
+
+html.larger-text {
+  font-size: 110%;
+}
+
+html.high-contrast {
+  --color-leaf-deep: #0e4c3a;
+  --color-tea: #b07d1a;
+  filter: contrast(1.15);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
