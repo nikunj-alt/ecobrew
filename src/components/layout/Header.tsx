@@ -113,15 +113,15 @@ export default function Header() {
             <button
               type="button"
               onClick={openSearch}
-              className="flex w-full items-center justify-between rounded-full bg-white/60 hover:bg-white px-4 py-2 text-xs text-stone border border-black/5 shadow-sm transition-all group"
+              className="flex min-w-0 w-full items-center justify-between gap-2 rounded-full bg-white/60 hover:bg-white px-4 py-2 text-xs text-stone border border-black/5 shadow-sm transition-all group"
             >
-              <div className="flex items-center gap-2">
-                <svg className="h-4 w-4 text-tea group-hover:text-leaf-deep transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="flex min-w-0 flex-1 items-center gap-2">
+                <svg className="h-4 w-4 shrink-0 text-tea group-hover:text-leaf-deep transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <span>Search products, craft, circular advisory...</span>
+                <span className="truncate">Search products, craft, circular advisory...</span>
               </div>
-              <kbd className="hidden sm:inline-block rounded-md bg-black/5 px-2 py-0.5 font-mono text-[10px] text-stone group-hover:bg-leaf-deep group-hover:text-white transition-colors">
+              <kbd className="hidden shrink-0 sm:inline-block rounded-md bg-black/5 px-2 py-0.5 font-mono text-[10px] text-stone group-hover:bg-leaf-deep group-hover:text-white transition-colors">
                 ⌘K
               </kbd>
             </button>
