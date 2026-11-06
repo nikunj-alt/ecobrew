@@ -5,7 +5,7 @@ type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-tea text-oat hover:bg-leaf-deep border border-transparent transition-all duration-300 hover:-translate-y-0.5 hover:shadow-natural",
+    "bg-leaf-deep text-white hover:bg-sprout-dark border border-transparent transition-all duration-300 hover:-translate-y-0.5 hover:shadow-natural",
   outline:
     "border border-leaf-deep/30 text-leaf-deep hover:border-tea hover:text-tea hover:bg-white/50 transition-all duration-300",
   ghost: "text-moss hover:bg-white/50 hover:text-leaf-deep",
