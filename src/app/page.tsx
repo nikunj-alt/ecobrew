@@ -17,12 +17,40 @@ import WireframeGlobe from "@/components/home/WireframeGlobe";
 import { LeafIcon, ArrowRightIcon } from "@/components/icons";
 import { useAppSettings } from "@/context/AppSettingsContext";
 import { useCart } from "@/components/cart/CartProvider";
+import { useWeather } from "@/hooks/useWeather";
+
+function formatTime(date: Date) {
+  return date.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
+}
+
+function aqiLabel(value: number) {
+  if (value <= 50) return "Good";
+  if (value <= 100) return "Moderate";
+  if (value <= 150) return "Unhealthy (sensitive)";
+  if (value <= 200) return "Unhealthy";
+  if (value <= 300) return "Very unhealthy";
+  return "Hazardous";
+}
+
+function StatTile({ label, value, icon, sub }: { label: string; value: string; icon: string; sub?: string }) {
+  return (
+    <div className="rounded-2xl bg-white/60 p-3 border border-leaf-deep/10">
+      <div className="flex items-center justify-between">
+        <span className="text-sm">{icon}</span>
+        <span className="text-[10px] uppercase tracking-wider text-tea font-semibold">{label}</span>
+      </div>
+      <p className="mt-1.5 text-sm font-bold text-soil truncate">{value}</p>
+      {sub && <p className="text-[10px] text-stone">{sub}</p>}
+    </div>
+  );
+}
 
 export default function Home() {
   const { products } = useProductCatalog();
   const { openSearch } = useAppSettings();
   const { addItem } = useCart();
   const [activeWeatherDay, setActiveWeatherDay] = useState<number>(0);
+  const { weather, loading, error } = useWeather();
 
   const featured = products.filter((p) => p.featured).slice(0, 3);
   const heroProduct = products.find((p) => p.slug === "leaf-pen-stand") || products[0];
@@ -34,15 +62,6 @@ export default function Home() {
     imageSrc: p.image,
     href: `/products/${p.slug}`,
   }));
-
-  const weatherForecast = [
-    { day: "Tue", date: "Nov 04", condition: "Thunderstorm", icon: "⛈️", high: 28, low: 20, rainMm: 12 },
-    { day: "Wed", date: "Nov 05", condition: "Heavy Rain", icon: "🌧️", high: 27, low: 19, rainMm: 24 },
-    { day: "Thu", date: "Nov 06", condition: "Scattered Clouds", icon: "⛅", high: 29, low: 21, rainMm: 4 },
-    { day: "Fri", date: "Nov 07", condition: "Sunny", icon: "☀️", high: 31, low: 22, rainMm: 0 },
-    { day: "Sat", date: "Nov 08", condition: "Clear Sky", icon: "🌤️", high: 32, low: 23, rainMm: 0 },
-    { day: "Sun", date: "Nov 09", condition: "Light Breeze", icon: "🍃", high: 30, low: 21, rainMm: 0 },
-  ];
 
   return (
     <>
@@ -261,58 +280,96 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Bento Card 2: 7-Day Weather & Curing Forecast (2 cols, Video Frame 01:33) */}
+            {/* Bento Card 2: Live Weather & Curing Forecast (2 cols) */}
             <div className="md:col-span-1 lg:col-span-2 rounded-3xl glass-strong border border-white/50 p-6 sm:p-7 flex flex-col justify-between shadow-soft">
               <div>
                 <div className="flex items-center justify-between pb-3 border-b border-leaf-deep/10">
                   <div className="flex items-center gap-2">
-                    <span className="text-xl">⛈️</span>
+                    <span className="text-xl">{weather?.current?.icon ?? "🌡️"}</span>
                     <div>
                       <h3 className="font-display text-base font-bold text-leaf-deep">
                         Indore, India
                       </h3>
-                      <p className="text-[11px] text-stone">7-Day Curing Weather Forecast</p>
+                      <p className="text-[11px] text-stone">
+                        {weather
+                          ? `Live weather · updated ${formatTime(weather.updatedAt)}`
+                          : "Fetching live weather…"}
+                      </p>
                     </div>
                   </div>
                   <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold text-amber-900">
-                    26°C Rain
+                    {weather?.current ? `${Math.round(weather.current.temp)}°C ${weather.current.condition}` : "…"}
                   </span>
                 </div>
 
-                {/* 6-Day Interactive Weather Strip */}
-                <div className="mt-4 grid grid-cols-3 sm:grid-cols-6 gap-2">
-                  {weatherForecast.map((item, idx) => (
-                    <button
-                      key={item.day}
-                      onClick={() => setActiveWeatherDay(idx)}
-                      className={`flex flex-col items-center rounded-2xl p-2.5 text-center transition-all ${
-                        activeWeatherDay === idx
-                          ? "bg-leaf-deep text-white shadow-soft scale-105"
-                          : "bg-white/60 text-soil hover:bg-white"
-                      }`}
-                    >
-                      <span className="text-xs font-bold">{item.day}</span>
-                      <span className="text-lg my-1">{item.icon}</span>
-                      <span className="text-xs font-semibold">{item.high}°</span>
-                      <span className={`text-[10px] ${activeWeatherDay === idx ? "text-emerald-200" : "text-stone"}`}>
-                        {item.rainMm > 0 ? `${item.rainMm}mm` : "Dry"}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
+                {loading && !weather && (
+                  <div className="mt-4 space-y-3 animate-pulse">
+                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                      {[0, 1, 2, 3].map((i) => (
+                        <div key={i} className="h-16 rounded-2xl bg-white/50" />
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+                      {[0, 1, 2, 3, 4, 5].map((i) => (
+                        <div key={i} className="h-24 rounded-2xl bg-white/50" />
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-              {/* Active Day telemetry note */}
-              <div className="mt-5 rounded-2xl bg-white/70 p-3.5 border border-leaf-deep/10">
-                <div className="flex items-center justify-between text-xs font-semibold text-leaf-deep">
-                  <span>Selected: {weatherForecast[activeWeatherDay].day} ({weatherForecast[activeWeatherDay].condition})</span>
-                  <span>Rain: {weatherForecast[activeWeatherDay].rainMm} mm</span>
-                </div>
-                <p className="text-[11px] text-stone mt-1">
-                  {weatherForecast[activeWeatherDay].rainMm > 10
-                    ? "High moisture conditions: indoor heat press recommended for optimal leaf bonding."
-                    : "Low humidity: perfect natural solar curing window for sun-drying chai batches."}
-                </p>
+                {weather?.current && (
+                  <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    <StatTile label="Feels like" value={`${Math.round(weather.current.feelsLike)}°`} icon="🌡️" />
+                    <StatTile label="Humidity" value={`${Math.round(weather.current.humidity)}%`} icon="💧" />
+                    <StatTile label="Wind" value={`${Math.round(weather.current.windKmh)} km/h`} icon="🍃" />
+                    <StatTile label="Rain today" value={`${weather.current.precipitationMm.toFixed(1)} mm`} icon="🌧️" />
+                    {weather.aqi != null && (
+                      <StatTile label="Air Quality" value={`${weather.aqi} AQI`} icon="🫁" sub={aqiLabel(weather.aqi)} />
+                    )}
+                  </div>
+                )}
+
+                {weather?.daily.length ? (
+                  <>
+                    <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6">
+                      {weather.daily.map((item, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setActiveWeatherDay(idx)}
+                          className={`flex flex-col items-center rounded-2xl p-2.5 text-center transition-all ${
+                            activeWeatherDay === idx
+                              ? "bg-leaf-deep text-white shadow-soft scale-105"
+                              : "bg-white/60 text-soil hover:bg-white"
+                          }`}
+                        >
+                          <span className="text-xs font-bold">{item.day}</span>
+                          <span className="text-lg my-1">{item.icon}</span>
+                          <span className="text-xs font-semibold">{item.high}°</span>
+                          <span className={`text-[10px] ${activeWeatherDay === idx ? "text-emerald-200" : "text-stone"}`}>
+                            {item.rainMm > 0 ? `${item.rainMm}mm` : "Dry"}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="mt-5 rounded-2xl bg-white/70 p-3.5 border border-leaf-deep/10">
+                      <div className="flex items-center justify-between text-xs font-semibold text-leaf-deep">
+                        <span>{weather.daily[activeWeatherDay].day}, {weather.daily[activeWeatherDay].date} · {weather.daily[activeWeatherDay].condition}</span>
+                        <span>Max {weather.daily[activeWeatherDay].high}°</span>
+                      </div>
+                      <p className="text-[11px] text-stone mt-1">
+                        {weather.daily[activeWeatherDay].rainMm > 10
+                          ? "High moisture: indoor heat press recommended for optimal leaf bonding."
+                          : "Low moisture: perfect natural solar-curing window for sun-drying chai batches."}
+                      </p>
+                    </div>
+                  </>
+                ) : null}
+
+                {error && !weather && (
+                  <p className="mt-4 text-xs text-red-600">Couldn&apos;t load live weather right now. Please try again shortly.</p>
+                )}
               </div>
             </div>
 
