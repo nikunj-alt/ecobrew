@@ -20,7 +20,6 @@ export default function Header() {
   const { user, signOut, refresh } = useAuth();
   const { settings, updateSetting, openSettings, openSearch } = useAppSettings();
 
-  const [weatherOpen, setWeatherOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -55,57 +54,6 @@ export default function Header() {
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse ml-0.5" title="Bal Vigyan Live" />
               </div>
             </Link>
-
-            {/* Weather / Location Pill (Video 00:56) */}
-            <div className="relative hidden lg:block">
-              <button
-                type="button"
-                onClick={() => setWeatherOpen(!weatherOpen)}
-                className="flex items-center gap-2 rounded-full bg-black/5 hover:bg-black/10 px-3 py-1.5 text-xs font-medium text-soil transition-all border border-black/5"
-              >
-                <span>⛈️</span>
-                <span>{settings.locationName || "Indore"}</span>
-                <span className="text-stone">&bull;</span>
-                <span className="font-semibold text-leaf-deep">26° Thunderstorm</span>
-                <span className="text-[10px] text-stone">▾</span>
-              </button>
-
-              {weatherOpen && (
-                <div
-                  className="glass-strong absolute left-0 mt-2 w-72 rounded-2xl p-4 shadow-natural border border-white/30 z-50 text-xs animate-in fade-in zoom-in-95"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="flex items-center justify-between border-b border-leaf-deep/10 pb-2.5">
-                    <div>
-                      <p className="font-semibold text-leaf-deep">{settings.locationName} &bull; Bal Vigyan Stall</p>
-                      <p className="text-[11px] text-stone">Live weather telemetry</p>
-                    </div>
-                    <span className="text-2xl">⛈️</span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 mt-3 text-stone">
-                    <div className="rounded-xl bg-white/60 p-2">
-                      <p className="text-[10px] uppercase text-tea font-semibold">Temperature</p>
-                      <p className="text-sm font-bold text-soil">26°C (Feels 28°)</p>
-                    </div>
-                    <div className="rounded-xl bg-white/60 p-2">
-                      <p className="text-[10px] uppercase text-tea font-semibold">Precipitation</p>
-                      <p className="text-sm font-bold text-soil">12 mm rain</p>
-                    </div>
-                    <div className="rounded-xl bg-white/60 p-2">
-                      <p className="text-[10px] uppercase text-tea font-semibold">Air Quality</p>
-                      <p className="text-sm font-bold text-emerald-700">42 AQI &bull; Good</p>
-                    </div>
-                    <div className="rounded-xl bg-white/60 p-2">
-                      <p className="text-[10px] uppercase text-tea font-semibold">Humidity</p>
-                      <p className="text-sm font-bold text-soil">78%</p>
-                    </div>
-                  </div>
-                  <div className="mt-3 text-[10px] text-stone/80 text-center">
-                    Ideal atmospheric moisture for chai leaf curing
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
 
           {/* Center: Search Pill (Video 00:58) */}
