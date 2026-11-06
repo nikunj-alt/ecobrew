@@ -136,7 +136,7 @@ export default function CheckoutSteps() {
     <div>
       {/* Account requirement banner in checkout */}
       {!user ? (
-        <div className="mb-8 rounded-sm bg-leaf-deep/5 p-6 border border-leaf-deep/20 text-center">
+        <div className="mb-8 rounded-biophilic bg-leaf-deep/5 p-6 ring-1 ring-leaf-deep/20 text-center">
           <h3 className="font-display text-lg font-medium text-leaf-deep">
             Sign in to order
           </h3>
@@ -194,7 +194,7 @@ export default function CheckoutSteps() {
         ))}
       </ol>
 
-      <div className="rounded-sm border border-leaf-deep/8 bg-white/40 p-6 sm:p-8">
+      <div className="rounded-biophilic shadow-soft ring-1 ring-leaf-deep/8 bg-white/60 p-6 sm:p-8">
         {step === 0 && (
           <StepShipping values={customer} errors={customerErrors} onChange={setCustomerField} />
         )}

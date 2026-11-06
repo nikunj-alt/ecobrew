@@ -32,7 +32,7 @@ export default function ProductDetailPage() {
       </nav>
 
       <div className="grid gap-12 lg:grid-cols-2">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-kraft shadow-natural">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-biophilic bg-kraft shadow-natural">
           <Image src={product.image} alt={product.name} fill priority className="object-cover" />
         </div>
 

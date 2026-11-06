@@ -30,7 +30,7 @@ export default function CookieConsent() {
           transition={{ duration: 0.25, ease: "easeOut" }}
           role="dialog"
           aria-label="Cookie consent"
-          className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-xl rounded-sm border border-moss/15 bg-white/95 p-5 shadow-natural backdrop-blur"
+          className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-xl rounded-biophilic border border-moss/15 bg-white/95 p-5 shadow-natural backdrop-blur"
         >
           <div className="flex items-start gap-3">
             <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sprout/10 text-sprout-dark">

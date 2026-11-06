@@ -5,16 +5,16 @@ type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-leaf-deep text-oat hover:bg-soil border border-transparent transition-colors duration-300",
+    "bg-tea text-oat hover:bg-leaf-deep border border-transparent transition-all duration-300 hover:-translate-y-0.5 hover:shadow-natural",
   outline:
-    "border border-leaf-deep/30 text-leaf-deep hover:border-leaf-deep hover:bg-white/40 transition-colors duration-300",
-  ghost: "text-moss hover:bg-white/40",
+    "border border-leaf-deep/30 text-leaf-deep hover:border-tea hover:text-tea hover:bg-white/50 transition-all duration-300",
+  ghost: "text-moss hover:bg-white/50 hover:text-leaf-deep",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-4 text-sm",
-  md: "h-11 px-6 text-sm tracking-wide",
-  lg: "h-13 px-8 text-sm tracking-wide",
+  sm: "h-10 px-5 text-sm",
+  md: "h-12 px-7 text-sm font-medium",
+  lg: "h-14 px-9 text-base font-medium",
 };
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -34,7 +34,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`inline-flex items-center justify-center gap-2 rounded-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sprout disabled:cursor-not-allowed disabled:opacity-50 ${
+      className={`inline-flex items-center justify-center gap-2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tea disabled:cursor-not-allowed disabled:opacity-50 ${
         variants[variant]
       } ${sizes[size]} ${fullWidth ? "w-full" : ""} ${className}`}
       {...rest}

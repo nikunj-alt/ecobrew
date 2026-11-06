@@ -26,7 +26,7 @@ export default function OrderConfirmationPage() {
   return (
     <Container className="py-16 sm:py-24">
       {!order ? (
-        <div className="mx-auto max-w-lg rounded-sm border border-leaf-deep/8 bg-white/50 p-8 text-center">
+        <div className="mx-auto max-w-lg rounded-biophilic shadow-soft ring-1 ring-leaf-deep/8 bg-white/70 p-8 text-center">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-kraft">
             <LeafIcon className="h-6 w-6 text-moss" />
           </div>
@@ -40,7 +40,7 @@ export default function OrderConfirmationPage() {
         </div>
       ) : (
         <div className="mx-auto max-w-2xl">
-          <div className="flex flex-col items-start gap-4 rounded-sm bg-leaf-deep p-8 text-oat">
+          <div className="flex flex-col items-start gap-4 rounded-biophilic bg-leaf-deep p-8 text-oat shadow-natural">
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sprout text-leaf-deep">
               <CheckIcon className="h-6 w-6" />
             </span>
@@ -75,7 +75,7 @@ export default function OrderConfirmationPage() {
             </div>
           </div>
 
-          <div className="mt-8 rounded-sm border border-leaf-deep/8 bg-white/50 p-6 sm:p-8">
+          <div className="mt-8 rounded-biophilic shadow-soft ring-1 ring-leaf-deep/8 bg-white/70 p-6 sm:p-8">
             <h2 className="mb-4 text-lg font-medium text-leaf-deep">Items</h2>
             <div className="divide-y divide-moss/15">
               {order.items.map((item) => {
@@ -103,7 +103,7 @@ export default function OrderConfirmationPage() {
                 {formatINR(order.subtotal)}
               </span>
             </div>
-            <div className="mt-6 rounded-sm bg-kraft p-5 text-sm">
+            <div className="mt-6 rounded-2xl bg-kraft p-5 text-sm">
               <p className="font-medium text-leaf-deep">Deliver to</p>
               <p className="mt-1 text-moss">
                 {order.customer.name} — {order.customer.address}, {order.customer.city},{" "}

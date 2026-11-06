@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  /* EcoBrew — Quiet Luxury palette (editorial, organic modernism) */
-  --color-leaf-deep: #12382B; /* deep forest green (primary) */
-  --color-moss: #33574A; /* softened moss text */
-  --color-sprout: #2E6B4F; /* muted forest green accent */
+  /* EcoBrew — Organic Craft Editorial palette (warm, rich, earthy) */
+  --color-leaf-deep: #1F3D2E; /* deep forest green (primary) */
+  --color-moss: #365A48; /* body text */
+  --color-sprout: #2E6B4F; /* muted forest-green accent */
   --color-sprout-dark: #24583F; /* accent hover */
-  --color-tea: #8A5A3B; /* steeped-tea brown accent */
-  --color-tea-light: #B08A66;
-  --color-kraft: #F0EAE1; /* warm greige surface */
-  --color-kraft-dark: #D8CFC2;
-  --color-oat: #F7F2EB; /* warm ivory background */
-  --color-soil: #1B1B18; /* near-black warm contrast */
-  --color-stone: #6E6E66; /* secondary text */
+  --color-tea: #A05A32; /* terracotta / chai accent */
+  --color-tea-light: #C18B63; /* accent hover / eyebrow */
+  --color-kraft: #F3ECDF; /* warm greige surface */
+  --color-kraft-dark: #E0D2BD; /* raised surface / border */
+  --color-oat: #FBF7EF; /* warm cream background */
+  --color-soil: #221A14; /* warm near-black contrast */
+  --color-stone: #6E6258; /* secondary text */
 
   --font-display: var(--font-fraunces), serif;
   --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
@@ -25,21 +25,31 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Editorial shadow & refining utilities */
+/* Organic depth shadows & warm surface utility */
 @utility shadow-natural {
-  box-shadow: 0 24px 48px -16px rgb(18 56 43 / 0.16);
+  box-shadow: 0 20px 45px -18px rgb(31 61 46 / 0.22);
+}
+
+@utility shadow-soft {
+  box-shadow: 0 8px 30px -12px rgb(31 61 46 / 0.14);
 }
 
 @utility rounded-biophilic {
-  border-radius: 0.75rem;
+  border-radius: 1.25rem;
+}
+
+/* Subtle paper grain for warmth */
+@utility bg-grain {
+  background-image: radial-gradient(rgba(34, 26, 20, 0.04) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
 @layer base {
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 450;
+    font-weight: 500;
     letter-spacing: -0.02em;
-    line-height: 1.1;
+    line-height: 1.08;
   }
 }
 

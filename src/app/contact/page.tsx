@@ -98,7 +98,7 @@ export default function ContactPage() {
               value={form.message}
               onChange={(e) => setField("message", e.target.value)}
               placeholder="Tell us what you'd like to know…"
-              className={`rounded-sm border bg-white/60 px-4 py-3 text-sm text-leaf-deep placeholder:text-moss/50 focus:border-sprout focus:outline-2 focus:outline-sprout/40 ${
+              className={`rounded-2xl border border-leaf-deep/15 bg-white/70 px-5 py-4 text-sm text-leaf-deep placeholder:text-moss/50 focus:border-tea focus:outline-2 focus:outline-tea/40 ${
                 errors.message ? "border-red-400" : "border-moss/25"
               }`}
             />
@@ -117,14 +117,14 @@ export default function ContactPage() {
         </form>
 
         <aside className="space-y-5">
-          <div className="rounded-sm border border-leaf-deep/8 bg-white/50 p-6">
+          <div className="rounded-biophilic shadow-soft ring-1 ring-leaf-deep/8 bg-white/70 p-6">
             <h3 className="font-display text-lg font-medium text-leaf-deep">The team</h3>
             <p className="mt-2 text-sm leading-relaxed text-moss">
               Students showcasing EcoBrew at Bal Vigyan. We're happy to talk about
               the science, the brand, and the next steps.
             </p>
           </div>
-          <div className="rounded-sm bg-leaf-deep p-6 text-oat">
+          <div className="rounded-biophilic bg-leaf-deep p-6 text-oat shadow-natural">
             <LeafIcon className="h-6 w-6 text-sprout" />
             <h3 className="mt-3 font-display text-lg font-medium">Reach us</h3>
             <ul className="mt-3 space-y-2 text-sm text-oat/80">

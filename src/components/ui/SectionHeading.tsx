@@ -10,15 +10,16 @@ export default function SectionHeading({
   align?: "left" | "center";
 }) {
   const alignCls = align === "center" ? "mx-auto text-center" : "";
+  const ruleAlign = align === "center" ? "mx-auto" : "";
   return (
     <div className={`max-w-2xl ${alignCls}`}>
       {tag && (
-        <p className="mb-4 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.22em] text-tea">
-          <span className="h-px w-8 bg-tea/50" />
+        <p className="mb-4 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-tea">
+          <span className={`h-px w-10 bg-tea/50 ${ruleAlign}`} />
           {tag}
         </p>
       )}
-      <h2 className="text-4xl font-medium text-leaf-deep sm:text-[2.75rem]">
+      <h2 className="text-4xl font-medium text-leaf-deep sm:text-[2.9rem]">
         {title}
       </h2>
       {subtitle && (

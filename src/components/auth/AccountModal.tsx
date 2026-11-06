@@ -145,7 +145,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-sm bg-oat p-6 shadow-2xl ring-1 ring-leaf-deep/15 sm:p-8">
+      <div className="w-full max-w-md rounded-biophilic bg-oat p-6 shadow-2xl ring-1 ring-leaf-deep/15 sm:p-8">
         <div className="flex items-center justify-between pb-4 border-b border-moss/15">
           <h3 className="font-display text-xl font-medium text-leaf-deep">
             {tab === "login" ? "Sign in" : "Create an account"}

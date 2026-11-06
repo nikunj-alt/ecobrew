@@ -79,7 +79,7 @@ export default function Header() {
             ) : (
               <button
                 onClick={() => setIsAuthOpen(true)}
-                className="rounded-sm border border-leaf-deep/25 px-4 py-2 text-xs font-medium tracking-wide text-leaf-deep transition-colors hover:bg-leaf-deep/10"
+                className="rounded-full border border-leaf-deep/25 px-5 py-2 text-xs font-semibold tracking-wide text-leaf-deep transition-colors hover:bg-leaf-deep/10"
               >
                 Sign in
               </button>
