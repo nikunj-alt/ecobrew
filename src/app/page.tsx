@@ -50,7 +50,7 @@ export default function Home() {
   const { openSearch } = useAppSettings();
   const { addItem } = useCart();
   const [activeWeatherDay, setActiveWeatherDay] = useState<number>(0);
-  const { weather, loading, error } = useWeather();
+  const { weather, loading, error, permissionDenied, refreshLocation } = useWeather();
 
   const featured = products.filter((p) => p.featured).slice(0, 3);
   const heroProduct = products.find((p) => p.slug === "leaf-pen-stand") || products[0];
@@ -288,7 +288,7 @@ export default function Home() {
                     <span className="text-xl">{weather?.current?.icon ?? "🌡️"}</span>
                     <div>
                       <h3 className="font-display text-base font-bold text-leaf-deep">
-                        Indore, India
+                        {weather?.city ?? "Indore, India"}
                       </h3>
                       <p className="text-[11px] text-stone">
                         {weather
@@ -301,6 +301,21 @@ export default function Home() {
                     {weather?.current ? `${Math.round(weather.current.temp)}°C ${weather.current.condition}` : "…"}
                   </span>
                 </div>
+
+                {permissionDenied && (
+                  <div className="mt-3 flex items-center justify-between gap-2 rounded-2xl bg-white/60 border border-leaf-deep/10 px-3 py-2">
+                    <span className="text-[11px] text-stone">
+                      Showing default (Indore) forecast.
+                    </span>
+                    <button
+                      type="button"
+                      onClick={refreshLocation}
+                      className="shrink-0 rounded-full bg-leaf-deep px-3 py-1 text-[11px] font-semibold text-white hover:bg-sprout-dark transition-colors"
+                    >
+                      Use my location
+                    </button>
+                  </div>
+                )}
 
                 {loading && !weather && (
                   <div className="mt-4 space-y-3 animate-pulse">

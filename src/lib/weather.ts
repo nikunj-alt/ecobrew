@@ -32,8 +32,8 @@ export interface WeatherData {
   aqi: number | null;
 }
 
-const LAT = 22.7196;
-const LON = 75.8577; // Indore, Madhya Pradesh
+const DEFAULT_LAT = 22.7196;
+const DEFAULT_LON = 75.8577; // Indore, Madhya Pradesh
 
 interface WmoInfo {
   label: string;
@@ -102,13 +102,48 @@ async function getJSON(url: string): Promise<Record<string, unknown>> {
   }
 }
 
-export async function fetchWeather(): Promise<WeatherData> {
-  const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,cloud_cover,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&forecast_days=7&timezone=Asia%2FKolkata`;
+// Reverse-geocode a coordinate pair into a friendly "City, Country" label using
+// OpenStreetMap's Nominatim. Returns null if it fails (we fall back to a generic
+// label). Free, no API key required.
+async function reverseGeocode(lat: number, lon: number): Promise<string | null> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    try {
+      const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=jsonv2&accept-language=en`;
+      const res = await fetch(url, {
+        signal: controller.signal,
+        headers: { "User-Agent": "EcoBrew/1.0 (https://ecobrew-live.vercel.app)" },
+      });
+      if (!res.ok) return null;
+      const data = (await res.json()) as { address?: Record<string, string> };
+      const a = data.address ?? {};
+      const town = a.city || a.town || a.village || a.county || a.state_district;
+      const state = a.state;
+      const country = a.country;
+      if (town && country) return `${town}, ${country}`;
+      if (town && state) return `${town}, ${state}`;
+      if (town) return town;
+      if (state && country) return `${state}, ${country}`;
+      return null;
+    } finally {
+      clearTimeout(timeout);
+    }
+  } catch {
+    return null;
+  }
+}
+
+export async function fetchWeather(lat?: number, lon?: number): Promise<WeatherData> {
+  const useLat = typeof lat === "number" && Number.isFinite(lat) ? lat : DEFAULT_LAT;
+  const useLon = typeof lon === "number" && Number.isFinite(lon) ? lon : DEFAULT_LON;
+
+  const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${useLat}&longitude=${useLon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,cloud_cover,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&forecast_days=7&timezone=Asia%2FKolkata`;
 
   const [fc, aq] = await Promise.all([
     getJSON(forecastUrl),
     getJSON(
-      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${LAT}&longitude=${LON}&current=us_aqi`,
+      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${useLat}&longitude=${useLon}&current=us_aqi`,
     ).catch(() => null),
   ]);
 
@@ -155,5 +190,10 @@ export async function fetchWeather(): Promise<WeatherData> {
     ? Number((aq.current as Record<string, unknown>).us_aqi ?? null)
     : null;
 
-  return { city: "Indore, India", updatedAt: new Date(), current, daily, aqi };
+  let cityName = "Indore, India";
+  if (typeof lat === "number" && typeof lon === "number") {
+    cityName = (await reverseGeocode(useLat, useLon)) ?? "Your location";
+  }
+
+  return { city: cityName, updatedAt: new Date(), current, daily, aqi };
 }
