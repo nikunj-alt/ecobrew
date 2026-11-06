@@ -1,17 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  /* EcoBrew Organic Biophilic palette & design intelligence tokens */
-  --color-leaf-deep: #064E3B; /* deep nature green */
-  --color-moss: #065F46; /* moss text */
-  --color-sprout: #059669; /* vibrant emerald primary */
-  --color-sprout-dark: #047857; /* accent hover */
-  --color-tea: #7C5233; /* steeped-tea brown accent */
-  --color-tea-light: #A57A52;
-  --color-kraft: #E8F1F3; /* soft muted surface */
-  --color-kraft-dark: #CBD5E1;
-  --color-oat: #ECFDF5; /* organic biophilic background */
-  --color-soil: #0F172A; /* dark contrast footer */
+  /* EcoBrew — Quiet Luxury palette (editorial, organic modernism) */
+  --color-leaf-deep: #12382B; /* deep forest green (primary) */
+  --color-moss: #33574A; /* softened moss text */
+  --color-sprout: #2E6B4F; /* muted forest green accent */
+  --color-sprout-dark: #24583F; /* accent hover */
+  --color-tea: #8A5A3B; /* steeped-tea brown accent */
+  --color-tea-light: #B08A66;
+  --color-kraft: #F0EAE1; /* warm greige surface */
+  --color-kraft-dark: #D8CFC2;
+  --color-oat: #F7F2EB; /* warm ivory background */
+  --color-soil: #1B1B18; /* near-black warm contrast */
+  --color-stone: #6E6E66; /* secondary text */
 
   --font-display: var(--font-fraunces), serif;
   --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
@@ -24,20 +25,21 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Biophilic organic shadow & border utilities */
+/* Editorial shadow & refining utilities */
 @utility shadow-natural {
-  box-shadow: 0 16px 36px -12px rgb(5 150 105 / 0.18);
+  box-shadow: 0 24px 48px -16px rgb(18 56 43 / 0.16);
 }
 
 @utility rounded-biophilic {
-  border-radius: 1.25rem;
+  border-radius: 0.75rem;
 }
 
 @layer base {
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.015em;
+    font-weight: 450;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
 }
 

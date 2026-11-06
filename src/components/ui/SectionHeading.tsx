@@ -13,13 +13,16 @@ export default function SectionHeading({
   return (
     <div className={`max-w-2xl ${alignCls}`}>
       {tag && (
-        <p className="mb-2 text-sm font-medium text-tea">{tag}</p>
+        <p className="mb-4 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.22em] text-tea">
+          <span className="h-px w-8 bg-tea/50" />
+          {tag}
+        </p>
       )}
-      <h2 className="text-3xl font-medium text-leaf-deep sm:text-4xl">
+      <h2 className="text-4xl font-medium text-leaf-deep sm:text-[2.75rem]">
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-3 text-base leading-relaxed text-moss">{subtitle}</p>
+        <p className="mt-4 text-base leading-relaxed text-moss">{subtitle}</p>
       )}
     </div>
   );

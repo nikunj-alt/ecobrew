@@ -13,7 +13,7 @@ export default function ProductsPage() {
       <SectionHeading
         tag="The shop"
         title="Everything here was once a cup of chai"
-        subtitle="Browse the eco — choose a category or see it all. Products are managed from the admin panel and served from the database."
+        subtitle="Choose a category or browse the whole range."
       />
       <div className="mt-10">
         <CategoryFilter products={products} />

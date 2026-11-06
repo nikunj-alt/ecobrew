@@ -79,7 +79,7 @@ export default function MyOrdersPage() {
 
       {/* Active orders banner */}
       {activeOrders.length > 0 && (
-        <div className="mt-8 rounded-2xl border border-sprout/30 bg-sprout/10 p-5 sm:p-6">
+        <div className="mt-8 rounded-sm border border-sprout/30 bg-sprout/10 p-5 sm:p-6">
           <div className="flex items-center gap-2 text-leaf-deep">
             <span className="h-2.5 w-2.5 rounded-full bg-sprout animate-pulse" />
             <h2 className="font-medium">In transit</h2>
@@ -101,7 +101,7 @@ export default function MyOrdersPage() {
       <section className="mt-10">
         <h2 className="text-lg font-medium text-leaf-deep">Your orders</h2>
         {orders.length === 0 ? (
-          <div className="mt-4 rounded-2xl bg-white/50 p-8 text-center text-sm text-moss">
+          <div className="mt-4 rounded-sm border border-leaf-deep/8 bg-white/50 p-8 text-center text-sm text-moss">
             <p>You haven't placed any orders yet.</p>
             <Link href="/products" className="mt-4 inline-block">
               <Button size="sm">Browse products</Button>
@@ -110,7 +110,7 @@ export default function MyOrdersPage() {
         ) : (
           <div className="mt-4 space-y-4">
             {orders.map((order) => (
-              <div key={order.id} className="rounded-2xl bg-white/50 p-5 sm:p-6">
+              <div key={order.id} className="rounded-sm border border-leaf-deep/8 bg-white/50 p-5 sm:p-6">
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                   <span className="font-medium text-leaf-deep">{order.id}</span>
                   <OrderStatusBadge status={order.status} />
@@ -168,7 +168,7 @@ export default function MyOrdersPage() {
         ) : (
           <div className="mt-4 space-y-4">
             {contacts.map((c) => (
-              <div key={c.id} className="rounded-2xl bg-white/50 p-5">
+              <div key={c.id} className="rounded-sm border border-leaf-deep/8 bg-white/50 p-5">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <span className="text-xs text-moss">{formatShortDate(c.createdAt)}</span>
                   {c.reply ? (

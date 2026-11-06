@@ -12,7 +12,7 @@ export default function ProcessPage() {
   return (
     <Container className="py-16 sm:py-24">
       <SectionHeading
-        tag="The journey"
+        tag="The method"
         title="Seven steps, leaf to product"
         subtitle="Every EcoBrew piece starts in a used chai glass and ends as something useful. Here is the whole route."
       />

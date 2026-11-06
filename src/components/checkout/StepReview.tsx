@@ -19,7 +19,7 @@ export default function StepReview({
     <div className="space-y-6">
       <div>
         <h3 className="mb-3 text-sm font-medium text-moss">Items</h3>
-        <div className="divide-y divide-moss/15 rounded-xl bg-white/50 px-5">
+        <div className="divide-y divide-moss/15 rounded-sm bg-white/50 px-5">
           {items.map((item) => {
             const product = getProduct(item.slug);
             if (!product) return null;
@@ -43,7 +43,7 @@ export default function StepReview({
 
       <div>
         <h3 className="mb-3 text-sm font-medium text-moss">Deliver to</h3>
-        <div className="rounded-xl bg-white/50 px-5 py-4 text-sm text-leaf-deep">
+        <div className="rounded-sm bg-white/50 px-5 py-4 text-sm text-leaf-deep">
           <p className="font-medium">{customer.name}</p>
           <p className="text-moss">
             {customer.address}, {customer.city}, {customer.state} — {customer.pincode}
@@ -52,7 +52,7 @@ export default function StepReview({
         </div>
       </div>
 
-      <div className="flex items-center justify-between rounded-xl bg-kraft px-5 py-4">
+      <div className="flex items-center justify-between rounded-sm bg-kraft px-5 py-4">
         <span className="font-medium text-leaf-deep">Subtotal</span>
         <span className="font-display text-xl font-semibold text-leaf-deep">
           {formatINR(subtotal)}

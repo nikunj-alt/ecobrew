@@ -136,16 +136,16 @@ export default function CheckoutSteps() {
     <div>
       {/* Account requirement banner in checkout */}
       {!user ? (
-        <div className="mb-8 rounded-2xl bg-leaf-deep/5 p-6 border border-leaf-deep/20 text-center">
+        <div className="mb-8 rounded-sm bg-leaf-deep/5 p-6 border border-leaf-deep/20 text-center">
           <h3 className="font-display text-lg font-medium text-leaf-deep">
-            Account Required to Order
+            Sign in to order
           </h3>
           <p className="mt-1 text-sm text-moss">
-            To place an order, you need a separate EcoBrew account with a unique User ID and password. Every user has a different ID.
+            Orders need a free EcoBrew account — your own unique User ID and password.
           </p>
           <div className="mt-4">
             <Button onClick={() => setIsAuthModalOpen(true)}>
-              Sign In or Register Unique ID
+              Sign in or create an account
             </Button>
           </div>
         </div>
@@ -194,7 +194,7 @@ export default function CheckoutSteps() {
         ))}
       </ol>
 
-      <div className="rounded-2xl bg-white/40 p-6 sm:p-8">
+      <div className="rounded-sm border border-leaf-deep/8 bg-white/40 p-6 sm:p-8">
         {step === 0 && (
           <StepShipping values={customer} errors={customerErrors} onChange={setCustomerField} />
         )}

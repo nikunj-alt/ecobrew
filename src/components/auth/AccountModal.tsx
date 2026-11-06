@@ -145,10 +145,10 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-2xl bg-oat p-6 shadow-2xl ring-1 ring-leaf-deep/15 sm:p-8">
+      <div className="w-full max-w-md rounded-sm bg-oat p-6 shadow-2xl ring-1 ring-leaf-deep/15 sm:p-8">
         <div className="flex items-center justify-between pb-4 border-b border-moss/15">
           <h3 className="font-display text-xl font-medium text-leaf-deep">
-            {tab === "login" ? "Customer Account Login" : "Create Account for Ordering"}
+            {tab === "login" ? "Sign in" : "Create an account"}
           </h3>
           <button
             onClick={onClose}
@@ -208,7 +208,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
               tab === "register" ? "bg-leaf-deep text-oat shadow-sm" : "text-moss hover:text-leaf-deep"
             }`}
           >
-            Register New ID
+            Create account
           </button>
         </div>
 
@@ -222,7 +222,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
           <form onSubmit={handleLogin} className="mt-6 space-y-4">
             <div>
               <label className="block text-xs font-medium uppercase tracking-wider text-moss mb-1">
-                Unique User ID
+                User ID
               </label>
               <Input
                 type="text"
@@ -232,7 +232,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
                 onChange={(e) => setUserId(e.target.value)}
                 autoComplete="username"
               />
-              <p className="mt-1 text-xs text-moss/70">Every user has a unique ID (no duplicates allowed).</p>
+              <p className="mt-1 text-xs text-moss/70">Every user gets a unique ID.</p>
             </div>
 
             <div>
@@ -250,7 +250,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
 
             <div className="pt-2">
               <Button type="submit" disabled={loading} className="w-full">
-                {loading ? "Signing in..." : "Login to Order"}
+                {loading ? "Signing in…" : "Sign in"}
               </Button>
             </div>
           </form>
@@ -258,7 +258,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
           <form onSubmit={handleRegister} className="mt-6 space-y-3 max-h-[60vh] overflow-y-auto pr-1">
             <div>
               <label className="block text-xs font-medium uppercase tracking-wider text-moss mb-1">
-                Unique User ID (Required) *
+                User ID *
               </label>
               <Input
                 type="text"
@@ -339,7 +339,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
 
             <div className="pt-3">
               <Button type="submit" disabled={loading || idStatus === "taken"} className="w-full">
-                {loading ? "Creating Account..." : "Create Account & Continue"}
+                {loading ? "Creating account…" : "Create account"}
               </Button>
             </div>
           </form>

@@ -36,8 +36,8 @@ export default function AboutPage() {
       />
 
       <div className="mt-12 grid gap-10 lg:grid-cols-3">
-        <div className="rounded-2xl bg-white/50 p-7 lg:col-span-2">
-          <h2 className="text-2xl text-leaf-deep">Where it started</h2>
+        <div className="rounded-sm border border-leaf-deep/8 bg-white/50 p-8 lg:col-span-2">
+          <h2 className="text-2xl font-medium text-leaf-deep">Where it started</h2>
           <div className="mt-4 space-y-4 text-base leading-relaxed text-moss">
             <p>
               Every day, millions of cups of chai are drunk in India. After the
@@ -57,7 +57,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl bg-leaf-deep p-7 text-oat">
+        <div className="rounded-sm bg-leaf-deep p-8 text-oat">
           <h2 className="text-xl font-medium text-sprout">The three Rs</h2>
           <div className="mt-5 space-y-6">
             {values.map((v) => (

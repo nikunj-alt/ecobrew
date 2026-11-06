@@ -5,9 +5,8 @@ import Link from "next/link";
 import Container from "@/components/layout/Container";
 import Button from "@/components/ui/Button";
 import SectionHeading from "@/components/ui/SectionHeading";
-import LiquidMetalShader from "@/components/ui/liquid-metal-shader";
+import Reveal from "@/components/ui/Reveal";
 import { CardStack, CardStackItem } from "@/components/ui/card-stack";
-import WireframeGlobe from "@/components/home/WireframeGlobe";
 import ProductCard from "@/components/product/ProductCard";
 import { processSteps } from "@/lib/data/process";
 import { HOME_STATS } from "@/lib/constants";
@@ -34,37 +33,40 @@ export default function Home() {
       <InTransitBand />
 
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-moss/15">
-        <div className="absolute inset-0" aria-hidden="true">
-          <LiquidMetalShader />
-        </div>
+      <section className="relative overflow-hidden bg-leaf-deep">
         <div
-          className="absolute inset-0 bg-gradient-to-b from-leaf-deep/80 via-leaf-deep/35 to-leaf-deep/80"
+          className="pointer-events-none absolute inset-0 opacity-[0.5]"
           aria-hidden="true"
+          style={{
+            backgroundImage:
+              "radial-gradient(58% 48% at 78% 18%, rgba(240,234,225,0.14), transparent 62%), radial-gradient(42% 46% at 8% 82%, rgba(138,90,59,0.18), transparent 60%)",
+          }}
         />
-        <Container className="relative grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-2">
+        <Container className="relative grid items-center gap-14 py-20 sm:py-28 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
-            <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-sprout/20 px-4 py-1.5 text-sm font-medium text-sprout">
-              <LeafIcon className="h-4 w-4" /> A Bal Vigyan student project
+            <p className="mb-6 inline-flex items-center gap-3 text-sm text-oat/60">
+              <span className="h-px w-10 bg-tea-light" />
+              A Bal Vigyan student project
             </p>
-            <h1 className="text-4xl leading-tight text-oat sm:text-5xl lg:text-6xl">
-              Spent tea leaves make{" "}
-              <span className="text-sprout">useful things</span>.
+            <h1 className="text-5xl leading-[1.05] text-oat sm:text-6xl lg:text-[4.25rem]">
+              Spent tea leaves make useful things.
             </h1>
-            <p className="mt-5 max-w-lg text-lg leading-relaxed text-oat/80">
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-oat/75">
               EcoBrew collects the tea leaves left behind in a chai glass and
               turns them into pen stands, stationery, and mini furniture —
               nothing wasted, nothing new.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-10 flex flex-wrap gap-4">
               <Link href="/products">
-                <Button size="lg">Shop the range</Button>
+                <Button size="lg" className="bg-oat text-leaf-deep hover:bg-white">
+                  Shop the range
+                </Button>
               </Link>
               <Link href="/process">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-oat/50 text-oat hover:border-oat hover:bg-white/10"
+                  className="border-oat/40 text-oat hover:border-oat hover:bg-white/10"
                 >
                   See how it's made
                 </Button>
@@ -72,8 +74,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative">
-            <div className="relative aspect-square overflow-hidden rounded-3xl bg-kraft shadow-natural">
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-kraft shadow-2xl">
               <Image
                 src={heroImage}
                 alt={heroProduct?.name ?? "EcoBrew product"}
@@ -83,13 +85,10 @@ export default function Home() {
               />
             </div>
             {heroProduct && (
-              <div className="absolute -bottom-4 left-4 flex items-center gap-3 rounded-2xl bg-white/90 px-5 py-3 shadow-natural backdrop-blur">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sprout text-leaf-deep">
-                  <LeafIcon className="h-4 w-4" />
-                </span>
+              <div className="absolute -bottom-5 left-6 flex items-center gap-4 bg-oat px-6 py-4 shadow-natural">
                 <div>
-                  <p className="text-sm font-medium text-leaf-deep">{heroProduct.name}</p>
-                  <p className="text-xs text-moss">From ~40 cups of chai</p>
+                  <p className="font-display text-lg font-medium text-leaf-deep">{heroProduct.name}</p>
+                  <p className="text-sm text-moss">From ~40 cups of chai</p>
                 </div>
               </div>
             )}
@@ -109,57 +108,66 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* Liquid metal brand band */}
-      <section className="relative overflow-hidden py-20">
-        <div className="absolute inset-0" aria-hidden="true">
-          <LiquidMetalShader baseColor="#16241b" metalColor="#3a4a3e" highlightColor="#d8e7cc" />
-        </div>
-        <div className="absolute inset-0 bg-leaf-deep/40" aria-hidden="true" />
-        <Container className="relative text-center">
-          <p className="font-display text-3xl font-medium text-oat sm:text-4xl">
+      {/* Brand band */}
+      <section className="border-y border-leaf-deep/8 bg-kraft/60 py-24 sm:py-28">
+        <Container className="text-center">
+          <p className="font-display text-4xl font-medium leading-tight text-leaf-deep sm:text-5xl">
             Nothing wasted. Nothing new. Just chai.
           </p>
-          <p className="mx-auto mt-3 max-w-md text-sm text-oat/75">
+          <p className="mx-auto mt-5 max-w-md text-base text-moss">
             Every piece starts as the leaves left in your glass.
           </p>
         </Container>
       </section>
 
       {/* Process teaser */}
-      <section className="py-16 sm:py-24">
+      <section className="py-24 sm:py-32">
         <Container>
-          <SectionHeading
-            tag="The method"
-            title="From chai waste to a finished piece"
-            subtitle="A simple, waste-free process — every step is safe and natural."
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {processSteps.slice(0, 6).map((step) => (
-              <div key={step.n} className="rounded-2xl bg-white/50 p-5">
-                <span className="font-display text-sm font-medium text-sprout-dark">Step {step.n}</span>
-                <h3 className="mt-1 font-display text-lg font-medium text-leaf-deep">{step.title}</h3>
-              </div>
+          <Reveal>
+            <SectionHeading
+              tag="The method"
+              title="From chai waste to a finished piece"
+              subtitle="A simple, waste-free process — every step is safe and natural."
+            />
+          </Reveal>
+          <div className="mt-14 grid gap-x-12 gap-y-10 border-t border-leaf-deep/10 pt-10 sm:grid-cols-2 lg:grid-cols-3">
+            {processSteps.slice(0, 6).map((step, i) => (
+              <Reveal key={step.n} delay={i * 0.05}>
+                <div className="group flex gap-5">
+                  <span className="font-display text-2xl font-light text-tea/60">
+                    {String(step.n).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-xl font-medium text-leaf-deep">{step.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-moss">{step.body}</p>
+                  </div>
+                </div>
+              </Reveal>
             ))}
+          </div>
+          <Reveal className="mt-14">
             <Link
               href="/process"
-              className="group flex items-center justify-between rounded-2xl bg-leaf-deep p-5 text-oat transition-colors hover:bg-soil"
+              className="group inline-flex items-center gap-3 border-b border-leaf-deep/30 pb-1 text-sm font-medium tracking-wide text-leaf-deep transition-colors hover:border-tea hover:text-tea"
             >
-              <span className="font-medium">See all 7 steps</span>
-              <ArrowRightIcon className="h-5 w-5 text-sprout transition-transform group-hover:translate-x-1" />
+              See all 7 steps
+              <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
-          </div>
+          </Reveal>
         </Container>
       </section>
 
-      {/* 3D collection gallery */}
-      <section className="overflow-hidden bg-white/40 py-16 sm:py-24">
+      {/* Collection gallery */}
+      <section className="overflow-hidden bg-white/40 py-24 sm:py-32">
         <Container>
-          <SectionHeading
-            tag="The range"
-            title="Pick a piece to explore"
-            subtitle="Every product begins as spent tea leaves — swipe through the range."
-          />
-          <div className="mt-6">
+          <Reveal>
+            <SectionHeading
+              tag="The range"
+              title="Pick a piece"
+              subtitle="Every product begins as spent tea leaves — swipe through the range."
+            />
+          </Reveal>
+          <Reveal className="mt-10">
             <CardStack
               items={carouselItems}
               maxVisible={5}
@@ -171,54 +179,74 @@ export default function Home() {
               pauseOnHover
               showDots
             />
-          </div>
+          </Reveal>
         </Container>
       </section>
 
       {/* Featured products */}
-      <section className="py-16 sm:py-24">
+      <section className="py-24 sm:py-32">
         <Container>
-          <div className="flex items-end justify-between gap-4">
-            <SectionHeading tag="The shop" title="Featured products" />
-            <Link href="/products" className="hidden shrink-0 items-center gap-1 text-sm font-medium text-sprout-dark hover:underline sm:inline-flex">
-              View all <ArrowRightIcon className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((product) => (
-              <ProductCard key={product.slug} product={product} />
+          <Reveal>
+            <div className="flex items-end justify-between gap-4">
+              <SectionHeading tag="The shop" title="Featured products" />
+              <Link href="/products" className="hidden shrink-0 items-center gap-2 border-b border-leaf-deep/30 pb-0.5 text-sm font-medium text-leaf-deep transition-colors hover:border-tea hover:text-tea sm:inline-flex">
+                View all <ArrowRightIcon className="h-4 w-4" />
+              </Link>
+            </div>
+          </Reveal>
+          <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((product, i) => (
+              <Reveal key={product.slug} delay={i * 0.08}>
+                <ProductCard product={product} />
+              </Reveal>
             ))}
           </div>
-          <div className="mt-8 sm:hidden">
+          <Reveal className="mt-10 sm:hidden">
             <Link href="/products">
               <Button fullWidth variant="outline">View all products</Button>
             </Link>
-          </div>
+          </Reveal>
         </Container>
       </section>
 
       {/* Story teaser */}
-      <section className="bg-white/40 py-16 sm:py-24">
-        <Container className="grid items-center gap-10 lg:grid-cols-2">
-          <div className="order-2 lg:order-1">
+      <section className="bg-white/40 py-24 sm:py-32">
+        <Container className="grid items-center gap-14 lg:grid-cols-2">
+          <Reveal className="order-2 lg:order-1">
             <SectionHeading
               tag="About us"
               title="A school project with a small, real idea"
               subtitle="We asked a simple question: what happens to the tea leaves after the cup is emptied? Mostly they're thrown away. So we decided to make something from them."
             />
-            <Link href="/about" className="mt-6 inline-block">
+            <Link href="/about" className="mt-8 inline-block">
               <Button variant="outline">Read our story</Button>
             </Link>
-          </div>
-          <div className="order-1 lg:order-2">
-            <div className="relative overflow-hidden rounded-3xl bg-leaf-deep shadow-natural">
-              <WireframeGlobe className="h-[340px] w-full lg:h-[420px]" />
-              <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 bg-gradient-to-t from-leaf-deep/90 to-transparent p-5">
-                <LeafIcon className="h-6 w-6 text-sprout" />
-                <p className="text-sm text-oat">100% reclaimed — every piece starts as chaipatti.</p>
+          </Reveal>
+          <Reveal delay={0.1} className="order-1 lg:order-2">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-leaf-deep shadow-natural">
+              {featured[1] ? (
+                <Image
+                  src={featured[1].image}
+                  alt={featured[1].name}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <Image
+                  src={heroImage}
+                  alt="EcoBrew product"
+                  fill
+                  className="object-cover"
+                />
+              )}
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-leaf-deep/90 to-transparent p-6">
+                <p className="flex items-center gap-2 text-sm text-oat">
+                  <LeafIcon className="h-4 w-4 text-sprout" />
+                  100% reclaimed — every piece starts as chaipatti.
+                </p>
               </div>
             </div>
-          </div>
+          </Reveal>
         </Container>
       </section>
     </>

@@ -1,5 +1,4 @@
 import { processSteps } from "@/lib/data/process";
-import { LeafIcon } from "@/components/icons";
 
 export default function ProcessTimeline() {
   return (
@@ -16,10 +15,6 @@ export default function ProcessTimeline() {
           </div>
         </li>
       ))}
-      <div className="flex items-center gap-3 pt-2 text-moss">
-        <LeafIcon className="h-5 w-5 text-sprout" />
-        <span className="text-sm font-medium">…and a product is born.</span>
-      </div>
     </ol>
   );
 }
