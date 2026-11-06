@@ -46,6 +46,7 @@ export default function LiveLocationButton({
       className={`flex flex-col gap-3 ${align === "center" ? "items-center text-center" : "items-start text-left"} ${className}`}
     >
       <Button
+        type="button"
         onClick={handleClick}
         disabled={busy}
         size={compact ? "sm" : "lg"}
