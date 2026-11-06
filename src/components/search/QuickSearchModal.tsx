@@ -22,6 +22,30 @@ export default function QuickSearchModal() {
     return () => clearTimeout(t);
   }, [isSearchOpen]);
 
+  // Close on Escape (advertised in the footer). Listens on the window so it
+  // works even if focus is elsewhere on the page.
+  useEffect(() => {
+    if (!isSearchOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeSearch();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isSearchOpen, closeSearch]);
+
+  // Lock body scroll while the search modal is open.
+  useEffect(() => {
+    if (!isSearchOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isSearchOpen]);
+
   if (!isSearchOpen) return null;
 
   const clean = query.trim().toLowerCase();
@@ -44,7 +68,10 @@ export default function QuickSearchModal() {
     : processSteps.slice(0, 3);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 sm:pt-28 bg-black/60 p-4 backdrop-blur-md transition-all">
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center pt-20 sm:pt-28 bg-black/60 p-4 backdrop-blur-md transition-all"
+      onClick={closeSearch}
+    >
       <div
         className="glass-strong relative w-full max-w-2xl overflow-hidden rounded-2xl p-4 shadow-2xl border border-white/20 sm:p-6"
         onClick={(e) => e.stopPropagation()}
