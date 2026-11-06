@@ -68,7 +68,7 @@ export default function Home() {
       <InTransitBand />
 
       {/* Hero — Fullscreen Cinematic Mountain Sunset */}
-      <section className="relative min-h-[92vh] overflow-hidden flex flex-col justify-between pt-12 pb-20">
+      <section className="relative min-h-[92vh] overflow-hidden flex flex-col justify-between pt-10 pb-14 sm:pt-12 sm:pb-20">
         {/* Cinematic Mountain Sunset Background Image */}
         <div className="absolute inset-0 -z-10">
           <Image
@@ -84,7 +84,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_0%,rgba(16,29,23,0.7)_100%)]" />
         </div>
 
-        <Container className="relative z-10 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] my-auto">
+        <Container className="relative z-10 grid items-center gap-8 sm:gap-12 lg:grid-cols-[1.1fr_0.9fr] my-auto">
           {/* Left Column: Typographic Hero */}
           <div className="max-w-2xl text-left">
             {/* Micro Eyebrow */}
@@ -204,7 +204,7 @@ export default function Home() {
 
       {/* Stats Bar */}
       <section className="border-y border-leaf-deep/15 bg-white/70 backdrop-blur-md">
-        <Container className="grid grid-cols-2 gap-8 py-10 lg:grid-cols-4">
+        <Container className="grid grid-cols-2 gap-6 py-8 sm:gap-8 sm:py-10 lg:grid-cols-4">
           {HOME_STATS.map((stat) => (
             <div key={stat.label} className="text-center lg:text-left">
               <p className="font-display text-3xl sm:text-4xl font-bold text-leaf-deep">{stat.value}</p>
@@ -215,7 +215,7 @@ export default function Home() {
       </section>
 
       {/* Bento Grid Section — Video 01:25 - 01:34 ("Everything you need") */}
-      <section className="py-20 sm:py-28 bg-oat">
+      <section className="py-14 sm:py-28 bg-oat">
         <Container>
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-14">
@@ -257,7 +257,7 @@ export default function Home() {
                 <p className="mt-1 text-xs sm:text-sm text-moss leading-relaxed">
                   Dual-tier desk stand pressed from 40 glasses of spent chai leaves. Naturally textured, bonded with plant resins and sealed with organic beeswax.
                 </p>
-                <div className="mt-5 flex items-center justify-between border-t border-leaf-deep/10 pt-4">
+                <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-leaf-deep/10 pt-4">
                   <span className="font-display text-xl font-bold text-soil">₹180</span>
                   <div className="flex items-center gap-2">
                     <button
@@ -495,7 +495,7 @@ export default function Home() {
       </section>
 
       {/* Chapter 3: 3D Swiping Card Stack Carousel */}
-      <section className="bg-kraft/80 py-24 sm:py-32 border-y border-leaf-deep/10">
+      <section className="bg-kraft/80 py-16 sm:py-32 border-y border-leaf-deep/10">
         <Container>
           <Reveal>
             <div className="text-center max-w-xl mx-auto mb-12">
@@ -525,7 +525,7 @@ export default function Home() {
       </section>
 
       {/* Chapter 2: The 7-Step Method */}
-      <section className="py-24 sm:py-32 bg-oat">
+      <section className="py-16 sm:py-32 bg-oat">
         <Container>
           <Reveal>
             <SectionHeading
@@ -560,7 +560,7 @@ export default function Home() {
       </section>
 
       {/* Featured Products Grid */}
-      <section className="py-24 sm:py-32 bg-kraft/50">
+      <section className="py-16 sm:py-32 bg-kraft/50">
         <Container>
           <Reveal>
             <div className="flex items-end justify-between gap-4">
@@ -589,7 +589,7 @@ export default function Home() {
       </section>
 
       {/* Story Chapter */}
-      <section className="py-24 sm:py-32 bg-oat">
+      <section className="py-16 sm:py-32 bg-oat">
         <Container className="grid items-center gap-14 lg:grid-cols-2">
           <Reveal className="order-2 lg:order-1">
             <span className="text-xs font-bold uppercase tracking-[0.25em] text-tea">Chapter 1 &bull; Our Story</span>
