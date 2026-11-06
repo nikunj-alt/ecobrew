@@ -29,15 +29,9 @@ export default function Footer() {
                   className="object-cover"
                 />
               </div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-display text-lg font-bold tracking-tight text-white">
-                  bhoomiX
-                </span>
-                <span className="text-white/40 text-xs">&bull;</span>
-                <span className="font-display text-sm font-medium text-emerald-300">
-                  ecobrew
-                </span>
-              </div>
+              <span className="font-display text-lg font-bold tracking-tight text-white">
+                EcoBrew
+              </span>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-stone/80">
               A Bal Vigyan 2026 student innovation initiative transforming urban chai waste streams into heirloom sustainable desk crafts and circular goods.
@@ -108,12 +102,12 @@ export default function Footer() {
                 textShadow: "0 0 80px rgba(30,122,95,0.2)",
               }}
             >
-              BHOOMIX
+              ECOBREW
             </span>
             <div className="mt-[-2vw] sm:mt-[-2.5vw] flex items-center justify-center gap-3">
               <span className="h-px w-12 sm:w-24 bg-tea/40" />
               <span className="font-display text-xs sm:text-sm font-semibold tracking-[0.35em] text-tea uppercase">
-                ECOBREW &bull; BAL VIGYAN 2026
+                BAL VIGYAN 2026
               </span>
               <span className="h-px w-12 sm:w-24 bg-tea/40" />
             </div>
@@ -122,7 +116,7 @@ export default function Footer() {
 
         {/* Bottom copyright row */}
         <div className="border-t border-white/10 pt-6 flex flex-col items-center justify-between gap-3 text-[11px] text-stone sm:flex-row">
-          <span>&copy; 2026 BhoomiX &bull; EcoBrew. Crafted for Bal Vigyan.</span>
+          <span>&copy; 2026 EcoBrew. Crafted for Bal Vigyan.</span>
           <div className="flex items-center gap-4">
             <Link href="/cookie-policy" className="hover:text-white transition-colors">
               Cookie Policy

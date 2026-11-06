@@ -51,7 +51,7 @@ export function AppSettingsProvider({ children }: { children: React.ReactNode })
   useEffect(() => {
     Promise.resolve().then(() => {
       try {
-        const stored = localStorage.getItem("bhoomix_ecobrew_settings");
+        const stored = localStorage.getItem("ecobrew_settings");
         if (stored) {
           setSettings((prev) => ({ ...prev, ...JSON.parse(stored) }));
         }
@@ -83,7 +83,7 @@ export function AppSettingsProvider({ children }: { children: React.ReactNode })
     }
 
     try {
-      localStorage.setItem("bhoomix_ecobrew_settings", JSON.stringify(settings));
+      localStorage.setItem("ecobrew_settings", JSON.stringify(settings));
     } catch {
       // ignore
     }

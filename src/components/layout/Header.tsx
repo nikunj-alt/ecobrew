@@ -49,11 +49,7 @@ export default function Header() {
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="font-display text-lg font-bold tracking-tight text-soil">
-                  bhoomiX
-                </span>
-                <span className="text-stone/50 text-xs hidden sm:inline">&bull;</span>
-                <span className="font-display text-sm font-medium text-leaf-deep hidden sm:inline">
-                  ecobrew
+                  EcoBrew
                 </span>
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse ml-0.5" title="Bal Vigyan Live" />
               </div>

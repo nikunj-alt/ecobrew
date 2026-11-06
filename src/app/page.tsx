@@ -48,7 +48,7 @@ export default function Home() {
     <>
       <InTransitBand />
 
-      {/* Hero — Fullscreen Cinematic Mountain Sunset (BhoomiX Video 00:56 - 01:25) */}
+      {/* Hero — Fullscreen Cinematic Mountain Sunset */}
       <section className="relative min-h-[92vh] overflow-hidden flex flex-col justify-between pt-12 pb-20">
         {/* Cinematic Mountain Sunset Background Image */}
         <div className="absolute inset-0 -z-10">
@@ -74,7 +74,7 @@ export default function Home() {
               <span>TOOLS & ADVISORY FOR EVERY CIRCULAR DECISION</span>
             </div>
 
-            {/* Headline matching video: GROW + SMARTER (italic serif) + with bhoomix / ecobrew */}
+            {/* Headline matching video: GROW + SMARTER (italic serif) */}
             <div className="space-y-1">
               <h1 className="font-display text-5xl font-extrabold tracking-tight text-white sm:text-7xl lg:text-8xl leading-none">
                 GROW
@@ -84,7 +84,7 @@ export default function Home() {
                   SMARTER
                 </span>
                 <span className="font-display text-2xl sm:text-3xl font-light text-white/90 tracking-wide">
-                  with <strong className="font-bold text-emerald-400">bhoomiX</strong> / ecobrew
+                  with <strong className="font-bold text-emerald-400">EcoBrew</strong>
                 </span>
               </div>
             </div>

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* EcoBrew — BhoomiX-inspired palette (light sage/cream, deep green, gold) */
+  /* EcoBrew palette (light sage/cream, deep green, gold) */
   --color-leaf-deep: #176B52; /* deep forest green (primary) */
   --color-moss: #3E6B5A; /* body text green */
   --color-sprout: #1E7A5F; /* muted forest-green accent */
@@ -26,7 +26,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Soft neutral elevation (matches BhoomiX's airy shadows) */
+/* Soft neutral elevation (airy shadows) */
 @utility shadow-natural {
   box-shadow: 0 24px 60px -18px hsl(160 20% 10% / 0.26);
 }
@@ -39,7 +39,7 @@ body {
   border-radius: 0.875rem;
 }
 
-/* Glassmorphism — BhoomiX signature panel treatment */
+/* Glassmorphism — signature panel treatment */
 @utility glass {
   background: hsl(40 45% 99% / 0.72);
   backdrop-filter: blur(14px) saturate(140%);

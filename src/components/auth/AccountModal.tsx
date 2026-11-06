@@ -246,11 +246,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
               <div>
                 <div className="flex items-center gap-1.5">
                   <span className="font-display text-lg font-bold tracking-tight text-white drop-shadow">
-                    bhoomiX
-                  </span>
-                  <span className="text-white/60 text-xs">&bull;</span>
-                  <span className="font-display text-sm font-medium text-emerald-200">
-                    ecobrew
+                    EcoBrew
                   </span>
                   <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
                 </div>

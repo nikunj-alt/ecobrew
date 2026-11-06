@@ -194,7 +194,7 @@ export default function QuickSearchModal() {
         {/* Footer shortcuts */}
         <div className="mt-4 flex items-center justify-between border-t border-leaf-deep/10 pt-3 text-[11px] text-stone">
           <span>Press <kbd className="rounded bg-black/5 px-1 py-0.5 font-mono">ESC</kbd> to close</span>
-          <span>BhoomiX &bull; EcoBrew Search</span>
+          <span>EcoBrew Search</span>
         </div>
       </div>
     </div>
