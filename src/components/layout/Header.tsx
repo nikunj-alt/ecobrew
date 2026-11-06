@@ -23,6 +23,7 @@ export default function Header() {
   const [weatherOpen, setWeatherOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const isHindi = settings.language === "hi";
 
@@ -134,7 +135,7 @@ export default function Header() {
           </nav>
 
           {/* Right Action Icons & User Account */}
-          <div className="flex items-center gap-2 sm:gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             {/* Mobile search trigger */}
             <button
               type="button"
@@ -159,7 +160,7 @@ export default function Header() {
             </button>
 
             {/* Notification Bell */}
-            <div className="relative">
+            <div className="relative hidden sm:block">
               <button
                 type="button"
                 onClick={() => setNotifOpen(!notifOpen)}
@@ -267,8 +268,36 @@ export default function Header() {
               <CartIcon className="h-4 w-4" />
               <CartCount />
             </button>
+
+            {/* Mobile menu toggle */}
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen((o) => !o)}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-stone hover:bg-white/80 hover:text-soil transition-all xl:hidden"
+              aria-label="Menu"
+              aria-expanded={mobileNavOpen}
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {mobileNavOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
           </div>
         </div>
+
+        {/* Mobile navigation dropdown */}
+        {mobileNavOpen && (
+          <div className="xl:hidden max-w-7xl mx-auto mt-2 glass-strong rounded-3xl border border-white/40 shadow-natural p-3 z-50">
+            <nav className="grid grid-cols-2 gap-1.5" aria-label="Mobile main">
+              <Suspense fallback={null}>
+                <MobileNavLinks onNavigate={() => setMobileNavOpen(false)} />
+              </Suspense>
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* Modals */}
@@ -298,6 +327,32 @@ function ActiveNavLinks() {
               isActive
                 ? "text-leaf-deep font-bold border-b-2 border-leaf-deep"
                 : "text-stone hover:text-leaf-deep"
+            }`}
+          >
+            {link.label}
+          </Link>
+        );
+      })}
+    </>
+  );
+}
+
+function MobileNavLinks({ onNavigate }: { onNavigate: () => void }) {
+  const pathname = usePathname();
+  return (
+    <>
+      {NAV_LINKS.map((link) => {
+        const isActive =
+          link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+        return (
+          <Link
+            key={link.href}
+            href={link.href}
+            onClick={onNavigate}
+            className={`rounded-2xl px-4 py-3 text-sm font-semibold transition-colors ${
+              isActive
+                ? "bg-leaf-deep text-white"
+                : "bg-white/50 text-leaf-deep hover:bg-white"
             }`}
           >
             {link.label}

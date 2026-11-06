@@ -124,6 +124,34 @@ export function CardStack<T extends CardStackItem>({
     wrapIndex(initialIndex, len),
   );
   const [hovering, setHovering] = React.useState(false);
+  const [containerWidth, setContainerWidth] = React.useState(0);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  // Measure the stage width so cards/spread scale down on small screens instead
+  // of overflowing the viewport.
+  React.useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect.width ?? 0;
+      setContainerWidth(w);
+    });
+    ro.observe(el);
+    setContainerWidth(el.getBoundingClientRect().width);
+    return () => ro.disconnect();
+  }, []);
+
+  // Effective geometry: cards never exceed the stage width (minus breathing room)
+  // and the fan spread is bounded so it stays inside the viewport.
+  const stageW = containerWidth > 0 ? containerWidth : cardWidth;
+  const effCardWidth = Math.min(cardWidth, Math.max(220, stageW - 24));
+  const effCardHeight = Math.max(
+    260,
+    Math.round(effCardWidth * (cardHeight / cardWidth)),
+  );
+  const effMaxOffset = Math.max(0, Math.floor(maxVisible / 2));
+  const effCardSpacing = Math.max(8, Math.round(effCardWidth * (1 - overlap)));
+  const effStepDeg = effMaxOffset > 0 ? spreadDeg / effMaxOffset : 0;
 
   // keep active in bounds if items change
   React.useEffect(() => {
@@ -136,11 +164,6 @@ export function CardStack<T extends CardStackItem>({
     onChangeIndex?.(active, items[active]!);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
-
-  const maxOffset = Math.max(0, Math.floor(maxVisible / 2));
-
-  const cardSpacing = Math.max(10, Math.round(cardWidth * (1 - overlap)));
-  const stepDeg = maxOffset > 0 ? spreadDeg / maxOffset : 0;
 
   const canGoPrev = loop || active > 0;
   const canGoNext = loop || active < len - 1;
@@ -196,6 +219,7 @@ export function CardStack<T extends CardStackItem>({
 
   return (
     <div
+      ref={containerRef}
       className={cn("w-full", className)}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
@@ -203,7 +227,7 @@ export function CardStack<T extends CardStackItem>({
       {/* Stage */}
       <div
         className="relative w-full"
-        style={{ height: Math.max(380, cardHeight + 80) }}
+        style={{ height: Math.max(300, effCardHeight + 72) }}
         tabIndex={0}
         onKeyDown={onKeyDown}
       >
@@ -227,14 +251,14 @@ export function CardStack<T extends CardStackItem>({
             {items.map((item, i) => {
               const off = signedOffset(i, active, len, loop);
               const abs = Math.abs(off);
-              const visible = abs <= maxOffset;
+              const visible = abs <= effMaxOffset;
 
               // hide far-away cards cleanly
               if (!visible) return null;
 
               // fan geometry
-              const rotateZ = off * stepDeg;
-              const x = off * cardSpacing;
+              const rotateZ = off * effStepDeg;
+              const x = off * effCardSpacing;
               const y = abs * 10; // subtle arc-down feel
               const z = -abs * depthPx;
 
@@ -260,7 +284,7 @@ export function CardStack<T extends CardStackItem>({
                       if (reduceMotion) return;
                       const travel = info.offset.x;
                       const v = info.velocity.x;
-                      const threshold = Math.min(160, cardWidth * 0.22);
+                      const threshold = Math.min(160, effCardWidth * 0.22);
 
                       // swipe logic
                       if (travel > threshold || v > 650) prev();
@@ -280,8 +304,8 @@ export function CardStack<T extends CardStackItem>({
                       : "cursor-pointer",
                   )}
                   style={{
-                    width: cardWidth,
-                    height: cardHeight,
+                    width: effCardWidth,
+                    height: effCardHeight,
                     zIndex,
                     transformStyle: "preserve-3d",
                   }}

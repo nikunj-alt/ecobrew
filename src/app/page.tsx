@@ -76,14 +76,14 @@ export default function Home() {
 
             {/* Headline matching video: GROW + SMARTER (italic serif) */}
             <div className="space-y-1">
-              <h1 className="font-display text-5xl font-extrabold tracking-tight text-white sm:text-7xl lg:text-8xl leading-none">
+              <h1 className="font-display text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl leading-none">
                 GROW
               </h1>
               <div className="flex items-baseline gap-3 flex-wrap">
-                <span className="font-serif italic font-normal text-amber-200 text-6xl sm:text-7xl lg:text-8xl leading-none">
+                <span className="font-serif italic font-normal text-amber-200 text-5xl sm:text-6xl lg:text-7xl leading-none">
                   SMARTER
                 </span>
-                <span className="font-display text-2xl sm:text-3xl font-light text-white/90 tracking-wide">
+                <span className="font-display text-xl sm:text-2xl font-light text-white/90 tracking-wide">
                   with <strong className="font-bold text-emerald-400">EcoBrew</strong>
                 </span>
               </div>

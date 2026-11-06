@@ -24,6 +24,12 @@ body {
   color: var(--color-soil);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+html,
+body {
+  max-width: 100%;
 }
 
 /* Soft neutral elevation (airy shadows) */
