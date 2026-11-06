@@ -1,0 +1,8 @@
+{
+  "name": "EcoBrew",
+  "description": "Spent tea leaves make useful things — student brand upcycling waste tea leaves into stationery, home decor, and mini furniture.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
