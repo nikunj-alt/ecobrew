@@ -121,8 +121,7 @@ export default function ContactPage() {
           <div className="rounded-biophilic shadow-soft ring-1 ring-leaf-deep/8 bg-white/70 p-6">
             <h3 className="font-display text-lg font-medium text-leaf-deep">The team</h3>
             <p className="mt-2 text-sm leading-relaxed text-moss">
-              Students showcasing EcoBrew at Bal Vigyan. We&apos;re happy to talk about
-              the science, the brand, and the next steps.
+              We&apos;re happy to talk about the craft, the brand, and the next steps.
             </p>
           </div>
           <div className="rounded-biophilic bg-leaf-deep p-6 text-oat shadow-natural">

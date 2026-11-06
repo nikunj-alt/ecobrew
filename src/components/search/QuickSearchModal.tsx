@@ -205,7 +205,7 @@ export default function QuickSearchModal() {
                 onClick={closeSearch}
                 className="rounded-full bg-white/70 px-3 py-1 text-leaf-deep hover:bg-sprout hover:text-white transition-colors"
               >
-                Find Us / Bal Vigyan
+                Find Us
               </Link>
               <Link
                 href="/contact"

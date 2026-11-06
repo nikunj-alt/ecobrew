@@ -180,7 +180,7 @@ export default function SettingsModal() {
                   {
                     key: "useLocation" as const,
                     title: "Use My Location",
-                    desc: "Show live Indore & Bal Vigyan weather forecast strip.",
+                    desc: "Use your location to personalise delivery and store pickup estimates.",
                   },
                 ].map((item) => (
                   <label
@@ -234,7 +234,7 @@ export default function SettingsModal() {
             <div className="space-y-4">
               <div>
                 <h4 className="font-display text-xl font-medium text-leaf-deep">Notifications</h4>
-                <p className="text-xs text-moss">Stay updated on Bal Vigyan showcase orders and batch drops.</p>
+                <p className="text-xs text-moss">Stay updated on your orders and new batch drops.</p>
               </div>
               <div className="rounded-2xl bg-white/60 p-4 border border-leaf-deep/10 space-y-3">
                 <div className="flex items-center justify-between">
@@ -246,8 +246,8 @@ export default function SettingsModal() {
                 </div>
                 <div className="flex items-center justify-between border-t border-leaf-deep/10 pt-3">
                   <div>
-                    <p className="text-sm font-medium text-leaf-deep">Bal Vigyan 2026 Bulletins</p>
-                    <p className="text-xs text-stone">Live updates from the student exhibition stall.</p>
+                    <p className="text-sm font-medium text-leaf-deep">Product &amp; Drop Alerts</p>
+                    <p className="text-xs text-stone">Be first to know about new batches and restocks.</p>
                   </div>
                   <span className="text-xs font-semibold text-sprout">Enabled</span>
                 </div>
@@ -280,7 +280,7 @@ export default function SettingsModal() {
             <div className="space-y-4">
               <div>
                 <h4 className="font-display text-xl font-medium text-leaf-deep">Support & Contact</h4>
-                <p className="text-xs text-moss">Connect with our student research team.</p>
+                <p className="text-xs text-moss">Connect with our customer care team.</p>
               </div>
               <div className="space-y-3">
                 <div className="rounded-xl bg-white/70 p-4 border border-leaf-deep/10">
@@ -289,9 +289,9 @@ export default function SettingsModal() {
                   <p className="text-xs text-stone mt-1">Direct contact for project inquiries and bulk orders.</p>
                 </div>
                 <div className="rounded-xl bg-white/70 p-4 border border-leaf-deep/10">
-                  <p className="text-xs font-semibold uppercase text-tea">Bal Vigyan Exhibition Stall</p>
-                  <p className="text-sm font-medium text-leaf-deep">Social Science Pavilion &bull; Booth #42</p>
-                  <p className="text-xs text-stone mt-1">Live demo of chai pressing machine and tea waste conversion.</p>
+                  <p className="text-xs font-semibold uppercase text-tea">Partnerships</p>
+                  <p className="text-sm font-medium text-leaf-deep">Retail, Corporate Gifting &amp; Bulk Orders</p>
+                  <p className="text-xs text-stone mt-1">Custom runs and wholesale pricing for cafes, offices, and retailers.</p>
                 </div>
               </div>
             </div>
@@ -301,11 +301,11 @@ export default function SettingsModal() {
             <div className="space-y-4">
               <div>
                 <h4 className="font-display text-xl font-medium text-leaf-deep">About EcoBrew</h4>
-                <p className="text-xs text-moss">Version 2.4 — Circular Economy Edition (Bal Vigyan 2026)</p>
+                <p className="text-xs text-moss">Version 2.4 — Production Build</p>
               </div>
               <div className="rounded-2xl bg-white/70 p-5 border border-leaf-deep/10 text-xs text-moss space-y-2 leading-relaxed">
                 <p>
-                  EcoBrew was conceived as a school social-science project investigating urban organic waste streams.
+                  EcoBrew is an independent circular-economy brand built on a simple idea: spent tea leaves are a resource, not rubbish.
                   Chai culture across India generates metric tons of spent wet tea leaves daily, typically landfilled.
                 </p>
                 <p>

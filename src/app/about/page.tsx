@@ -5,7 +5,7 @@ import { LeafIcon } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Our Story — EcoBrew",
-  description: "Why a group of students started EcoBrew — turning chai waste into useful things.",
+  description: "Why we started EcoBrew — turning chai waste into useful things.",
 };
 
 const values = [
@@ -32,7 +32,7 @@ export default function AboutPage() {
       <SectionHeading
         tag="Our story"
         title="The idea behind EcoBrew"
-        subtitle="We're a team of students working on a social-science project for Bal Vigyan. What began as a question about waste became a small brand."
+        subtitle="We're a small team building EcoBrew around one idea: waste tea leaves are a resource, not rubbish."
       />
 
       <div className="mt-12 grid gap-10 lg:grid-cols-3">

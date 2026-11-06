@@ -6,8 +6,8 @@
 
 <p align="center">
   <b>Spent tea leaves make useful things.</b><br />
-  A student brand that upcycles waste tea leaves into pen stands, stationery,
-  mini furniture, and decor. A social-science project for Bal Vigyan, India.
+  An independent brand that upcycles waste tea leaves into pen stands, stationery,
+  mini furniture, and decor. Circular home & desk goods, made in India.
 </p>
 
 <p align="center">
@@ -126,15 +126,15 @@ Deployed on Vercel; auto-deploys from the `master` branch. The production
 environment must define all variables above. Because `NEXT_PUBLIC_*` values are
 inlined at build time, changing them requires a redeploy.
 
-## 🧑‍🔬 Project background
+## 🌱 Project background
 
-EcoBrew is a school project exploring sustainable consumption: instead of
-discarding used tea leaves (chaipatti), they are dried, bound with natural
-binders, and pressed into useful everyday objects. Every product is
-compostable at end of life — nothing new, nothing wasted.
+EcoBrew is an independent circular-economy brand. Instead of discarding used
+tea leaves (chaipatti), we dry them, bind them with natural binders, and press
+them into useful everyday objects. Every product is compostable at end of life
+— nothing new, nothing wasted.
 
 ---
 
 <p align="center">
-  <sub>© 2026 EcoBrew · A student project · Presented at Bal Vigyan, India</sub>
+  <sub>© 2026 EcoBrew · All rights reserved</sub>
 </p>

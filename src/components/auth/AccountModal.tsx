@@ -23,7 +23,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const address = "Bal Vigyan Pavilion";
+  const address = "EcoBrew Studio & Warehouse";
   const city = "Indore";
   const state = "Madhya Pradesh";
   const pincode = "452001";
@@ -250,7 +250,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
                   </span>
                   <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
                 </div>
-                <p className="text-[11px] font-medium text-white/80">Bal Vigyan 2026 Circular Edition</p>
+                <p className="text-[11px] font-medium text-white/80">Circular Goods</p>
               </div>
             </div>
 
@@ -315,7 +315,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
                   ✓
                 </span>
                 <p className="text-xs font-medium text-leaf-deep">
-                  {isHindi ? "बाल विज्ञान 2026 के लिए हस्तनिर्मित" : "Handcrafted for Bal Vigyan 2026"}
+                  {isHindi ? "हस्तनिर्मित, स्थायी सामग्री" : "Handcrafted from upcycled material"}
                 </p>
               </div>
             </div>
@@ -470,7 +470,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
                   >
                     Auto-fill Demo
                   </button>
-                  <span className="text-stone">Bal Vigyan 2026</span>
+                  <span className="text-stone">EcoBrew</span>
                 </div>
 
                 <button

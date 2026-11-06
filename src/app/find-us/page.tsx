@@ -24,10 +24,10 @@ const PLACES: Place[] = [
   },
   {
     kind: "Event",
-    title: "Bal Vigyan",
-    body: "The student showcase where EcoBrew is presented face-to-face. We're happy to talk about the science and the process.",
+    title: "Our Studio",
+    body: "Visit our Indore studio to see how spent tea leaves become finished goods — and meet the team behind them.",
     href: "/about",
-    cta: "About the project",
+    cta: "About us",
   },
   {
     kind: "Direct",
@@ -45,7 +45,7 @@ export default function FindUsPage() {
       <SectionHeading
         tag="Find us"
         title="Where to find EcoBrew"
-        subtitle="Online, at the fair, or by email — pick whichever is easiest."
+        subtitle="Online, in-store, or by email — pick whichever is easiest."
       />
 
       <div className="mt-14 grid gap-6 md:grid-cols-3">

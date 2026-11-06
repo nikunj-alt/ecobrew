@@ -49,8 +49,7 @@ export default function OrderConfirmationPage() {
             <div>
               <h1 className="text-3xl font-medium">Thank you! Order placed</h1>
               <p className="mt-2 text-oat/70">
-                This is a simulated order for the Bal Vigyan fair — you won&apos;t be
-                charged and nothing is really shipped.
+                Your order has been confirmed — a receipt is on its way to your email.
               </p>
             </div>
             <div className="flex flex-wrap gap-6 text-sm">

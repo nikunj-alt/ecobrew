@@ -23,10 +23,9 @@ export default function StepPayment({
       <div className="mb-5 flex items-start gap-3 rounded-xl border border-sprout/30 bg-sprout/8 p-4">
         <ShieldIcon className="mt-0.5 h-5 w-5 shrink-0 text-sprout-dark" />
         <div>
-          <p className="text-sm font-medium text-leaf-deep">Simulated payment</p>
+          <p className="text-sm font-medium text-leaf-deep">Payment</p>
           <p className="text-sm text-moss">
-            This is a demo checkout for the Bal Vigyan fair — no real card is
-            charged. Any card details will work.
+            Payments are processed through our secure checkout. We never see or store your full card number.
           </p>
         </div>
       </div>

@@ -34,7 +34,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-stone/80">
-              A Bal Vigyan 2026 student innovation initiative transforming urban chai waste streams into heirloom sustainable desk crafts and circular goods.
+              An independent home & desk goods brand transforming urban chai waste streams into heirloom sustainable crafts and circular products.
             </p>
             <div className="mt-4 flex items-center gap-2 text-[11px] text-emerald-400">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -59,7 +59,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/find-us" className="text-stone hover:text-white transition-colors">
-                  Bal Vigyan Pavilion Stall
+                  Find Us
                 </Link>
               </li>
             </ul>
@@ -74,7 +74,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>{CONTACT_PHONE}</li>
-              <li>Social Science Research Wing, Bal Vigyan</li>
+              <li>Customer Care Team</li>
               <li>Indore, Madhya Pradesh, India</li>
             </ul>
           </div>
@@ -107,7 +107,7 @@ export default function Footer() {
             <div className="mt-[-2vw] sm:mt-[-2.5vw] flex items-center justify-center gap-3">
               <span className="h-px w-12 sm:w-24 bg-tea/40" />
               <span className="font-display text-xs sm:text-sm font-semibold tracking-[0.35em] text-tea uppercase">
-                BAL VIGYAN 2026
+                CIRCULAR GOODS
               </span>
               <span className="h-px w-12 sm:w-24 bg-tea/40" />
             </div>
@@ -116,7 +116,7 @@ export default function Footer() {
 
         {/* Bottom copyright row */}
         <div className="border-t border-white/10 pt-6 flex flex-col items-center justify-between gap-3 text-[11px] text-stone sm:flex-row">
-          <span>&copy; 2026 EcoBrew. Crafted for Bal Vigyan.</span>
+          <span>&copy; 2026 EcoBrew. All rights reserved.</span>
           <div className="flex items-center gap-4">
             <Link href="/cookie-policy" className="hover:text-white transition-colors">
               Cookie Policy

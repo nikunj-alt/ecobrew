@@ -14,14 +14,14 @@ export default function CookiePolicyPage() {
       <SectionHeading
         tag="Transparency"
         title="Cookie policy"
-        subtitle="EcoBrew is a small student project — we keep things simple and minimal, and we never track you for advertising."
+        subtitle="EcoBrew keeps things simple and minimal — we never track you for advertising."
       />
 
       <div className="mx-auto mt-10 max-w-3xl space-y-10 text-moss">
         <section className="space-y-3">
           <h2 className="font-display text-2xl font-medium text-leaf-deep">What we use and why</h2>
           <p className="leading-relaxed">
-            The site is a working demo of a school project, so it keeps a very small
+            The site keeps a very small
             footprint. The only things stored on your device are the ones needed
             for the site to function:
           </p>
@@ -62,7 +62,7 @@ export default function CookiePolicyPage() {
         <section className="space-y-3">
           <h2 className="font-display text-2xl font-medium text-leaf-deep">Questions</h2>
           <p className="leading-relaxed">
-            This is a student project presented at Bal Vigyan, India. If you have any
+            If you have any
             questions about privacy, reach out through the{" "}
             <a href="/contact" className="text-sprout underline underline-offset-2 hover:text-sprout-dark">
               contact page

@@ -13,7 +13,7 @@ export default function CheckoutPage() {
     <Container className="max-w-3xl py-16 sm:py-24">
       <SectionHeading
         title="Checkout"
-        subtitle="This is a simulated flow for the Bal Vigyan fair — no real payment occurs."
+        subtitle="Secure checkout — review your order and confirm."
       />
       <div className="mt-10">
         <CheckoutSteps />

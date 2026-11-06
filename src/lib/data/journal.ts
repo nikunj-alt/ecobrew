@@ -35,10 +35,10 @@ export const JOURNAL_POSTS: JournalPost[] = [
   },
   {
     tag: "Event",
-    title: "Preparing for Bal Vigyan",
-    excerpt: "A student project, ready to be shown.",
+    title: "From chai glass to desk piece",
+    excerpt: "How a familiar waste becomes something useful.",
     body: [
-      "EcoBrew is a social-science project made for Bal Vigyan. The finished pieces are prepared to be shown there — a way of demonstrating that a familiar waste can become something useful.",
+      "Every EcoBrew piece begins as spent tea leaves collected from chai stalls and homes across the city. A familiar waste, transformed into something useful.",
       "It all answers one question: what happens to the tea leaves after the cup is emptied?",
     ],
   },

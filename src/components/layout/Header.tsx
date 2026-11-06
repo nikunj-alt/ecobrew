@@ -51,7 +51,7 @@ export default function Header() {
                 <span className="font-display text-lg font-bold tracking-tight text-soil">
                   EcoBrew
                 </span>
-                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse ml-0.5" title="Bal Vigyan Live" />
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse ml-0.5" title="Online" />
               </div>
             </Link>
           </div>
@@ -128,7 +128,7 @@ export default function Header() {
                 >
                   <div className="flex items-center justify-between border-b border-leaf-deep/10 pb-2">
                     <span className="font-semibold text-leaf-deep">Notifications</span>
-                    <span className="text-[10px] text-tea font-bold uppercase tracking-wider">Bal Vigyan 2026</span>
+                    <span className="text-[10px] text-tea font-bold uppercase tracking-wider">EcoBrew</span>
                   </div>
                   <div className="mt-3 space-y-2.5">
                     <div className="rounded-xl bg-white/70 p-2.5 border border-leaf-deep/5">
@@ -136,8 +136,8 @@ export default function Header() {
                       <p className="text-[11px] text-stone mt-0.5">Leaf Pen Stands from 200 chai glasses are ready to ship.</p>
                     </div>
                     <div className="rounded-xl bg-white/70 p-2.5 border border-leaf-deep/5">
-                      <p className="font-medium text-soil">Bal Vigyan Booth #42</p>
-                      <p className="text-[11px] text-stone mt-0.5">Student live demonstration scheduled tomorrow at 11:00 AM.</p>
+                      <p className="font-medium text-soil">New batch available 🍵</p>
+                      <p className="text-[11px] text-stone mt-0.5">Freshest leaf-composite stock just landed. Shop the range.</p>
                     </div>
                   </div>
                 </div>

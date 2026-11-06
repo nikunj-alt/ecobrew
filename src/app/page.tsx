@@ -92,7 +92,7 @@ export default function Home() {
             {/* Subtitle */}
             <p className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-stone-200">
               Spent tea leaves upcycled into handcrafted pen stands, stationery, and mini furniture.
-              A student circular science initiative presented at Bal Vigyan 2026.
+              An independent circular-economy brand converting urban chai waste into durable goods.
             </p>
 
             {/* Dual Pill Action Buttons */}
@@ -201,7 +201,7 @@ export default function Home() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-14">
               <span className="inline-block text-xs font-bold uppercase tracking-[0.25em] text-tea mb-2">
-                TOOLS & MODULES &bull; BAL VIGYAN 2026
+                PRODUCTS & CRAFT
               </span>
               <h2 className="font-display text-3xl sm:text-5xl font-bold text-soil">
                 Everything you need
@@ -269,7 +269,7 @@ export default function Home() {
                     <span className="text-xl">⛈️</span>
                     <div>
                       <h3 className="font-display text-base font-bold text-leaf-deep">
-                        Indore &bull; Bal Vigyan
+                        Indore, India
                       </h3>
                       <p className="text-[11px] text-stone">7-Day Curing Weather Forecast</p>
                     </div>
@@ -376,7 +376,7 @@ export default function Home() {
             <div className="md:col-span-2 lg:col-span-2 rounded-3xl glass-strong border border-white/50 p-6 sm:p-7 flex flex-col justify-between shadow-soft">
               <div className="flex items-center justify-between pb-3 border-b border-leaf-deep/10">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-tea">Bal Vigyan Special</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-tea">Signature Collection</span>
                   <h4 className="font-display text-xl font-bold text-leaf-deep">Artisanal Mini Furniture</h4>
                 </div>
                 <Link href="/products" className="text-xs font-semibold text-leaf-deep hover:underline">
@@ -432,7 +432,7 @@ export default function Home() {
                 Handcrafted from chai waste
               </h2>
               <p className="text-sm text-moss mt-2">
-                Swipe through all nine student creations — every single piece started as spent leaves from a tea glass.
+                Swipe through the collection — every single piece started as spent leaves from a tea glass.
               </p>
             </div>
           </Reveal>
@@ -459,7 +459,7 @@ export default function Home() {
             <SectionHeading
               tag="The Method &bull; Chapter 2"
               title="From chai waste to an enduring piece"
-              subtitle="A clean, non-toxic circular craft method designed by students for Bal Vigyan."
+              subtitle="A clean, non-toxic circular craft method with full traceability, from chai stall to finished piece."
             />
           </Reveal>
           <div className="mt-14 grid gap-x-10 gap-y-8 border-t border-leaf-deep/15 pt-10 sm:grid-cols-2 lg:grid-cols-3">
@@ -522,12 +522,12 @@ export default function Home() {
           <Reveal className="order-2 lg:order-1">
             <span className="text-xs font-bold uppercase tracking-[0.25em] text-tea">Chapter 1 &bull; Our Story</span>
             <h2 className="font-display text-3xl sm:text-5xl font-bold text-soil mt-2">
-              A student question about what gets thrown away
+              A question about what gets thrown away
             </h2>
             <p className="mt-5 text-sm sm:text-base leading-relaxed text-moss">
               Walking past tea stalls in our city, we noticed bin after bin overflowing with spent tea leaves.
               We asked: why throw away rich organic fiber when it can become durable desks, pen stands, and pots?
-              What started as an after-school experiment became EcoBrew.
+              That question became EcoBrew.
             </p>
             <div className="mt-8">
               <Link href="/about">
@@ -543,14 +543,14 @@ export default function Home() {
               <div className="relative h-full w-full overflow-hidden rounded-2xl bg-kraft">
                 <Image
                   src="/products/spoon-bookmark.jpg"
-                  alt="Student crafted spoon bookmark"
+                  alt="Handcrafted spoon bookmark"
                   fill
                   className="object-cover"
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-leaf-deep/90 via-leaf-deep/40 to-transparent p-6 text-white">
                   <p className="text-xs font-medium flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Presented at Bal Vigyan 2026 Social Science Exhibition
+                    Handcrafted in Indore, India
                   </p>
                 </div>
               </div>
