@@ -60,7 +60,7 @@ export async function upsertProduct(
         price: Number(product.price ?? 0),
         short_description: product.shortDescription ?? "",
         description: product.description ?? "",
-        image: product.image ?? "/logo.png",
+        image: product.image ?? "/assets/aistudio/tearx_logo_4ef86950.webp",
         impact: product.impact ?? "",
         in_stock: product.inStock ?? true,
         featured: product.featured ?? false,

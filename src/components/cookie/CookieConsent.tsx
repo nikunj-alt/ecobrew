@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Cookie } from "lucide-react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 type Consent = "accepted" | "declined" | null;
 
@@ -33,9 +33,7 @@ export default function CookieConsent() {
           className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-xl rounded-biophilic border border-moss/15 bg-white/95 p-5 shadow-natural backdrop-blur"
         >
           <div className="flex items-start gap-3">
-            <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sprout/10 text-sprout-dark">
-              <Cookie className="h-5 w-5" />
-            </span>
+            <BrandLogo className="mt-0.5 h-10 w-10 ring-1 ring-leaf-deep/15 shadow-sm" sizes="40px" />
             <div className="min-w-0">
               <p className="text-sm font-medium text-leaf-deep">We use cookies</p>
               <p className="mt-1 text-sm leading-relaxed text-moss">

@@ -2,15 +2,19 @@ import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { JOURNAL_POSTS } from "@/lib/data/journal";
 import { LeafIcon } from "@/components/icons";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 export default function JournalPage() {
   return (
     <Container className="py-16 sm:py-24">
-      <SectionHeading
-        tag="Journal"
-        title="From the workshop"
-        subtitle="Short notes on how the project works, what goes into each piece, and where it's headed."
-      />
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+        <SectionHeading
+          tag="Journal"
+          title="From the workshop"
+          subtitle="Short notes on how the project works, what goes into each piece, and where it's headed."
+        />
+        <BrandLogo className="h-14 w-14 ring-2 ring-leaf-deep/15 shadow-soft" sizes="56px" />
+      </div>
 
       <div className="mt-14 grid gap-6 md:grid-cols-2">
         {JOURNAL_POSTS.map((post, i) => (

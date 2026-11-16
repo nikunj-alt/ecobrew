@@ -6,6 +6,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import { LeafIcon, ArrowRightIcon } from "@/components/icons";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 const GUIDES = [
   {
@@ -38,11 +39,14 @@ export default function GuidesPage() {
   return (
     <Container className="py-16 sm:py-24">
       <Reveal>
-        <SectionHeading
-          tag="Guides · Field notes"
-          title="How TeaRX works"
-          subtitle="Three short guides: the method, the materials, and how to care for what you own."
-        />
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+          <SectionHeading
+            tag="Guides · Field notes"
+            title="How TeaRX works"
+            subtitle="Three short guides: the method, the materials, and how to care for what you own."
+          />
+          <BrandLogo className="h-14 w-14 ring-2 ring-leaf-deep/15 shadow-soft" sizes="56px" />
+        </div>
       </Reveal>
 
       <div className="mt-14 grid gap-6 md:grid-cols-3">

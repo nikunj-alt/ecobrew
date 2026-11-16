@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, type FormEvent } from "react";
-import Image from "next/image";
 import { setLoggedInUser, type UserAccount } from "@/lib/services/auth";
+import BrandLogo from "@/components/ui/BrandLogo";
 import { useSession } from "@/hooks/useSession";
 import { LiquidMetalShader } from "@/components/ui/liquid-metal-shader";
 import { useAppSettings } from "@/context/AppSettingsContext";
@@ -262,9 +262,10 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
           {/* Banner content */}
           <div className="relative flex h-full items-center justify-between px-6">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white shadow-lg">
-                <Image src="/logo.png" alt="TeaRX" width={26} height={26} className="rounded-full" />
-              </div>
+              <BrandLogo
+                className="h-11 w-11 ring-2 ring-white/40 shadow-lg"
+                sizes="44px"
+              />
               <div>
                 <div className="flex items-center gap-1.5">
                   <span className="font-display text-lg font-bold tracking-tight text-white drop-shadow">

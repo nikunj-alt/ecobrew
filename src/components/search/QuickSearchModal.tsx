@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useAppSettings } from "@/context/AppSettingsContext";
 import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
 import { processSteps } from "@/lib/data/process";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 export default function QuickSearchModal() {
   const { isSearchOpen, closeSearch } = useAppSettings();
@@ -221,7 +222,10 @@ export default function QuickSearchModal() {
         {/* Footer shortcuts */}
         <div className="mt-4 flex items-center justify-between border-t border-leaf-deep/10 pt-3 text-[11px] text-stone">
           <span>Press <kbd className="rounded bg-black/5 px-1 py-0.5 font-mono">ESC</kbd> to close</span>
-          <span>TeaRX Search</span>
+          <span className="flex items-center gap-1.5 font-medium text-leaf-deep">
+            <BrandLogo className="h-5 w-5 ring-1 ring-leaf-deep/20" sizes="20px" />
+            TeaRX Search
+          </span>
         </div>
       </div>
     </div>

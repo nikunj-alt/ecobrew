@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import AccountModal from "@/components/auth/AccountModal";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/constants";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { LeafIcon } from "@/components/icons";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 export default function ContactPage() {
   const { user, refresh } = useAuth();
@@ -125,7 +125,7 @@ export default function ContactPage() {
             </p>
           </div>
           <div className="rounded-biophilic bg-leaf-deep p-6 text-oat shadow-natural">
-            <LeafIcon className="h-6 w-6 text-sprout" />
+            <BrandLogo className="h-11 w-11 ring-2 ring-white/30 shadow-soft" sizes="44px" />
             <h3 className="mt-3 font-display text-lg font-medium">Reach us</h3>
             <ul className="mt-3 space-y-2 text-sm text-oat/80">
               <li>

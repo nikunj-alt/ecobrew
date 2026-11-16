@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { CONTACT_EMAIL, CONTACT_PHONE, NAV_LINKS } from "@/lib/constants";
+import BrandLogo from "@/components/ui/BrandLogo";
 import Container from "./Container";
 
 export default function Footer() {
@@ -21,14 +21,10 @@ export default function Footer() {
         <div className="grid gap-10 pb-16 sm:grid-cols-2 lg:grid-cols-4 border-b border-white/10">
           <div>
             <div className="flex items-center gap-2.5">
-              <div className="relative h-8 w-8 overflow-hidden rounded-full ring-1 ring-emerald-400/30">
-                <Image
-                  src="/logo.png"
-                  alt="TeaRX Logo"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+              <BrandLogo
+                className="h-10 w-10 ring-2 ring-emerald-400/40 shadow-soft"
+                sizes="40px"
+              />
               <span className="font-display text-lg font-bold tracking-tight text-white">
                 TeaRX
               </span>
@@ -95,6 +91,10 @@ export default function Footer() {
 
         {/* Giant Typographic Brand Banner (Video Frame 01:35) */}
         <div className="py-12 sm:py-16 text-center select-none overflow-hidden">
+          <BrandLogo
+            className="mx-auto mb-5 h-20 w-20 sm:h-24 sm:w-24 ring-2 ring-emerald-400/35 shadow-natural"
+            sizes="96px"
+          />
           <div className="relative inline-block w-full">
             <span
               className="font-display font-black tracking-widest text-[14vw] sm:text-[13vw] leading-none uppercase text-transparent bg-clip-text bg-gradient-to-b from-white/25 via-emerald-500/15 to-transparent transition-all hover:from-white/40 hover:via-emerald-400/30"

@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import { CONTACT_EMAIL } from "@/lib/constants";
 import { LeafIcon, ArrowRightIcon } from "@/components/icons";
 import LiveLocationButton from "@/components/location/LiveLocationButton";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 interface Place {
   kind: string;
@@ -43,11 +44,14 @@ const PLACES: Place[] = [
 export default function FindUsPage() {
   return (
     <Container className="py-16 sm:py-24">
-      <SectionHeading
-        tag="Find us"
-        title="Where to find TeaRX"
-        subtitle="Online, in-store, or by email — pick whichever is easiest."
-      />
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+        <SectionHeading
+          tag="Find us"
+          title="Where to find TeaRX"
+          subtitle="Online, in-store, or by email — pick whichever is easiest."
+        />
+        <BrandLogo className="h-14 w-14 ring-2 ring-leaf-deep/15 shadow-soft" sizes="56px" />
+      </div>
 
       <div className="mt-14 grid gap-6 md:grid-cols-3">
         {PLACES.map((p) => (

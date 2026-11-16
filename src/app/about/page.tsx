@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { LeafIcon } from "@/components/icons";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 export const metadata: Metadata = {
   title: "Our Story — TeaRX",
@@ -37,7 +38,10 @@ export default function AboutPage() {
 
       <div className="mt-12 grid gap-10 lg:grid-cols-3">
         <div className="rounded-biophilic shadow-soft ring-1 ring-leaf-deep/8 bg-white/70 p-8 lg:col-span-2">
-          <h2 className="text-2xl font-medium text-leaf-deep">Where it started</h2>
+          <div className="flex items-center gap-3">
+            <BrandLogo className="h-11 w-11 ring-2 ring-leaf-deep/15 shadow-soft" sizes="44px" />
+            <h2 className="text-2xl font-medium text-leaf-deep">Where it started</h2>
+          </div>
           <div className="mt-4 space-y-4 text-base leading-relaxed text-moss">
             <p>
               Every day, millions of cups of chai are drunk in India. After the

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 export const metadata: Metadata = {
   title: "Cookie Policy — TeaRX",
@@ -11,11 +12,14 @@ export const metadata: Metadata = {
 export default function CookiePolicyPage() {
   return (
     <Container className="py-12 sm:py-20">
-      <SectionHeading
-        tag="Transparency"
-        title="Cookie policy"
-        subtitle="TeaRX keeps things simple and minimal — we never track you for advertising."
-      />
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+        <SectionHeading
+          tag="Transparency"
+          title="Cookie policy"
+          subtitle="TeaRX keeps things simple and minimal — we never track you for advertising."
+        />
+        <BrandLogo className="h-14 w-14 ring-2 ring-leaf-deep/15 shadow-soft" sizes="56px" />
+      </div>
 
       <div className="mx-auto mt-10 max-w-3xl space-y-10 text-moss">
         <section className="space-y-3">

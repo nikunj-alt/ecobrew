@@ -14,7 +14,8 @@ import { HOME_STATS } from "@/lib/constants";
 import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
 import InTransitBand from "@/components/home/InTransitBand";
 import WireframeGlobe from "@/components/home/WireframeGlobe";
-import { LeafIcon, ArrowRightIcon } from "@/components/icons";
+import { ArrowRightIcon } from "@/components/icons";
+import BrandLogo from "@/components/ui/BrandLogo";
 import { useAppSettings } from "@/context/AppSettingsContext";
 import { useCart } from "@/components/cart/CartProvider";
 import { useWeather } from "@/hooks/useWeather";
@@ -88,7 +89,8 @@ export default function Home() {
           {/* Left Column: Typographic Hero */}
           <div className="max-w-2xl text-left">
             {/* Micro Eyebrow */}
-            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-emerald-200 backdrop-blur-md border border-white/15">
+            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full bg-white/10 pl-1.5 pr-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-emerald-200 backdrop-blur-md border border-white/15">
+              <BrandLogo className="h-6 w-6 ring-1 ring-white/40" sizes="24px" priority />
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>TOOLS & ADVISORY FOR EVERY CIRCULAR DECISION</span>
             </div>
@@ -166,9 +168,11 @@ export default function Home() {
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <div className="glass-strong rounded-2xl p-4 shadow-lg flex items-center justify-between border border-white/30">
                     <div className="flex items-center gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-leaf-deep text-sprout shadow-sm">
-                        <LeafIcon className="h-5 w-5" />
-                      </span>
+                      <BrandLogo
+                        className="h-11 w-11 ring-2 ring-leaf-deep/20 shadow-sm"
+                        sizes="44px"
+                        priority
+                      />
                       <div>
                         <p className="font-display text-base font-bold text-soil">{heroProduct?.name}</p>
                         <p className="text-xs text-moss font-medium">Reclaimed from ~40 chai glasses</p>
@@ -620,10 +624,13 @@ export default function Home() {
                   className="object-cover"
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-leaf-deep/90 via-leaf-deep/40 to-transparent p-6 text-white">
-                  <p className="text-xs font-medium flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Handcrafted in Indore, India
-                  </p>
+                  <div className="flex items-center gap-3">
+                    <BrandLogo className="h-9 w-9 ring-2 ring-white/50 shadow-soft" sizes="36px" />
+                    <p className="text-xs font-medium flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                      Handcrafted in Indore, India
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

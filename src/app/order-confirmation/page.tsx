@@ -8,7 +8,8 @@ import { formatINR } from "@/lib/utils";
 import type { Order } from "@/lib/types";
 import Container from "@/components/layout/Container";
 import Button from "@/components/ui/Button";
-import { CheckIcon, LeafIcon } from "@/components/icons";
+import { CheckIcon } from "@/components/icons";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 export default function OrderConfirmationPage() {
   const [order, setOrder] = useState<Order | null>(null);
@@ -29,9 +30,7 @@ export default function OrderConfirmationPage() {
     <Container className="py-16 sm:py-24">
       {!order ? (
         <div className="mx-auto max-w-lg rounded-biophilic shadow-soft ring-1 ring-leaf-deep/8 bg-white/70 p-8 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-kraft">
-            <LeafIcon className="h-6 w-6 text-moss" />
-          </div>
+          <BrandLogo className="mx-auto mb-4 h-16 w-16 ring-2 ring-leaf-deep/15 shadow-soft" sizes="64px" />
           <h1 className="text-2xl text-leaf-deep">No recent order found</h1>
           <p className="mt-2 text-moss">
             You haven&apos;t placed a (simulated) order yet on this device.
@@ -43,9 +42,12 @@ export default function OrderConfirmationPage() {
       ) : (
         <div className="mx-auto max-w-2xl">
           <div className="flex flex-col items-start gap-4 rounded-biophilic bg-leaf-deep p-8 text-oat shadow-natural">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sprout text-leaf-deep">
-              <CheckIcon className="h-6 w-6" />
-            </span>
+            <div className="flex w-full items-center justify-between">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sprout text-leaf-deep">
+                <CheckIcon className="h-6 w-6" />
+              </span>
+              <BrandLogo className="h-12 w-12 ring-2 ring-white/30 shadow-soft" sizes="48px" />
+            </div>
             <div>
               <h1 className="text-3xl font-medium">Thank you! Order placed</h1>
               <p className="mt-2 text-oat/70">

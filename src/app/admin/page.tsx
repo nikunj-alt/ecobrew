@@ -10,7 +10,8 @@ import { categories, categoryLabels } from "@/lib/data/products";
 import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
 import { formatINR, formatShortDate } from "@/lib/utils";
 import type { Category, ContactMessage, Order, OrderStatus, Product } from "@/lib/types";
-import { LeafIcon, CheckIcon } from "@/components/icons";
+import { CheckIcon } from "@/components/icons";
+import BrandLogo, { TEARX_LOGO_SRC } from "@/components/ui/BrandLogo";
 
 type Tab = "products" | "orders" | "contacts";
 
@@ -81,9 +82,7 @@ function AdminGate({ onSuccess }: { onSuccess: () => void }) {
   return (
     <Container className="max-w-md py-24">
       <div className="rounded-2xl bg-white/50 p-8 shadow-natural">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-leaf-deep text-oat">
-          <LeafIcon className="h-6 w-6 text-sprout" />
-        </div>
+        <BrandLogo className="h-14 w-14 ring-2 ring-leaf-deep/20 shadow-soft" sizes="56px" />
         <h1 className="mt-4 text-2xl font-medium text-leaf-deep">Admin access</h1>
         <p className="mt-1 text-sm text-moss">Enter the admin password to continue.</p>
         <form onSubmit={submit} className="mt-6 space-y-4">
@@ -116,9 +115,12 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   return (
     <Container className="py-10 sm:py-14">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="text-sm text-moss">TeaRX</p>
-          <h1 className="text-2xl font-medium text-leaf-deep">Admin panel</h1>
+        <div className="flex items-center gap-3">
+          <BrandLogo className="h-11 w-11 ring-2 ring-leaf-deep/20 shadow-soft" sizes="44px" />
+          <div>
+            <p className="text-sm text-moss">TeaRX</p>
+            <h1 className="text-2xl font-medium text-leaf-deep">Admin panel</h1>
+          </div>
         </div>
         <Button size="sm" variant="ghost" onClick={logout}>Log out</Button>
       </div>
@@ -401,7 +403,7 @@ function ProductEditor({
         price: Number(form.price || 0),
         shortDescription: form.shortDescription.trim(),
         description: form.description.trim(),
-        image: form.image.trim() || "/logo.png",
+        image: form.image.trim() || TEARX_LOGO_SRC,
         impact: form.impact.trim(),
         inStock: form.inStock,
         featured: form.featured,

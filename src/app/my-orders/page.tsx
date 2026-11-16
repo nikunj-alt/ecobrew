@@ -11,7 +11,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
 import { formatINR, formatShortDate, orderEta } from "@/lib/utils";
 import type { ContactMessage, Order } from "@/lib/types";
-import { LeafIcon } from "@/components/icons";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 export default function MyOrdersPage() {
   const { user, refresh } = useAuth();
@@ -51,9 +51,7 @@ export default function MyOrdersPage() {
   if (!user) {
     return (
       <Container className="max-w-lg py-20 text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-kraft">
-          <LeafIcon className="h-6 w-6 text-moss" />
-        </div>
+        <BrandLogo className="mx-auto h-16 w-16 ring-2 ring-leaf-deep/15 shadow-soft" sizes="64px" />
         <h1 className="mt-4 text-2xl font-medium text-leaf-deep">Sign in to track orders</h1>
         <p className="mt-2 text-sm text-moss">
           Log in with your TeaRX User ID to see your order status and any replies from the admin team.
@@ -71,9 +69,12 @@ export default function MyOrdersPage() {
   return (
     <Container className="py-14 sm:py-20">
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="text-sm text-moss">Signed in as</p>
-          <h1 className="mt-1 text-3xl font-medium text-leaf-deep">@{user.userId}</h1>
+        <div className="flex items-center gap-3.5">
+          <BrandLogo className="h-12 w-12 ring-2 ring-leaf-deep/15 shadow-soft" sizes="48px" />
+          <div>
+            <p className="text-sm text-moss">Signed in as</p>
+            <h1 className="mt-1 text-3xl font-medium text-leaf-deep">@{user.userId}</h1>
+          </div>
         </div>
         <Link href="/products">
           <Button variant="outline" size="sm">Shop more</Button>

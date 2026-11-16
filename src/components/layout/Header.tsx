@@ -2,12 +2,12 @@
 
 import React, { useState, Suspense } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { NAV_LINKS } from "@/lib/constants";
 import { useCart } from "@/components/cart/CartProvider";
 import CartCount from "@/components/cart/CartCount";
 import { CartIcon } from "@/components/icons";
+import BrandLogo from "@/components/ui/BrandLogo";
 import AccountModal from "@/components/auth/AccountModal";
 import SettingsModal from "@/components/settings/SettingsModal";
 import QuickSearchModal from "@/components/search/QuickSearchModal";
@@ -39,14 +39,11 @@ export default function Header() {
           {/* Left: Brand Logo & Title with live green dot */}
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="relative h-9 w-9 overflow-hidden rounded-full ring-2 ring-emerald-500/30 group-hover:ring-emerald-500 transition-all">
-                <Image
-                  src="/logo.png"
-                  alt="TeaRX Logo"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+              <BrandLogo
+                className="h-10 w-10 ring-2 ring-emerald-500/35 group-hover:ring-emerald-500 transition-all shadow-sm"
+                sizes="40px"
+                priority
+              />
               <div className="flex items-center gap-1.5">
                 <span className="font-display text-lg font-bold tracking-tight text-soil">
                   TeaRX
@@ -128,7 +125,10 @@ export default function Header() {
                 >
                   <div className="flex items-center justify-between border-b border-leaf-deep/10 pb-2">
                     <span className="font-semibold text-leaf-deep">Notifications</span>
-                    <span className="text-[10px] text-tea font-bold uppercase tracking-wider">TeaRX</span>
+                    <span className="flex items-center gap-1.5 text-[10px] text-tea font-bold uppercase tracking-wider">
+                      <BrandLogo className="h-5 w-5 ring-1 ring-leaf-deep/20" sizes="20px" />
+                      TeaRX
+                    </span>
                   </div>
                   <div className="mt-3 space-y-2.5">
                     <div className="rounded-xl bg-white/70 p-2.5 border border-leaf-deep/5">

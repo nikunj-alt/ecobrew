@@ -11,6 +11,7 @@ import { categoryLabels } from "@/lib/data/products";
 import { formatINR } from "@/lib/utils";
 import { useProductCatalog } from "@/components/product/ProductCatalogProvider";
 import { LeafIcon } from "@/components/icons";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 export default function ProductDetailPage() {
   const params = useParams<{ slug: string }>();
@@ -48,7 +49,7 @@ export default function ProductDetailPage() {
           </p>
 
           <div className="mt-6 flex items-start gap-3 rounded-xl bg-white/50 p-4">
-            <LeafIcon className="mt-0.5 h-5 w-5 shrink-0 text-sprout-dark" />
+            <BrandLogo className="mt-0.5 h-8 w-8 ring-1 ring-leaf-deep/20" sizes="32px" />
             <p className="text-sm leading-relaxed text-moss">{product.description}</p>
           </div>
 

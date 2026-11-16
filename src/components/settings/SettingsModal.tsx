@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useAppSettings, LanguageCode } from "@/context/AppSettingsContext";
 import { useAuth } from "@/components/auth/AuthProvider";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 const LANGUAGES: { code: LanguageCode; name: string; native: string }[] = [
   { code: "en", name: "English", native: "English" },
@@ -32,10 +33,8 @@ export default function SettingsModal() {
         {/* Left Sidebar */}
         <div className="w-full border-b border-leaf-deep/10 bg-white/40 p-4 md:w-56 md:border-b-0 md:border-r md:p-6">
           <div className="mb-6 flex items-center justify-between md:block">
-            <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-leaf-deep text-white shadow-sm">
-                ⚙️
-              </span>
+            <div className="flex items-center gap-2.5">
+              <BrandLogo className="h-9 w-9 ring-1 ring-leaf-deep/20 shadow-sm" sizes="36px" />
               <div>
                 <h3 className="font-display text-base font-semibold text-leaf-deep">Settings</h3>
                 <p className="text-[11px] text-stone">Preferences & layout</p>
@@ -299,9 +298,12 @@ export default function SettingsModal() {
 
           {activeTab === "about" && (
             <div className="space-y-4">
-              <div>
-                <h4 className="font-display text-xl font-medium text-leaf-deep">About TeaRX</h4>
-                <p className="text-xs text-moss">Version 2.4 — Production Build</p>
+              <div className="flex items-center gap-3">
+                <BrandLogo className="h-12 w-12 ring-2 ring-leaf-deep/20 shadow-soft" sizes="48px" />
+                <div>
+                  <h4 className="font-display text-xl font-medium text-leaf-deep">About TeaRX</h4>
+                  <p className="text-xs text-moss">Version 2.4 — Production Build</p>
+                </div>
               </div>
               <div className="rounded-2xl bg-white/70 p-5 border border-leaf-deep/10 text-xs text-moss space-y-2 leading-relaxed">
                 <p>

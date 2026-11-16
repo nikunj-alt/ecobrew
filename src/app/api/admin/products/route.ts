@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
         price: Number(body.price ?? 0),
         short_description: body.shortDescription ?? "",
         description: body.description ?? "",
-        image: body.image || "/logo.png",
+        image: body.image || "/assets/aistudio/tearx_logo_4ef86950.webp",
         impact: body.impact ?? "",
         in_stock: body.inStock ?? true,
         featured: body.featured ?? false,

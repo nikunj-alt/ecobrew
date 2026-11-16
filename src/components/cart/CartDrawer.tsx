@@ -5,8 +5,9 @@ import Link from "next/link";
 import { useCart } from "./CartProvider";
 import CartItem from "./CartItem";
 import { formatINR } from "@/lib/utils";
-import { CloseIcon, CartIcon } from "@/components/icons";
+import { CloseIcon } from "@/components/icons";
 import Button from "@/components/ui/Button";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 export default function CartDrawer() {
   const { items, subtotal, isOpen, closeCart } = useCart();
@@ -42,8 +43,9 @@ export default function CartDrawer() {
         aria-hidden={!isOpen}
       >
         <div className="flex items-center justify-between border-b border-moss/15 px-6 py-5">
-          <h2 className="flex items-center gap-2 text-xl font-medium text-leaf-deep">
-            <CartIcon className="h-5 w-5 text-sprout" /> Your cart
+          <h2 className="flex items-center gap-2.5 text-xl font-medium text-leaf-deep">
+            <BrandLogo className="h-7 w-7 ring-1 ring-leaf-deep/20" sizes="28px" />
+            <span>Your cart</span>
           </h2>
           <button
             onClick={closeCart}
@@ -57,9 +59,7 @@ export default function CartDrawer() {
         <div className="flex-1 overflow-y-auto px-6">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-kraft">
-                <CartIcon className="h-7 w-7 text-moss" />
-              </div>
+              <BrandLogo className="h-16 w-16 ring-2 ring-leaf-deep/15 shadow-soft" sizes="64px" />
               <div>
                 <p className="font-medium text-leaf-deep">Your cart is empty</p>
                 <p className="mt-1 text-sm text-moss">
