@@ -76,6 +76,7 @@ export default function Home() {
             alt="Misty mountain forest at sunset"
             fill
             priority
+            sizes="100vw"
             className="object-cover object-center scale-105 transition-transform duration-1000"
           />
           {/* Moody atmospheric gradients & vignettes matching video */}
@@ -158,6 +159,7 @@ export default function Home() {
                   alt={heroProduct?.name ?? "TeaRX product"}
                   fill
                   priority
+                  sizes="(min-width: 1024px) 40vw, 90vw"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
