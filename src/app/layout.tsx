@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   description:
     "TeaRX is an independent brand that upcycles waste tea leaves into pen stands, stationery, mini furniture, and decor. Circular home & desk goods, made in India.",
   icons: {
-    icon: "/assets/aistudio/tearx_logo_4ef86950.webp",
+    icon: "/favicon.ico",
     apple: "/assets/aistudio/tearx_logo_4ef86950.webp",
   },
 };
