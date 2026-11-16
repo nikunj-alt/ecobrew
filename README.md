@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://ecobrew-live.vercel.app"><b>🌿 Live demo →</b></a>
+  <a href="https://tearx.vercel.app"><b>🌿 Live demo →</b></a>
 </p>
 
 ---
@@ -86,7 +86,7 @@ page, then back to `/auth/callback`). To make it work:
 
 1. Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (or
    `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`) in the deployed environment.
-2. Set `NEXT_PUBLIC_SITE_URL` to your deployed origin (e.g. `https://ecobrew-live.vercel.app`).
+2. Set `NEXT_PUBLIC_SITE_URL` to your deployed origin (e.g. `https://tearx.vercel.app`).
 3. In **Supabase → Auth → URL Configuration → Redirect URLs**, add
    `${NEXT_PUBLIC_SITE_URL}/auth/callback`.
 4. In **Supabase → Auth → Providers**, enable **Google**; in Google Cloud,
