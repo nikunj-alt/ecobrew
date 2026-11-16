@@ -474,7 +474,7 @@ function ProductEditor({
           <input
             value={form.image}
             onChange={(e) => set("image", e.target.value)}
-            placeholder="/products/leaf-pen-stand.svg or an uploaded image URL"
+            placeholder="/products/leaf-pen-stand.jpg or an uploaded image URL"
             className={inputCls}
           />
         </div>

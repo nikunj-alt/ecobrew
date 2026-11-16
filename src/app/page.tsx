@@ -53,7 +53,11 @@ export default function Home() {
   const [activeWeatherDay, setActiveWeatherDay] = useState<number>(0);
   const { weather, loading, error, permissionDenied, refreshLocation } = useWeather();
 
-  const featured = products.filter((p) => p.featured).slice(0, 3);
+  const featuredExplicit = products.filter((p) => p.featured);
+  const featured = [
+    ...featuredExplicit,
+    ...products.filter((p) => !p.featured),
+  ].slice(0, 3);
   const heroProduct = products.find((p) => p.slug === "leaf-pen-stand") || products[0];
 
   const carouselItems: CardStackItem[] = products.map((p) => ({

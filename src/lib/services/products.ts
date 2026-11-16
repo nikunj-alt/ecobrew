@@ -6,6 +6,29 @@ import { products as staticProducts } from "../data/products";
 
 const db = supabase as SupabaseClient;
 
+const staticImageBySlug = new Map<string, string>(
+  staticProducts.map((p) => [p.slug, p.image]),
+);
+
+export function resolveProductImage(
+  image: string | null | undefined,
+  slug: string,
+): string {
+  const trimmed = (image || "").trim();
+  const staticFallback = staticImageBySlug.get(slug);
+
+  if (!trimmed || trimmed === "/logo.png") {
+    return staticFallback ?? "/assets/aistudio/tearx_logo_4ef86950.webp";
+  }
+
+  // Prefer AI-generated .jpg product photos over legacy .svg placeholders.
+  if (/^\/products\/[^/]+\.svg$/i.test(trimmed)) {
+    return staticFallback ?? trimmed.replace(/\.svg$/i, ".jpg");
+  }
+
+  return trimmed;
+}
+
 export function mapProductRow(row: ProductRow): Product {
   return {
     slug: row.slug,
@@ -14,7 +37,7 @@ export function mapProductRow(row: ProductRow): Product {
     price: Number(row.price),
     shortDescription: row.short_description || "",
     description: row.description || "",
-    image: row.image || "",
+    image: resolveProductImage(row.image, row.slug),
     impact: row.impact || undefined,
     inStock: row.in_stock !== false,
     featured: row.featured === true,

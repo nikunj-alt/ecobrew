@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminGuard } from "@/lib/server/guards";
 import { getSupabaseServer } from "@/lib/services/supabase-server";
-import { mapProductRow } from "@/lib/services/products";
+import { mapProductRow, resolveProductImage } from "@/lib/services/products";
 import type { Product } from "@/lib/types";
 
 export async function GET() {
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
         price: Number(body.price ?? 0),
         short_description: body.shortDescription ?? "",
         description: body.description ?? "",
-        image: body.image || "/assets/aistudio/tearx_logo_4ef86950.webp",
+        image: resolveProductImage(body.image, slug),
         impact: body.impact ?? "",
         in_stock: body.inStock ?? true,
         featured: body.featured ?? false,

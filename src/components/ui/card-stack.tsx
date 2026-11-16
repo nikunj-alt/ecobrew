@@ -309,18 +309,7 @@ export function CardStack<T extends CardStackItem>({
                     zIndex,
                     transformStyle: "preserve-3d",
                   }}
-                  initial={
-                    reduceMotion
-                      ? false
-                      : {
-                          opacity: 0,
-                          y: y + 40,
-                          x,
-                          rotateZ,
-                          rotateX,
-                          scale,
-                        }
-                  }
+                  initial={false}
                   animate={{
                     opacity: 1,
                     x,
