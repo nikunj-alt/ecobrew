@@ -1,9 +1,9 @@
-# EcoBrew — UI/UX Pro Max Master Design System
+# TeaRX — UI/UX Pro Max Master Design System
 
 > Generated with the UI/UX Pro Max skill (nextlevelbuilder/ui-ux-pro-max-skill).
 > Direction: **Organic Craft Editorial** — premium, warm, and full of character
 > (a deliberate blend of the skill's *Organic Biophilic*, *Editorial Grid/Magazine*,
-> and *E-commerce Luxury* guidance), tuned to EcoBrew's upcycled tea-leaf story.
+> and *E-commerce Luxury* guidance), tuned to TeaRX's upcycled tea-leaf story.
 
 ## Pattern — Scroll-Triggered Storytelling
 - Narrative arc: Intro hook → Chapter 1 (the problem: chai waste) → Chapter 2

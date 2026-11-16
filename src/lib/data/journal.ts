@@ -11,8 +11,8 @@ export const JOURNAL_POSTS: JournalPost[] = [
     title: "Where the leaves come from",
     excerpt: "Every piece starts in the same place — the bottom of a chai glass.",
     body: [
-      "The spent tea leaves behind our products are collected the way you'd expect: from cups of chai. Across chai stalls and homes, the leaves left after a brew are usually thrown away.",
-      "EcoBrew takes those leaves and gives them a second life. It begins with the simple act of gathering them — clean, dry, and sorted as the first stage of the process.",
+      "The used tea leaves behind our products are collected the way you'd expect: from cups of chai. Across chai stalls and homes, the leaves left after a brew are usually thrown away.",
+      "TeaRX takes those leaves and gives them a second life. It begins with the simple act of gathering them — clean, dry, and sorted as the first stage of the process.",
     ],
   },
   {
@@ -38,7 +38,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
     title: "From chai glass to desk piece",
     excerpt: "How a familiar waste becomes something useful.",
     body: [
-      "Every EcoBrew piece begins as spent tea leaves collected from chai stalls and homes across the city. A familiar waste, transformed into something useful.",
+      "Every TeaRX piece begins as used tea leaves collected from chai stalls and homes across the city. A familiar waste, transformed into something useful.",
       "It all answers one question: what happens to the tea leaves after the cup is emptied?",
     ],
   },

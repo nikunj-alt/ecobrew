@@ -32,9 +32,9 @@ const cormorant = Cormorant_Garamond({
 import { AppSettingsProvider } from "@/context/AppSettingsContext";
 
 export const metadata: Metadata = {
-  title: "EcoBrew — Spent tea leaves make useful things",
+  title: "TeaRX — Used tea leaves make useful things",
   description:
-    "EcoBrew is an independent brand that upcycles waste tea leaves into pen stands, stationery, mini furniture, and decor. Circular home & desk goods, made in India.",
+    "TeaRX is an independent brand that upcycles waste tea leaves into pen stands, stationery, mini furniture, and decor. Circular home & desk goods, made in India.",
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",

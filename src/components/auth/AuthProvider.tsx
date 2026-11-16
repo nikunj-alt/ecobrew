@@ -39,8 +39,8 @@ const AuthContext = createContext<AuthState>({
  * Single source of truth for "who is signed in" on the client.
  *
  * The server's /api/auth/me returns whichever server-verified identity is
- * present — a local account (httpOnly ecobrew_account cookie) or a Google
- * session (httpOnly ecobrew_session cookie). We hydrate that into the same
+ * present — a local account (httpOnly tearx_account cookie) or a Google
+ * session (httpOnly tearx_session cookie). We hydrate that into the same
  * UserAccount shape the rest of the app expects so both login methods work
  * everywhere (header, orders, checkout, contact, in-transit band).
  */

@@ -103,14 +103,14 @@ export default function Home() {
                   SMARTER
                 </span>
                 <span className="font-display text-xl sm:text-2xl font-light text-white/90 tracking-wide">
-                  with <strong className="font-bold text-emerald-400">EcoBrew</strong>
+                  with <strong className="font-bold text-emerald-400">TeaRX</strong>
                 </span>
               </div>
             </div>
 
             {/* Subtitle */}
             <p className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-stone-200">
-              Spent tea leaves upcycled into handcrafted pen stands, stationery, and mini furniture.
+              Used tea leaves upcycled into handcrafted pen stands, stationery, and mini furniture.
               An independent circular-economy brand converting urban chai waste into durable goods.
             </p>
 
@@ -155,7 +155,7 @@ export default function Home() {
               <div className="relative h-full w-full overflow-hidden rounded-2xl bg-soil/50">
                 <Image
                   src={heroProduct?.image ?? "/products/leaf-pen-stand.jpg"}
-                  alt={heroProduct?.name ?? "EcoBrew product"}
+                  alt={heroProduct?.name ?? "TeaRX product"}
                   fill
                   priority
                   className="object-cover"
@@ -597,9 +597,9 @@ export default function Home() {
               A question about what gets thrown away
             </h2>
             <p className="mt-5 text-sm sm:text-base leading-relaxed text-moss">
-              Walking past tea stalls in our city, we noticed bin after bin overflowing with spent tea leaves.
+              Walking past tea stalls in our city, we noticed bin after bin overflowing with used tea leaves.
               We asked: why throw away rich organic fiber when it can become durable desks, pen stands, and pots?
-              That question became EcoBrew.
+              That question became TeaRX.
             </p>
             <div className="mt-8">
               <Link href="/about">

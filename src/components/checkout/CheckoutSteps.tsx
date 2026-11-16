@@ -185,7 +185,7 @@ export default function CheckoutSteps() {
       if (!items.length) throw new Error("Your cart is empty.");
       const orderDraft = buildOrderFromCart(items, customer, subtotal);
       const order = await placeOrder(orderDraft);
-      window.sessionStorage.setItem("ecobrew-last-order", JSON.stringify(order));
+      window.sessionStorage.setItem("tearx-last-order", JSON.stringify(order));
       clear();
       router.push("/order-confirmation");
     } catch (e) {
@@ -203,7 +203,7 @@ export default function CheckoutSteps() {
             Sign in to order
           </h3>
           <p className="mt-1 text-sm text-moss">
-            Orders need a free EcoBrew account — your own unique User ID and password.
+            Orders need a free TeaRX account — your own unique User ID and password.
           </p>
           <div className="mt-4">
             <Button onClick={() => setIsAuthModalOpen(true)}>

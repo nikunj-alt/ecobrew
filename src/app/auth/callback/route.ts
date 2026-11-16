@@ -4,7 +4,7 @@ import { exchangeSupabaseCode } from "@/lib/auth/supabase";
 import { setSessionCookie, clearSessionCookie, SessionUser } from "@/lib/auth/session";
 import { ensureUserRow } from "@/lib/server/users";
 
-/** Derive the stable EcoBrew account id from the verified Supabase email. */
+/** Derive the stable TeaRX account id from the verified Supabase email. */
 function userIdFromEmail(email: string): string {
   const local = email.split("@")[0].toLowerCase().replace(/[^a-z0-9_.-]/g, "_");
   return local.length >= 3 ? local.slice(0, 24) : `g_${email.slice(0, 20).replace(/[^a-z0-9_-]/g, "")}`;
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
     if (!code) return fail(req, "missing");
 
     const jar = await cookies();
-    const storedState = jar.get("ecobrew_oauth")?.value;
+    const storedState = jar.get("tearx_oauth")?.value;
     if (!storedState) return fail(req, "state");
 
     // The cookie carries the PKCE verifier (and optional `from` target) that
@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
     }
     if (!verifier) return fail(req, "state");
 
-    jar.delete("ecobrew_oauth");
+    jar.delete("tearx_oauth");
 
     // Server-side exchange; the browser only ever contributed `code`.
     const tokens = await exchangeSupabaseCode(code, verifier);

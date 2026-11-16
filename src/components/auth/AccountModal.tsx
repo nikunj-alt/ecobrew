@@ -26,7 +26,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("EcoBrew Studio & Warehouse");
+  const [address, setAddress] = useState("TeaRX Studio & Warehouse");
   const [city, setCity] = useState("Indore");
   const [state, setState] = useState("Madhya Pradesh");
   const [pincode, setPincode] = useState("452001");
@@ -177,7 +177,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
         userId: cleanId,
         password,
         name: name || cleanId,
-        email: email || `${cleanId}@ecobrew.local`,
+        email: email || `${cleanId}@tearx.local`,
         phone,
         address,
         city: city || "Indore",
@@ -263,12 +263,12 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
           <div className="relative flex h-full items-center justify-between px-6">
             <div className="flex items-center gap-2.5">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white shadow-lg">
-                <Image src="/logo.png" alt="EcoBrew" width={26} height={26} className="rounded-full" />
+                <Image src="/logo.png" alt="TeaRX" width={26} height={26} className="rounded-full" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
                   <span className="font-display text-lg font-bold tracking-tight text-white drop-shadow">
-                    EcoBrew
+                    TeaRX
                   </span>
                   <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
                 </div>
@@ -455,7 +455,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
               <form onSubmit={handleLogin} className="space-y-3.5">
                 <div>
                   <label className="block text-[11px] font-semibold uppercase tracking-wider text-stone mb-1">
-                    Username / EcoBrew ID
+                    Username / TeaRX ID
                   </label>
                   <input
                     type="text"
@@ -492,7 +492,7 @@ export default function AccountModal({ isOpen, onClose, onSuccess }: AccountModa
                   >
                     Auto-fill Demo
                   </button>
-                  <span className="text-stone">EcoBrew</span>
+                  <span className="text-stone">TeaRX</span>
                 </div>
 
                 <button

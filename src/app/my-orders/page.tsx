@@ -56,7 +56,7 @@ export default function MyOrdersPage() {
         </div>
         <h1 className="mt-4 text-2xl font-medium text-leaf-deep">Sign in to track orders</h1>
         <p className="mt-2 text-sm text-moss">
-          Log in with your EcoBrew User ID to see your order status and any replies from the admin team.
+          Log in with your TeaRX User ID to see your order status and any replies from the admin team.
         </p>
         <div className="mt-6">
           <Button onClick={() => setIsAuthOpen(true)}>Account / Login</Button>
@@ -183,7 +183,7 @@ export default function MyOrdersPage() {
                 <p className="mt-3 text-sm leading-relaxed text-leaf-deep">{c.message}</p>
                 {c.reply && (
                   <div className="mt-4 rounded-xl bg-kraft p-4">
-                    <p className="text-xs font-medium text-leaf-deep">EcoBrew team replied:</p>
+                    <p className="text-xs font-medium text-leaf-deep">TeaRX team replied:</p>
                     <p className="mt-1 text-sm leading-relaxed text-moss">{c.reply}</p>
                   </div>
                 )}

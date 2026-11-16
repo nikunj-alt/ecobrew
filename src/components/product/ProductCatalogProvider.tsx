@@ -64,7 +64,7 @@ export function ProductCatalogProvider({ children }: { children: ReactNode }) {
 
     let cancelled = false;
     const channel = s
-      .channel("ecobrew-catalog-live")
+      .channel("tearx-catalog-live")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "ecobrew_products" },

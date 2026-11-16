@@ -11,7 +11,7 @@ export interface LiveCoords {
 
 export type LocationStatus = "idle" | "locating" | "success" | "error";
 
-const STORAGE_KEY = "ecobrew_live_location";
+const STORAGE_KEY = "tearx_live_location";
 
 function readStored(): LiveCoords | null {
   if (typeof window === "undefined") return null;
