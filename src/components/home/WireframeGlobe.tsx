@@ -9,7 +9,7 @@ type Point = { x: number; y: number; z: number };
  * parallels and longitude meridians drawn only on the front (visible)
  * hemisphere. Auto-rotates, nudges toward the pointer, pauses off-screen,
  * and falls back to a single static frame when the user prefers reduced
- * motion. Colored to EcoBrew's palette (sprout dots on leaf/moss lines).
+ * motion. Colored to TeaRX's palette (sprout dots on leaf/moss lines).
  */
 export default function WireframeGlobe({ className = "" }: { className?: string }) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -225,7 +225,7 @@ export default function WireframeGlobe({ className = "" }: { className?: string 
       ref={canvasRef}
       className={className}
       role="img"
-      aria-label="Wireframe globe of the EcoBrew process"
+      aria-label="Wireframe globe of the TeaRX process"
     />
   );
 }

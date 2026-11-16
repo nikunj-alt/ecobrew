@@ -4,8 +4,8 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import { LeafIcon } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Our Story — EcoBrew",
-  description: "Why we started EcoBrew — turning chai waste into useful things.",
+  title: "Our Story — TeaRX",
+  description: "Why we started TeaRX — turning chai waste into useful things.",
 };
 
 const values = [
@@ -31,8 +31,8 @@ export default function AboutPage() {
     <Container className="py-16 sm:py-24">
       <SectionHeading
         tag="Our story"
-        title="The idea behind EcoBrew"
-        subtitle="We're a small team building EcoBrew around one idea: waste tea leaves are a resource, not rubbish."
+        title="The idea behind TeaRX"
+        subtitle="We're a small team building TeaRX around one idea: waste tea leaves are a resource, not rubbish."
       />
 
       <div className="mt-12 grid gap-10 lg:grid-cols-3">
@@ -41,7 +41,7 @@ export default function AboutPage() {
           <div className="mt-4 space-y-4 text-base leading-relaxed text-moss">
             <p>
               Every day, millions of cups of chai are drunk in India. After the
-              last sip, the spent tea leaves — <em>chaipatti</em> — are almost
+              last sip, the used tea leaves — <em>chaipatti</em> — are almost
               always thrown away. That&apos;s a lot of organic waste going nowhere.
             </p>
             <p>
@@ -51,7 +51,7 @@ export default function AboutPage() {
               pen stands, stationery, mini chairs and tables, and decor.
             </p>
             <p>
-              EcoBrew is our brand for this idea — proof that a household waste
+              TeaRX is our brand for this idea — proof that a household waste
               stream can become a small, useful product line.
             </p>
           </div>

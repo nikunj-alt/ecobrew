@@ -18,7 +18,7 @@ interface Place {
 const PLACES: Place[] = [
   {
     kind: "Online",
-    title: "The EcoBrew shop",
+    title: "The TeaRX shop",
     body: "The whole range lives here — browse, and order from the site.",
     href: "/products",
     cta: "Browse the market",
@@ -26,7 +26,7 @@ const PLACES: Place[] = [
   {
     kind: "Event",
     title: "Our Studio",
-    body: "Visit our Indore studio to see how spent tea leaves become finished goods — and meet the team behind them.",
+    body: "Visit our Indore studio to see how used tea leaves become finished goods — and meet the team behind them.",
     href: "/about",
     cta: "About us",
   },
@@ -45,7 +45,7 @@ export default function FindUsPage() {
     <Container className="py-16 sm:py-24">
       <SectionHeading
         tag="Find us"
-        title="Where to find EcoBrew"
+        title="Where to find TeaRX"
         subtitle="Online, in-store, or by email — pick whichever is easiest."
       />
 

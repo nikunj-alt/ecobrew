@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="public/logo.png" alt="EcoBrew logo" width="96" height="96" />
+  <img src="public/logo.png" alt="TeaRX logo" width="96" height="96" />
 </p>
 
-<h1 align="center">EcoBrew</h1>
+<h1 align="center">TeaRX</h1>
 
 <p align="center">
-  <b>Spent tea leaves make useful things.</b><br />
+  <b>Used tea leaves make useful things.</b><br />
   An independent brand that upcycles waste tea leaves into pen stands, stationery,
   mini furniture, and decor. Circular home & desk goods, made in India.
 </p>
@@ -128,7 +128,7 @@ inlined at build time, changing them requires a redeploy.
 
 ## 🌱 Project background
 
-EcoBrew is an independent circular-economy brand. Instead of discarding used
+TeaRX is an independent circular-economy brand. Instead of discarding used
 tea leaves (chaipatti), we dry them, bind them with natural binders, and press
 them into useful everyday objects. Every product is compostable at end of life
 — nothing new, nothing wasted.
@@ -136,5 +136,5 @@ them into useful everyday objects. Every product is compostable at end of life
 ---
 
 <p align="center">
-  <sub>© 2026 EcoBrew · All rights reserved</sub>
+  <sub>© 2026 TeaRX · All rights reserved</sub>
 </p>

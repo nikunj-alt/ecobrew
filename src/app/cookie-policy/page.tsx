@@ -3,9 +3,9 @@ import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 
 export const metadata: Metadata = {
-  title: "Cookie Policy — EcoBrew",
+  title: "Cookie Policy — TeaRX",
   description:
-    "How EcoBrew uses cookies and local storage: the session cookie, cart, and preferences. No ad tracking.",
+    "How TeaRX uses cookies and local storage: the session cookie, cart, and preferences. No ad tracking.",
 };
 
 export default function CookiePolicyPage() {
@@ -14,7 +14,7 @@ export default function CookiePolicyPage() {
       <SectionHeading
         tag="Transparency"
         title="Cookie policy"
-        subtitle="EcoBrew keeps things simple and minimal — we never track you for advertising."
+        subtitle="TeaRX keeps things simple and minimal — we never track you for advertising."
       />
 
       <div className="mx-auto mt-10 max-w-3xl space-y-10 text-moss">
@@ -27,7 +27,7 @@ export default function CookiePolicyPage() {
           </p>
           <ul className="list-disc space-y-2 pl-5 leading-relaxed">
             <li>
-              <span className="font-medium text-leaf-deep">Session cookie (ecobrew_session)</span>{" "}
+              <span className="font-medium text-leaf-deep">Session cookie (tearx_session)</span>{" "}
               — a secure, server-side cookie that keeps you signed in. It is
               httpOnly, signed, and short-lived. This is essential for login, orders,
               and the admin panel.

@@ -87,7 +87,7 @@ export default function SettingsModal() {
             <div className="space-y-6">
               <div>
                 <h4 className="font-display text-xl font-medium text-leaf-deep">Appearance</h4>
-                <p className="text-xs text-moss">Customize how EcoBrew looks and responds on your device.</p>
+                <p className="text-xs text-moss">Customize how TeaRX looks and responds on your device.</p>
               </div>
 
               {/* Theme Selector */}
@@ -300,16 +300,16 @@ export default function SettingsModal() {
           {activeTab === "about" && (
             <div className="space-y-4">
               <div>
-                <h4 className="font-display text-xl font-medium text-leaf-deep">About EcoBrew</h4>
+                <h4 className="font-display text-xl font-medium text-leaf-deep">About TeaRX</h4>
                 <p className="text-xs text-moss">Version 2.4 — Production Build</p>
               </div>
               <div className="rounded-2xl bg-white/70 p-5 border border-leaf-deep/10 text-xs text-moss space-y-2 leading-relaxed">
                 <p>
-                  EcoBrew is an independent circular-economy brand built on a simple idea: spent tea leaves are a resource, not rubbish.
+                  TeaRX is an independent circular-economy brand built on a simple idea: used tea leaves are a resource, not rubbish.
                   Chai culture across India generates metric tons of spent wet tea leaves daily, typically landfilled.
                 </p>
                 <p>
-                  EcoBrew provides transparent traceability from chai stall collection to finished artisanal pieces.
+                  TeaRX provides transparent traceability from chai stall collection to finished artisanal pieces.
                 </p>
               </div>
             </div>

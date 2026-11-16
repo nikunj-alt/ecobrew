@@ -24,13 +24,13 @@ export default function Footer() {
               <div className="relative h-8 w-8 overflow-hidden rounded-full ring-1 ring-emerald-400/30">
                 <Image
                   src="/logo.png"
-                  alt="EcoBrew Logo"
+                  alt="TeaRX Logo"
                   fill
                   className="object-cover"
                 />
               </div>
               <span className="font-display text-lg font-bold tracking-tight text-white">
-                EcoBrew
+                TeaRX
               </span>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-stone/80">
@@ -102,7 +102,7 @@ export default function Footer() {
                 textShadow: "0 0 80px rgba(30,122,95,0.2)",
               }}
             >
-              ECOBREW
+              TEARX
             </span>
             <div className="mt-[-2vw] sm:mt-[-2.5vw] flex items-center justify-center gap-3">
               <span className="h-px w-12 sm:w-24 bg-tea/40" />
@@ -116,7 +116,7 @@ export default function Footer() {
 
         {/* Bottom copyright row */}
         <div className="border-t border-white/10 pt-6 flex flex-col items-center justify-between gap-3 text-[11px] text-stone sm:flex-row">
-          <span>&copy; 2026 EcoBrew. All rights reserved.</span>
+          <span>&copy; 2026 TeaRX. All rights reserved.</span>
           <div className="flex items-center gap-4">
             <Link href="/cookie-policy" className="hover:text-white transition-colors">
               Cookie Policy

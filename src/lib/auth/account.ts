@@ -2,7 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { encodeToken, decodeToken } from "./session";
 
-export const ACCOUNT_COOKIE = "ecobrew_account";
+export const ACCOUNT_COOKIE = "tearx_account";
 const ACCOUNT_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
 export interface AccountSession {

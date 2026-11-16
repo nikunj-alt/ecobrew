@@ -1,5 +1,5 @@
-export const SITE_NAME = "EcoBrew";
-export const SITE_TAGLINE = "Spent tea leaves make useful things.";
+export const SITE_NAME = "TeaRX";
+export const SITE_TAGLINE = "Used tea leaves make useful things.";
 export const CONTACT_EMAIL = "hello@ecobrew.in";
 export const CONTACT_PHONE = "+91 98765 43210";
 

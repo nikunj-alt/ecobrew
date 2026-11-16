@@ -20,7 +20,7 @@ const GUIDES = [
     n: "02",
     title: "Materials",
     eyebrow: "What goes in",
-    body: "Spent tea leaves (chaipatti) and natural binders — nothing else. No wax coating, no plastic filler, no dyes. The whole piece is compostable at end of life.",
+    body: "Used tea leaves (chaipatti) and natural binders — nothing else. No wax coating, no plastic filler, no dyes. The whole piece is compostable at end of life.",
     href: "/about",
     cta: "About our materials",
   },
@@ -40,7 +40,7 @@ export default function GuidesPage() {
       <Reveal>
         <SectionHeading
           tag="Guides · Field notes"
-          title="How EcoBrew works"
+          title="How TeaRX works"
           subtitle="Three short guides: the method, the materials, and how to care for what you own."
         />
       </Reveal>

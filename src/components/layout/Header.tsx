@@ -42,14 +42,14 @@ export default function Header() {
               <div className="relative h-9 w-9 overflow-hidden rounded-full ring-2 ring-emerald-500/30 group-hover:ring-emerald-500 transition-all">
                 <Image
                   src="/logo.png"
-                  alt="EcoBrew Logo"
+                  alt="TeaRX Logo"
                   fill
                   className="object-cover"
                 />
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="font-display text-lg font-bold tracking-tight text-soil">
-                  EcoBrew
+                  TeaRX
                 </span>
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse ml-0.5" title="Online" />
               </div>
@@ -128,7 +128,7 @@ export default function Header() {
                 >
                   <div className="flex items-center justify-between border-b border-leaf-deep/10 pb-2">
                     <span className="font-semibold text-leaf-deep">Notifications</span>
-                    <span className="text-[10px] text-tea font-bold uppercase tracking-wider">EcoBrew</span>
+                    <span className="text-[10px] text-tea font-bold uppercase tracking-wider">TeaRX</span>
                   </div>
                   <div className="mt-3 space-y-2.5">
                     <div className="rounded-xl bg-white/70 p-2.5 border border-leaf-deep/5">
@@ -170,7 +170,7 @@ export default function Header() {
                   <div className="glass-strong absolute right-0 mt-2 w-52 rounded-2xl p-2 shadow-natural border border-white/30 z-50 animate-in fade-in">
                     <div className="px-3 py-2 text-xs border-b border-leaf-deep/10">
                       <p className="font-semibold text-leaf-deep">{user.name || user.userId}</p>
-                      <p className="truncate text-stone text-[11px]">{user.email || "EcoBrew Member"}</p>
+                      <p className="truncate text-stone text-[11px]">{user.email || "TeaRX Member"}</p>
                     </div>
                     <Link
                       href="/my-orders"

@@ -7,12 +7,12 @@ export type SessionUser = {
   email: string;
   name: string;
   picture?: string;
-  /** EcoBrew account id (email-derived) used to key orders in ecobrew_users. */
+  /** TeaRX account id (email-derived) used to key orders in ecobrew_users. */
   userId: string;
 };
 
-export const SESSION_COOKIE = "ecobrew_session";
-export const ADMIN_COOKIE = "ecobrew_admin";
+export const SESSION_COOKIE = "tearx_session";
+export const ADMIN_COOKIE = "tearx_admin";
 const USER_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 const ADMIN_MAX_AGE = 60 * 60 * 8; // 8 hours
 
@@ -61,7 +61,7 @@ export function decodeToken(token: string): Record<string, unknown> | null {
   }
 }
 
-/** Encode a SessionUser token (used for the ecobrew_session cookie). */
+/** Encode a SessionUser token (used for the tearx_session cookie). */
 export function encodeSession(user: SessionUser): string {
   return encodeToken({ ...user }, USER_MAX_AGE);
 }

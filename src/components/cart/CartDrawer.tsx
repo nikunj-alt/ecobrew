@@ -63,7 +63,7 @@ export default function CartDrawer() {
               <div>
                 <p className="font-medium text-leaf-deep">Your cart is empty</p>
                 <p className="mt-1 text-sm text-moss">
-                  Everything here is made from spent tea leaves.
+                  Everything here is made from used tea leaves.
                 </p>
               </div>
               <Link href="/products" onClick={closeCart} className="text-sm font-medium text-sprout-dark hover:underline">

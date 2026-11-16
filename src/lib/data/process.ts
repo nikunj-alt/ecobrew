@@ -4,7 +4,7 @@ export const processSteps: ProcessStep[] = [
   {
     n: 1,
     title: "Collect the chai",
-    body: "We gather the spent tea leaves — chaipatti — from chai stalls, homes, and cafés across the neighbourhood. What would be rubbish is our raw material.",
+    body: "We gather the used tea leaves — chaipatti — from chai stalls, homes, and cafés across the neighbourhood. What would be rubbish is our raw material.",
   },
   {
     n: 2,

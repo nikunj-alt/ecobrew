@@ -30,7 +30,7 @@ export function isValidUserId(id: string): boolean {
   return /^[a-z0-9_.-]{3,24}$/.test(id);
 }
 
-const LOCAL_SESSION_KEY = "ecobrew_current_user";
+const LOCAL_SESSION_KEY = "tearx_current_user";
 
 /** Strip any credential fields before persisting (never store passwords). */
 function sanitize(user: UserAccount): UserAccount {

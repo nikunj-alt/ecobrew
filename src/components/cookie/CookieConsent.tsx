@@ -14,7 +14,7 @@ type Consent = "accepted" | "declined" | null;
  */
 export default function CookieConsent() {
   const [consent, setConsent] = useLocalStorage<Consent>(
-    "ecobrew_cookie_consent",
+    "tearx_cookie_consent",
     null,
   );
 
@@ -39,7 +39,7 @@ export default function CookieConsent() {
             <div className="min-w-0">
               <p className="text-sm font-medium text-leaf-deep">We use cookies</p>
               <p className="mt-1 text-sm leading-relaxed text-moss">
-                EcoBrew uses a small, secure session cookie and local storage to
+                TeaRX uses a small, secure session cookie and local storage to
                 keep you signed in, remember your cart, and save your
                 preferences. We don&apos;t track you for ads.
               </p>

@@ -122,7 +122,7 @@ async function reverseGeocode(lat: number, lon: number): Promise<string | null> 
       const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=jsonv2&accept-language=en`;
       const res = await fetch(url, {
         signal: controller.signal,
-        headers: { "User-Agent": "EcoBrew/1.0 (https://ecobrew-live.vercel.app)" },
+        headers: { "User-Agent": "TeaRX/1.0 (https://ecobrew-live.vercel.app)" },
       });
       if (!res.ok) return null;
       const data = (await res.json()) as { address?: Record<string, string> };

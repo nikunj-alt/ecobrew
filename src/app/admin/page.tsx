@@ -117,7 +117,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     <Container className="py-10 sm:py-14">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-sm text-moss">EcoBrew</p>
+          <p className="text-sm text-moss">TeaRX</p>
           <h1 className="text-2xl font-medium text-leaf-deep">Admin panel</h1>
         </div>
         <Button size="sm" variant="ghost" onClick={logout}>Log out</Button>

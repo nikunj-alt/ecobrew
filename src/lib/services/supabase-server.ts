@@ -28,10 +28,10 @@ interface MockDbStore {
   storage: Map<string, string>;
 }
 
-const globalStore = globalThis as unknown as { __ecobrew_mock_db?: MockDbStore };
+const globalStore = globalThis as unknown as { __tearx_mock_db?: MockDbStore };
 
 function getMockDb(): MockDbStore {
-  if (!globalStore.__ecobrew_mock_db) {
+  if (!globalStore.__tearx_mock_db) {
     const productsMap = new Map<string, ProductRow>();
     for (const p of staticProducts) {
       productsMap.set(p.slug, {
@@ -56,7 +56,7 @@ function getMockDb(): MockDbStore {
       user_id: "demo",
       password: "scrypt:URUo695x5F86d8W+N0QZwA==:kfYvnb+H8UvuBmagNzvW93UMfrQjD3ch+jGTLkfkne1RHahKH/dn4nwJxfh8Z0IaCjaS3LukVAE1IrXzvWxQ9g==",
       name: "Demo Visitor",
-      email: "demo@ecobrew.local",
+      email: "demo@tearx.local",
       phone: "+91 9876543210",
       address: "123 Green Way",
       city: "Bengaluru",
@@ -65,7 +65,7 @@ function getMockDb(): MockDbStore {
       created_at: new Date().toISOString(),
     });
 
-    globalStore.__ecobrew_mock_db = {
+    globalStore.__tearx_mock_db = {
       users: usersMap,
       products: productsMap,
       orders: new Map<string, OrderRow>(),
@@ -73,7 +73,7 @@ function getMockDb(): MockDbStore {
       storage: new Map<string, string>(),
     };
   }
-  return globalStore.__ecobrew_mock_db;
+  return globalStore.__tearx_mock_db;
 }
 
 class MockQueryBuilder<T extends Record<string, unknown>> {

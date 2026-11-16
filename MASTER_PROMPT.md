@@ -1,6 +1,6 @@
-# EcoBrew — Master Prompt: Fix the Codebase
+# TeaRX — Master Prompt: Fix the Codebase
 
-You are acting as a senior reviewer + engineer on the **EcoBrew** Next.js project
+You are acting as a senior reviewer + engineer on the **TeaRX** Next.js project
 (`src/`, `supabase/`, `next.config.ts`, `package.json`). Below is a full audit of
 the codebase as of 2026-11-06. **Fix every item on this list.** Verify each fix
 compiles (`npx tsc --noEmit`), lints, and behaves correctly. Do not skip items,

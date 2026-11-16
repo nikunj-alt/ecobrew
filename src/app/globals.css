@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* EcoBrew palette (light sage/cream, deep green, gold) */
+  /* TeaRX palette (light sage/cream, deep green, gold) */
   --color-leaf-deep: #176B52; /* deep forest green (primary) */
   --color-moss: #3E6B5A; /* body text green */
   --color-sprout: #1E7A5F; /* muted forest-green accent */

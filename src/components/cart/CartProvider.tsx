@@ -23,7 +23,7 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useLocalStorage<CartItem[]>("ecobrew-cart", []);
+  const [items, setItems] = useLocalStorage<CartItem[]>("tearx-cart", []);
   const [isOpen, setIsOpen] = useState(false);
   const { getProduct } = useProductCatalog();
 

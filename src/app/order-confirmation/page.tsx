@@ -16,7 +16,7 @@ export default function OrderConfirmationPage() {
 
   useEffect(() => {
     try {
-      const raw = window.sessionStorage.getItem("ecobrew-last-order");
+      const raw = window.sessionStorage.getItem("tearx-last-order");
       if (raw) {
         Promise.resolve().then(() => setOrder(JSON.parse(raw) as Order));
       }

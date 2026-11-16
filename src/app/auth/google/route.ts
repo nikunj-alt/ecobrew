@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     const res = NextResponse.redirect(
       buildSupabaseAuthorizeUrl(redirectTo, challenge),
     );
-    res.cookies.set("ecobrew_oauth", stateExtra, {
+    res.cookies.set("tearx_oauth", stateExtra, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

@@ -1,4 +1,4 @@
-# EcoBrew — Supabase setup
+# TeaRX — Supabase setup
 
 The site works without Supabase (it falls back to browser-local storage), but to use
 Supabase as the real database:

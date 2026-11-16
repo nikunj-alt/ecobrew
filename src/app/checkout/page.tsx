@@ -4,8 +4,8 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import CheckoutSteps from "@/components/checkout/CheckoutSteps";
 
 export const metadata: Metadata = {
-  title: "Checkout — EcoBrew",
-  description: "Simulated checkout for EcoBrew products.",
+  title: "Checkout — TeaRX",
+  description: "Simulated checkout for TeaRX products.",
 };
 
 export default function CheckoutPage() {

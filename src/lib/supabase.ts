@@ -22,7 +22,7 @@ const isConfigured = isRealKey(supabaseUrl) && isRealKey(supabaseKey);
 // Environment check for Supabase
 if (!isConfigured) {
   console.warn(
-    "[EcoBrew Supabase Warning]: Valid NEXT_PUBLIC_SUPABASE_URL and anon key not provided. Operating in mock fallback mode."
+    "[TeaRX Supabase Warning]: Valid NEXT_PUBLIC_SUPABASE_URL and anon key not provided. Operating in mock fallback mode."
   );
 }
 
